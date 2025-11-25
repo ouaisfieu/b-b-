@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mon premier petit site – Tuto très simple</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.6);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background: radial-gradient(circle at 0 0, rgba(56,189,248,0.25), transparent 55%), var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 16px 8px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 760px;
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+      padding: 14px 14px 18px;
+    }
+
+    header {
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+
+    .tagline {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      font-size: 0.75rem;
+      color: #bbf7d0;
+      background: rgba(15,23,42,0.9);
+      font-family: var(--font-mono);
+    }
+
+    main {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    p {
+      margin-bottom: 8px;
+    }
+
+    .note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.05rem;
+      margin: 10px 0 6px;
+      border-left: 3px solid var(--accent);
+      padding-left: 6px;
+    }
+
+    ol {
+      margin-left: 20px;
+      margin-bottom: 8px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    details {
+      margin-top: 8px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: #020617;
+      padding: 6px 8px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      list-style: none;
+    }
+
+    summary::marker {
+      content: "";
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "▶ ";
+      color: var(--accent2);
+      font-size: 0.8rem;
+    }
+
+    details[open] summary::before {
+      content: "▼ ";
+    }
+
+    .block {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    pre {
+      margin-top: 6px;
+      margin-bottom: 6px;
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid rgba(55,65,81,0.9);
+      padding: 6px 8px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #e5e7eb;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      background: rgba(15,23,42,0.9);
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+
+    .checklist {
+      list-style: none;
+      margin-left: 0;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .checklist input {
+      width: 16px;
+      height: 16px;
+    }
+
+    .footer-note {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(55,65,81,0.9);
+      padding-top: 6px;
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 10px 9px 14px; }
+      h1 { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Mon premier petit site (tutoriel très simple)</h1>
+    <p class="tagline">
+      Pour n’importe qui, sur n’importe quel sujet.  
+      Juste toi, un dossier, un fichier, et ton navigateur.
+    </p>
+    <span class="pill">Objectif : 1 dossier · 1 fichier · 1 sujet</span>
+  </header>
+
+  <main>
+    <p>
+      Tu veux faire un petit site, mais tu ne sais pas par où commencer ?
+      Ici on part du plus simple possible.  
+      Ça marche pour tous les sujets : cuisine, jardin, dessin, projet de vie, thèse, enquête, etc.
+    </p>
+
+    <p class="note">
+      Tu peux suivre ce tuto même si tu te sens “nul·le en informatique”.
+      On ne touche qu’à un seul type de fichier : <code>.html</code>.
+    </p>
+
+    <!-- Étape 1 -->
+    <h2>Étape 1 – Créer un dossier pour ton site</h2>
+    <p>
+      1. Choisis un sujet (exemples : <em>Mes recettes</em>, <em>Mon roman</em>, <em>Ma recherche</em>).<br />
+      2. Crée un dossier avec un nom simple, par exemple :
+      <code>mon-site</code> ou <code>mes-recettes</code>.<br />
+      3. Ouvre ce dossier : il va contenir ton site.
+    </p>
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" />
+        <span>J’ai créé un dossier pour mon futur site.</span>
+      </li>
+    </ul>
+
+    <!-- Étape 2 -->
+    <h2>Étape 2 – Créer ton premier fichier HTML</h2>
+    <p>
+      Dans ce dossier, on va créer <strong>un seul fichier</strong> :
+      c’est déjà un site.
+    </p>
+
+    <details>
+      <summary>Comment faire, pas à pas</summary>
+      <div class="block">
+        <ol>
+          <li>Ouvre un éditeur de texte simple : Bloc-notes (Windows), TextEdit (Mac en mode texte), ou autre.</li>
+          <li>Copie le texte ci-dessous exactement :</li>
+        </ol>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Mon premier petit site&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Bonjour !&lt;/h1&gt;
+  &lt;p&gt;Ceci est mon tout premier site.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+        <ol start="3">
+          <li>Enregistre ce fichier dans ton dossier sous le nom <code>index.html</code>.</li>
+          <li>Va dans le dossier, double-clique sur <code>index.html</code>.</li>
+          <li>Le site s’ouvre dans ton navigateur : tu viens de créer un site.</li>
+        </ol>
+      </div>
+    </details>
+
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" />
+        <span>J’ai un fichier <code>index.html</code> dans mon dossier.</span>
+      </li>
+      <li>
+        <input type="checkbox" />
+        <span>Quand je double-clique dessus, une page s’ouvre dans le navigateur.</span>
+      </li>
+    </ul>
+
+    <!-- Étape 3 -->
+    <h2>Étape 3 – Mettre ton sujet à la place de l’exemple</h2>
+    <p>
+      Maintenant, on remplace “Bonjour !” par quelque chose qui parle de
+      <strong>ton sujet</strong>.
+    </p>
+
+    <details>
+      <summary>Que changer dans le fichier</summary>
+      <div class="block">
+        Rouvre <code>index.html</code> dans ton éditeur de texte.  
+        Cherche ces deux lignes :
+        <pre>&lt;h1&gt;Bonjour !&lt;/h1&gt;
+&lt;p&gt;Ceci est mon tout premier site.&lt;/p&gt;</pre>
+        Remplace-les par autre chose, par exemple :
+        <pre>&lt;h1&gt;Mes recettes préférées&lt;/h1&gt;
+&lt;p&gt;Ici, je note les plats que j’aime cuisiner.&lt;/p&gt;</pre>
+        ou :
+        <pre>&lt;h1&gt;Mon projet de recherche&lt;/h1&gt;
+&lt;p&gt;Ce site me sert à garder des notes simples sur mon sujet.&lt;/p&gt;</pre>
+        Enregistre. Recharge la page dans ton navigateur (touche F5 ou bouton “Actualiser”).
+      </div>
+    </details>
+
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" />
+        <span>Le titre de la page parle maintenant de mon sujet.</span>
+      </li>
+      <li>
+        <input type="checkbox" />
+        <span>Le petit texte décrit ce que je veux faire avec ce site.</span>
+      </li>
+    </ul>
+
+    <!-- Étape 4 -->
+    <h2>Étape 4 – Ajouter une petite liste de choses</h2>
+    <p>
+      On va ajouter une petite liste.  
+      Ça peut être :
+    </p>
+    <ul class="bullet-list">
+      <li>les chapitres d’un livre,</li>
+      <li>les recettes que tu veux écrire,</li>
+      <li>les questions de ta recherche,</li>
+      <li>les idées d’enquête, etc.</li>
+    </ul>
+
+    <details>
+      <summary>Exemple de liste à copier</summary>
+      <div class="block">
+        Juste après ton paragraphe, ajoute :
+        <pre>&lt;ul&gt;
+  &lt;li&gt;Idée n°1&lt;/li&gt;
+  &lt;li&gt;Idée n°2&lt;/li&gt;
+  &lt;li&gt;Idée n°3&lt;/li&gt;
+&lt;/ul&gt;</pre>
+        Puis remplace “Idée n°1 / 2 / 3” par des choses à toi.
+      </div>
+    </details>
+
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" />
+        <span>Je vois maintenant une petite liste d’idées sur ma page.</span>
+      </li>
+    </ul>
+
+    <!-- Étape 5 -->
+    <h2>Étape 5 – Garder tout simple, mais à toi</h2>
+    <p>
+      À ce stade, tu as déjà :
+    </p>
+    <ul class="bullet-list">
+      <li>un dossier pour ton site,</li>
+      <li>un fichier <code>index.html</code>,</li>
+      <li>un titre, un petit texte, une liste qui parlent de ton sujet.</li>
+    </ul>
+
+    <p>
+      C’est suffisant pour commencer. Tu peux t’arrêter là, ou continuer plus tard.
+    </p>
+
+    <details>
+      <summary>Et si je veux aller un peu plus loin ?</summary>
+      <div class="block">
+        Quelques idées simples :
+        <ul class="bullet-list">
+          <li>Ajouter une deuxième page (par exemple <code>page2.html</code>) en copiant <code>index.html</code>.</li>
+          <li>Mettre un lien entre les deux pages :
+            <pre>&lt;p&gt;&lt;a href="page2.html"&gt;Aller à la page 2&lt;/a&gt;&lt;/p&gt;</pre>
+          </li>
+          <li>Changer les couleurs et la taille du texte plus tard, avec de l’aide si besoin.</li>
+        </ul>
+      </div>
+    </details>
+
+    <p class="footer-note">
+      Tu peux utiliser ce même modèle pour n’importe quel sujet.  
+      Le plus important : un dossier, un fichier, un sujet, et un petit texte qui vient de toi.  
+      Tout le reste (d’autres pages, des couleurs, des menus) peut venir plus tard.
+    </p>
+  </main>
+</div>
+</body>
+</html>
