@@ -1,0 +1,1030 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Carte illustrée de mon écosystème</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --accent3: #f97316;
+      --accent4: #a855f7;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.6);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 20px;
+      --shadow-soft: 0 18px 40px rgba(0,0,0,0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.26), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,0.25), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.25) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.3), transparent 60%),
+        rgba(3,7,18,0.96);
+      border-bottom: 1px solid rgba(30,64,175,0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-frame {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      padding: 2px;
+      background: conic-gradient(from 180deg, #22c55e, #38bdf8, #f97316, #a855f7, #22c55e);
+      box-shadow:
+        0 0 0 1px #020617,
+        0 0 26px rgba(59,130,246,0.95);
+    }
+
+    .logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 14px;
+      background: radial-gradient(circle at 25% 20%, #0f172a, #020617);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* petite "carte fantasy" en SVG */
+    .logo-inner svg {
+      width: 90%;
+      height: 90%;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title-main {
+      font-size: 1.05rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .title-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .header-right {
+      max-width: 280px;
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .header-right strong {
+      color: #e5e7eb;
+    }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.2fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    .map-panel {
+      background: rgba(3,7,18,0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 10px 11px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.3), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,0.22), transparent 60%);
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+    }
+
+    .map-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .map-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .map-title {
+      font-size: 0.96rem;
+    }
+
+    .map-tag {
+      font-size: 0.72rem;
+      border-radius: 999px;
+      padding: 2px 7px;
+      border: 1px solid rgba(148,163,184,0.7);
+      font-family: var(--font-mono);
+      color: var(--muted);
+    }
+
+    .map-intro {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      max-width: 640px;
+      line-height: 1.5;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 6px;
+      font-size: 0.76rem;
+    }
+
+    .legend-item {
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.9);
+      padding: 2px 7px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #020617;
+    }
+
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+    }
+
+    .legend-dot.core { background: #facc15; box-shadow: 0 0 8px rgba(250,204,21,0.9); }
+    .legend-dot.tool { background: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.9); }
+    .legend-dot.story { background: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.9); }
+    .legend-dot.meta { background: #a855f7; box-shadow: 0 0 8px rgba(168,85,247,0.9); }
+
+    .map-grid {
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 8px;
+    }
+
+    .tile {
+      position: relative;
+      border-radius: 14px;
+      border: 1px solid rgba(55,65,81,0.98);
+      background: #020617;
+      padding: 8px 8px 9px;
+      font-size: 0.8rem;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.9);
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s, background 0.15s;
+    }
+
+    .tile::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 0, rgba(148,163,184,0.2), transparent 65%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+    }
+
+    .tile:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.95);
+      border-color: rgba(148,163,184,0.95);
+      background: #020617;
+    }
+
+    .tile:hover::before {
+      opacity: 1;
+    }
+
+    .tile-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 4px;
+    }
+
+    .tile-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 25% 15%, #e5e7eb, #93c5fd);
+      border: 2px solid #020617;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* mini pictos cartoon avec pseudo-dessin */
+    .tile-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .tile-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .tile-kind {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .tile-body {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .tile-footer {
+      font-size: 0.74rem;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .tile-footer span.file {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+
+    .tile-tag {
+      font-size: 0.72rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.9);
+      background: rgba(15,23,42,0.98);
+    }
+
+    .tile.core      { border-color: rgba(250,204,21,0.7); }
+    .tile.tool      { border-color: rgba(56,189,248,0.7); }
+    .tile.story     { border-color: rgba(34,197,94,0.7); }
+    .tile.meta      { border-color: rgba(168,85,247,0.7); }
+
+    .map-hint {
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* Panneau latéral: explications & roadmap */
+    .side-panel {
+      background: rgba(3,7,18,0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .side-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        130deg,
+        rgba(56,189,248,0.22),
+        transparent 45%,
+        rgba(34,197,94,0.2),
+        transparent 70%
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.55;
+    }
+
+    .side-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      height: 100%;
+    }
+
+    .side-section h2 {
+      font-size: 0.92rem;
+      margin-bottom: 3px;
+    }
+
+    .side-text {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .mini-list {
+      margin-left: 16px;
+      margin-top: 2px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .mini-list li {
+      margin-bottom: 2px;
+    }
+
+    .roadmap {
+      border-radius: 11px;
+      border: 1px solid rgba(55,65,81,0.98);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.8rem;
+    }
+
+    .roadmap h3 {
+      font-size: 0.85rem;
+      margin-bottom: 3px;
+    }
+
+    .roadmap-steps {
+      margin-left: 16px;
+      margin-top: 2px;
+    }
+
+    .roadmap-steps li {
+      margin-bottom: 2px;
+    }
+
+    .tiny {
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .btn-soft {
+      border-radius: 999px;
+      border: 1px solid rgba(56,189,248,0.9);
+      background: rgba(15,23,42,0.98);
+      color: #e0f2fe;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      transition: background 0.15s, box-shadow 0.15s, transform 0.15s;
+      margin-top: 4px;
+    }
+
+    .btn-soft:hover {
+      background: rgba(15,23,42,1);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.95);
+      transform: translateY(-1px);
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.74rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30,64,175,0.7);
+      background: rgba(3,7,18,0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .header-right { text-align: left; max-width: none; }
+      footer { flex-direction: column; }
+    }
+
+    /* MODALE */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal {
+      width: min(960px, 96vw);
+      height: min(560px, 92vh);
+      background: #020617;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,0.8);
+      box-shadow: 0 30px 80px rgba(0,0,0,1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(55,65,81,0.98);
+      font-size: 0.85rem;
+    }
+
+    .modal-header h3 {
+      font-size: 0.9rem;
+    }
+
+    .modal-header button {
+      border-radius: 999px;
+      border: 1px solid rgba(248,113,113,0.9);
+      background: rgba(127,29,29,0.95);
+      color: #fee2e2;
+      font-size: 0.76rem;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+    }
+
+    .modal-main {
+      flex: 1;
+      margin: 6px;
+      border-radius: 10px;
+      border: 1px solid rgba(55,65,81,0.98);
+      overflow: hidden;
+      background: #020617;
+    }
+
+    .modal-main iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+      background: #020617;
+    }
+
+    .modal-footer {
+      padding: 0 10px 8px;
+      font-size: 0.74rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo-frame">
+      <div class="logo-inner">
+        <!-- petite carte fantasy en SVG -->
+        <svg viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0ea5e9" />
+              <stop offset="100%" stop-color="#0f172a" />
+            </linearGradient>
+            <linearGradient id="mount" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#22c55e" />
+              <stop offset="100%" stop-color="#15803d" />
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="100" height="100" fill="url(#sky)" />
+          <polygon points="5,75 45,20 85,75" fill="url(#mount)" />
+          <circle cx="78" cy="20" r="8" fill="#facc15" />
+          <rect x="18" y="70" width="64" height="10" rx="3" fill="#020617" opacity="0.9" />
+        </svg>
+      </div>
+    </div>
+    <div class="header-titles">
+      <div class="title-main">Carte illustrée de mon écosystème</div>
+      <div class="title-sub">
+        Un plan visuel pour tout ce que tu as déjà : site ultime, brol, intranet, univers cartoon, détective, GORK, GROK…
+      </div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div>
+      Clique sur une “région” de la carte pour ouvrir la page correspondante en modale.
+      <br /><strong>Tu peux adapter les fichiers et descriptions à ton propre brol.</strong>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- CARTE ILLUSTRÉE -->
+  <section class="map-panel">
+    <div class="map-inner">
+      <div class="map-header">
+        <div class="map-title">La “carte du monde” de ton projet</div>
+        <span class="map-tag">Illustré · statique · 100% editable</span>
+      </div>
+      <p class="map-intro">
+        Imagine que ton dossier est un petit monde : chaque fichier est une région.
+        Cette page te montre ce monde de façon **cartoon** et te permet d’ouvrir les pages sans les chercher.
+        <br />
+        Tu peux changer les textes, les fichiers, les couleurs – c’est ton atlas.
+      </p>
+
+      <div class="legend">
+        <span class="legend-item">
+          <span class="legend-dot core"></span> Noyau / point de départ
+        </span>
+        <span class="legend-item">
+          <span class="legend-dot tool"></span> Outils / organisation
+        </span>
+        <span class="legend-item">
+          <span class="legend-dot story"></span> Univers / récit / métier
+        </span>
+        <span class="legend-item">
+          <span class="legend-dot meta"></span> Navigation / méta
+        </span>
+      </div>
+
+      <div class="map-grid" id="mapGrid"></div>
+
+      <p class="map-hint">
+        💡 Astuce : commence par vérifier que les fichiers existent dans ton dossier.
+        Si tu utilises d’autres noms, adapte la propriété <code>file</code> dans le script en bas de page.
+      </p>
+    </div>
+  </section>
+
+  <!-- PANNEAU EXPLICATIONS / ROADMAP -->
+  <section class="side-panel">
+    <div class="side-inner">
+      <section class="side-section">
+        <h2>Comment utiliser cette carte illustrée</h2>
+        <p class="side-text">
+          C’est un **hub visuel** par-dessus tout ce qu’on a déjà construit :
+        </p>
+        <ul class="mini-list">
+          <li>tu vois les grandes familles : noyau, outils, univers, navigation,</li>
+          <li>tu peux ouvrir chaque pièce dans une fenêtre intégrée,</li>
+          <li>tu peux modifier le texte pour documenter ton propre écosystème.</li>
+        </ul>
+        <p class="tiny">
+          Si tu es perdu·e, garde cette page comme page d’accueil.  
+          Tout le reste devient “des régions de la carte”.
+        </p>
+      </section>
+
+      <section class="roadmap">
+        <h3>Roadmap illustrée – Exemple de suite</h3>
+        <ol class="roadmap-steps">
+          <li>Ouvrir toutes les tuiles qui fonctionnent déjà (fichiers existants).</li>
+          <li>Adapter les descriptions pour coller à ton usage réel.</li>
+          <li>Ajouter tes propres régions (une tuile pour chaque nouveau fichier important).</li>
+          <li>Plus tard : brancher ça avec GORK (vue graph) et GROK-CORE (console/hub).</li>
+        </ol>
+        <p class="tiny">
+          Tu peux me dire : “Voici mon <code>hub-illustre.html</code> avec telles tuiles,
+          aide-moi à faire la version GORK/GROK qui va avec.”
+        </p>
+      </section>
+
+      <section class="side-section">
+        <h2>Personnaliser les tuiles</h2>
+        <p class="side-text">
+          En bas du fichier, tu trouveras un tableau JavaScript <code>tiles</code>.
+          Chaque entrée ressemble à :
+        </p>
+        <pre class="tiny" style="background:#020617;border-radius:8px;border:1px solid rgba(55,65,81,0.98);padding:4px 6px;white-space:pre-wrap;">
+{
+  id: "site-ultime",
+  category: "core",
+  title: "Site ultime",
+  kind: "noyau de départ",
+  file: "rg.html",
+  description: "Ton fichier qui permet de partir de zéro.",
+  tag: "Niveau -1 → 3",
+  icon: "mountain"
+}</pre>
+        <p class="tiny">
+          Tu peux changer <code>title</code>, <code>description</code>, <code>file</code> et <code>tag</code>
+          pour coller à ton monde.
+        </p>
+        <button class="btn-soft" type="button" id="scrollToScriptBtn">
+          ↓ Aller au script des tuiles
+        </button>
+      </section>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>
+    hub-illustre.html – un atlas cartoon de ton écosystème (site ultime, brol, intranet, GORK, GROK, univers, détective…).
+  </span>
+  <span>
+    Rien n’est figé : adapte les fichiers, les descriptions et ajoute des régions au fur et à mesure.
+  </span>
+</footer>
+
+<!-- MODALE -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Prévisualisation</h3>
+      <button type="button" id="modalCloseBtn">Fermer (Esc)</button>
+    </div>
+    <div class="modal-main">
+      <iframe id="modalIframe" src=""></iframe>
+    </div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<script>
+  // --- Données des tuiles (régions de la carte) ---
+  const tiles = [
+    {
+      id: "site-ultime",
+      category: "core",
+      title: "Site ultime",
+      kind: "noyau de départ",
+      file: "google.html",
+      description: "Ton fichier qui permet de partir de zéro et de monter les niveaux (-1 → 3).",
+      tag: "Niveau -1 → 3",
+      icon: "mountain"
+    },
+    {
+      id: "hub-simple",
+      category: "meta",
+      title: "Mini hub (texte)",
+      kind: "carte simple",
+      file: "gork.html",
+      description: "La version non illustrée de ce hub : quelques cartes, des liens, et c’est tout.",
+      tag: "meta",
+      icon: "map"
+    },
+    {
+      id: "pas-a-pas",
+      category: "meta",
+      title: "Pas-à-pas",
+      kind: "boussole",
+      file: "pas-a-pas.html",
+      description: "Tu choisis ton niveau + ton besoin du moment, et il t’indique quel fichier ouvrir.",
+      tag: "guide",
+      icon: "compass"
+    },
+    {
+      id: "etagere",
+      category: "tool",
+      title: "Étagère (BROL simple)",
+      kind: "fichiers",
+      file: "etagere.html",
+      description: "Une liste de tes PDF, images, liens… Version simple de BROL 2.0.",
+      tag: "organisation",
+      icon: "shelf"
+    },
+    {
+      id: "journal",
+      category: "tool",
+      title: "Journal de bord",
+      kind: "notes",
+      file: "journal.html",
+      description: "Une page pour noter ce que tu fais ou ce que tu observes, date par date.",
+      tag: "journal",
+      icon: "scroll"
+    },
+    {
+      id: "univers-cartoon",
+      category: "story",
+      title: "Univers cartoon matrixé",
+      kind: "monde narratif",
+      file: "univers.html",
+      description: "Ton univers à la croisée entre Tintin, frères Dardenne, LOTR et Matrix, ambiance cartoon.",
+      tag: "récit",
+      icon: "tower"
+    },
+    {
+      id: "detective",
+      category: "story",
+      title: "Agence MILOU",
+      kind: "site métier",
+      file: "index-detective.html",
+      description: "La vitrine + intranet de l’agence de détective : exemple sérieux réutilisable.",
+      tag: "métier",
+      icon: "loupe"
+    },
+    {
+      id: "gork",
+      category: "meta",
+      title: "GORK – Thésaurus graph",
+      kind: "carte mentale",
+      file: "gork.html",
+      description: "Une vue en graph de tes concepts / projets (noeuds + liens).",
+      tag: "graph",
+      icon: "nodes"
+    },
+    {
+      id: "grok-core",
+      category: "meta",
+      title: "GROK-CORE – Console",
+      kind: "centre de contrôle",
+      file: "grok-core.html",
+      description: "Un hub avec console, où GROK te sert de “DNS” interne pour toutes tes pages.",
+      tag: "console",
+      icon: "terminal"
+    },
+    {
+      id: "learn",
+      category: "tool",
+      title: "LEARN",
+      kind: "tutoriel pratique",
+      file: "learn.html",
+      description: "Une page pour pratiquer, niveau par niveau (N0 → N3).",
+      tag: "tuto",
+      icon: "book"
+    },
+    {
+      id: "relearn",
+      category: "tool",
+      title: "RELEARN",
+      kind: "cohérence",
+      file: "relearn.html",
+      description: "Une page pour vérifier que tout tient ensemble (noms, liens, rituels).",
+      tag: "cohérence",
+      icon: "balance"
+    },
+    {
+      id: "relearn-public",
+      category: "tool",
+      title: "Guide simple (public)",
+      kind: "version non-tech",
+      file: "relearn-public.html",
+      description: "Une explication extra-simple de ton système, pour les personnes pas à l’aise avec l’informatique.",
+      tag: "grand public",
+      icon: "bubble"
+    }
+  ];
+
+  // --- Icons SVG cartoon ---
+  function renderIcon(type) {
+    switch (type) {
+      case "mountain":
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#0f172a" />
+            <polygon points="2,34 20,8 38,34" fill="#22c55e" />
+            <polygon points="13,19 20,8 27,19" fill="#e5e7eb" />
+            <circle cx="30" cy="10" r="4" fill="#facc15" />
+          </svg>`;
+      case "map":
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#0f172a" />
+            <path d="M6 31 L14 25 L24 31 L34 25 L34 9 L24 15 L14 9 L6 15 Z"
+                  fill="#1d4ed8" stroke="#0f172a" stroke-width="1.5"/>
+            <circle cx="20" cy="20" r="3" fill="#f97316" />
+          </svg>`;
+      case "compass":
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#0f172a" />
+            <circle cx="20" cy="20" r="11" fill="#0ea5e9" />
+            <polygon points="20,9 24,24 20,20 16,24" fill="#e5e7eb" />
+          </svg>`;
+      case "shelf":
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#0f172a" />
+            <rect x="6" y="26" width="28" height="3" fill="#f97316" />
+            <rect x="8" y="18" width="4" height="8" fill="#38bdf8" />
+            <rect x="14" y="16" width="4" height="10" fill="#22c55e" />
+            <rect x="20" y="19" width="4" height="7" fill="#a855f7" />
+            <rect x="26" y="17" width="4" height="9" fill="#e5e7eb" />
+          </svg>`;
+      case "scroll":
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#0f172a" />
+            <rect x="11" y="9" width="18" height="22" rx="4" fill="#e5e7eb" />
+            <line x1="14" y1="15" x2="26" y2="15" stroke="#9ca3af" stroke-width="1.5" />
+            <line x1="14" y1="19" x2="24" y2="19" stroke="#9ca3af" stroke-width="1.5" />
+            <line x1="14" y1="23" x2="22" y2="23" stroke="#9ca3af" stroke-width="1.5" />
+          </svg>`;
+      case "tower":
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#0f172a" />
+            <rect x="15" y="10" width="10" height="18" fill="#e5e7eb" />
+            <rect x="13" y="8" width="14" height="4" fill="#1d4ed8" />
+            <rect x="17" y="22" width="2" height="4" fill="#0f172a" />
+            <rect x="21" y="22" width="2" height="4" fill="#0f172a" />
+            <circle cx="20" cy="30" r="3" fill="#22c55e" />
+          </svg>`;
+      case "loupe":
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#0f172a" />
+            <circle cx="18" cy="18" r="7" fill="#e5e7eb" />
+            <line x1="22" y1="22" x2="29" y2="29" stroke="#f97316" stroke-width="3" />
+          </svg>`;
+      case "nodes":
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#0f172a" />
+            <circle cx="10" cy="20" r="4" fill="#38bdf8" />
+            <circle cx="30" cy="12" r="4" fill="#22c55e" />
+            <circle cx="30" cy="28" r="4" fill="#a855f7" />
+            <line x1="14" y1="19" x2="26" y2="13" stroke="#e5e7eb" stroke-width="1.5" />
+            <line x1="14" y1="21" x2="26" y2="27" stroke="#e5e7eb" stroke-width="1.5" />
+          </svg>`;
+      case "terminal":
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#020617" />
+            <rect x="5" y="10" width="30" height="20" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+            <polyline points="11,24 15,20 11,16" fill="none" stroke="#22c55e" stroke-width="1.5" />
+            <line x1="18" y1="24" x2="26" y2="24" stroke="#e5e7eb" stroke-width="1.5" />
+          </svg>`;
+      case "book":
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#0f172a" />
+            <rect x="9" y="10" width="10" height="20" fill="#22c55e" />
+            <rect x="21" y="10" width="10" height="20" fill="#e5e7eb" />
+            <line x1="19" y1="10" x2="19" y2="30" stroke="#0f172a" stroke-width="1.5" />
+          </svg>`;
+      case "balance":
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#020617" />
+            <line x1="20" y1="9" x2="20" y2="28" stroke="#e5e7eb" stroke-width="1.5" />
+            <line x1="10" y1="15" x2="30" y2="15" stroke="#e5e7eb" stroke-width="1.5" />
+            <circle cx="12" cy="23" r="4" fill="#38bdf8" />
+            <circle cx="28" cy="23" r="4" fill="#22c55e" />
+          </svg>`;
+      case "bubble":
+      default:
+        return `
+          <svg viewBox="0 0 40 40">
+            <rect x="0" y="0" width="40" height="40" fill="#0f172a" />
+            <rect x="8" y="11" width="24" height="14" rx="4" fill="#e5e7eb" />
+            <polygon points="14,25 16,23 18,25" fill="#e5e7eb" />
+          </svg>`;
+    }
+  }
+
+  // --- Rendu des tuiles ---
+  const mapGrid = document.getElementById("mapGrid");
+  const modalOverlay = document.getElementById("modalOverlay");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalIframe = document.getElementById("modalIframe");
+  const modalFooter = document.getElementById("modalFooter");
+  const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+  function openModal(file, label) {
+    modalTitle.textContent = label || file;
+    modalIframe.src = file;
+    modalFooter.textContent = "Fichier : " + file + " (il doit se trouver dans le même dossier que hub-illustre.html).";
+    modalOverlay.classList.add("visible");
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove("visible");
+    modalIframe.src = "";
+  }
+
+  modalCloseBtn.addEventListener("click", closeModal);
+  modalOverlay.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalOverlay.classList.contains("visible")) {
+      closeModal();
+    }
+  });
+
+  function categoryClass(cat) {
+    if (cat === "core") return "core";
+    if (cat === "tool") return "tool";
+    if (cat === "story") return "story";
+    if (cat === "meta") return "meta";
+    return "";
+  }
+
+  function renderTiles() {
+    mapGrid.innerHTML = "";
+    tiles.forEach(t => {
+      const tile = document.createElement("article");
+      tile.className = "tile " + categoryClass(t.category);
+      tile.setAttribute("data-file", t.file);
+
+      tile.innerHTML = `
+        <div class="tile-header">
+          <div class="tile-icon">${renderIcon(t.icon)}</div>
+          <div>
+            <div class="tile-title">${t.title}</div>
+            <div class="tile-kind">${t.kind}</div>
+          </div>
+        </div>
+        <div class="tile-body">${t.description}</div>
+        <div class="tile-footer">
+          <span class="tile-tag">${t.tag || ""}</span>
+          <span class="file">${t.file}</span>
+        </div>
+      `;
+
+      tile.addEventListener("click", () => openModal(t.file, t.title));
+      mapGrid.appendChild(tile);
+    });
+  }
+
+  // Bouton pour scroller vers le script (pratique pour éditer)
+  const scrollBtn = document.getElementById("scrollToScriptBtn");
+  if (scrollBtn) {
+    scrollBtn.addEventListener("click", () => {
+      // on scrolle gentiment vers le bas de la page
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", renderTiles);
+</script>
+</body>
+</html>
+
