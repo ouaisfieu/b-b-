@@ -1,0 +1,1430 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Intranet – Cartographie de la société civile belge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Intranet statique pour organiser une cartographie éthique et non marchande de la société civile belge."
+  />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --bg-alt: #050b1f;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --accent-3: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border-soft: rgba(148, 163, 184, 0.25);
+      --radius-lg: 1.2rem;
+      --radius-xl: 1.6rem;
+      --shadow-soft: 0 24px 70px rgba(15, 23, 42, 0.9);
+      --transition-fast: 0.2s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #0f172a, transparent 55%),
+        radial-gradient(circle at bottom right, #020617, #000);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 1.2rem;
+    }
+
+    #app {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 1.2rem;
+      width: 100%;
+      max-width: 1240px;
+      max-height: 100%;
+      background: radial-gradient(circle at top left, #020617, #020617 55%, #000);
+      border-radius: 1.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        padding: 0.6rem;
+      }
+      #app {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      background:
+        radial-gradient(circle at 0 0, #0b1120, transparent 60%),
+        linear-gradient(to bottom, #020617, #020617);
+      border-right: 1px solid var(--border-soft);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: radial-gradient(circle at top left, #0f172a, transparent 60%);
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-logo {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 999px;
+      background: conic-gradient(
+        from 140deg,
+        #38bdf8,
+        #22c55e,
+        #eab308,
+        #f97316,
+        #ec4899,
+        #6366f1,
+        #38bdf8
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #020617;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .brand-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+      max-width: 14rem;
+      line-height: 1.4;
+    }
+
+    .nav {
+      margin-top: 0.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.88rem;
+    }
+
+    .nav-section-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+      margin-top: 0.4rem;
+    }
+
+    .nav-btn {
+      border-radius: 0.9rem;
+      padding: 0.45rem 0.6rem;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      transition: background var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
+      font-size: 0.88rem;
+    }
+
+    .nav-btn span.icon {
+      width: 1.1rem;
+      text-align: center;
+    }
+
+    .nav-btn:hover {
+      background: rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+      border-color: rgba(148, 163, 184, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn.active {
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), #020617);
+      color: #ecfeff;
+      border-color: rgba(56, 189, 248, 0.85);
+      box-shadow: 0 12px 25px rgba(15, 23, 42, 0.9);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .pill-soft {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      margin-bottom: 0.4rem;
+      font-size: 0.7rem;
+    }
+
+    .pill-soft-dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #22c55e, #15803d);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+    }
+
+    /* MAIN */
+
+    .main {
+      padding: 1.1rem 1.2rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      overflow: hidden;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border-soft);
+      }
+      .main {
+        padding: 0.9rem 1rem 1rem;
+      }
+    }
+
+    .main-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.7rem;
+      align-items: center;
+    }
+
+    .mh-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .mh-title h1 {
+      font-size: 1.3rem;
+      letter-spacing: -0.03em;
+    }
+
+    .mh-title p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      max-width: 26rem;
+    }
+
+    .mh-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .mh-chip {
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 0.25rem 0.6rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .mh-chip-badge {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: radial-gradient(circle at 40% 0, #38bdf8, #1d4ed8);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+    }
+
+    .content {
+      flex: 1;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      background:
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 55%),
+        radial-gradient(circle at bottom left, rgba(34, 197, 94, 0.08), transparent 55%),
+        linear-gradient(to bottom, #020617, #020617);
+      padding: 0.9rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-inner {
+      border-radius: 1.2rem;
+      background: radial-gradient(circle at 0 0, rgba(15, 23, 42, 0.95), #020617);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      padding: 0.9rem 0.95rem 0.95rem;
+      overflow: hidden auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 163, 184, 0.7) transparent;
+    }
+
+    .content-inner::-webkit-scrollbar {
+      width: 7px;
+    }
+    .content-inner::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.8);
+      border-radius: 999px;
+    }
+
+    section.view {
+      display: none;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    section.view.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2.section-title {
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 0.7rem;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.96), #020617);
+      padding: 0.75rem 0.8rem 0.8rem;
+      font-size: 0.85rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+
+    .card-tag {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--muted);
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.45rem;
+    }
+
+    .pill {
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .kpi-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .kpi {
+      border-radius: 0.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 0.45rem 0.55rem;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.12), #020617);
+      font-size: 0.78rem;
+    }
+
+    .kpi-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .kpi-value {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    /* TABLE ACTEURS */
+
+    .table-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .input {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text);
+      padding: 0.35rem 0.7rem;
+      font-size: 0.8rem;
+      min-width: 0;
+      outline: none;
+      transition: border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast);
+    }
+
+    .input::placeholder {
+      color: rgba(148, 163, 184, 0.7);
+    }
+
+    .input:focus {
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+      background: #020617;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--muted);
+      padding: 0.3rem 0.65rem;
+      font-size: 0.76rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: background var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
+    }
+
+    .btn-primary {
+      border-color: rgba(56, 189, 248, 0.95);
+      background: linear-gradient(135deg, #38bdf8, #22c55e);
+      color: #020617;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #22c55e, #38bdf8);
+      color: #020617;
+    }
+
+    .table-wrapper {
+      border-radius: 0.9rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      overflow: hidden;
+      max-height: 270px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .table-wrapper::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    thead {
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), #020617);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    th, td {
+      padding: 0.4rem 0.5rem;
+      border-bottom: 1px solid rgba(30, 64, 175, 0.4);
+      text-align: left;
+    }
+
+    th {
+      font-weight: 600;
+      color: #e5e7eb;
+      white-space: nowrap;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    tbody tr:nth-child(even) {
+      background: #020617;
+    }
+
+    tbody tr:hover {
+      background: rgba(30, 64, 175, 0.5);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--muted);
+    }
+
+    /* FORMULAIRE RAPIDE */
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.4rem;
+      margin-top: 0.35rem;
+    }
+
+    @media (max-width: 900px) {
+      .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .field-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.1rem;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    select {
+      appearance: none;
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text);
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 0.35rem 0.7rem;
+      font-size: 0.8rem;
+      outline: none;
+      transition: border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast);
+    }
+
+    select:focus {
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+      background: #020617;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 90px;
+      border-radius: 0.9rem;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text);
+      padding: 0.45rem 0.6rem;
+      font-size: 0.8rem;
+      resize: vertical;
+      outline: none;
+      transition: border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    textarea:focus {
+      border-color: rgba(56, 189, 248, 0.95);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+    }
+
+    .small {
+      font-size: 0.77rem;
+    }
+
+    .list-tight {
+      padding-left: 1rem;
+      margin-top: 0.3rem;
+    }
+
+    .list-tight li {
+      margin-bottom: 0.2rem;
+    }
+
+    .step-list {
+      counter-reset: steps;
+      margin-top: 0.4rem;
+      padding-left: 0.4rem;
+    }
+
+    .step-list li {
+      counter-increment: steps;
+      margin-bottom: 0.4rem;
+      position: relative;
+      padding-left: 1.4rem;
+    }
+
+    .step-list li::before {
+      content: counter(steps);
+      position: absolute;
+      left: 0;
+      top: 0.05rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.65);
+      font-size: 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .highlight {
+      color: #fee2e2;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-badge">
+        <div class="brand-logo">C</div>
+        <span>Intranet – Cartographie civile</span>
+      </div>
+      <div class="brand-title">Belgique – Société civile</div>
+      <p class="brand-sub">
+        Structure statique pour organiser une vision d’ensemble des acteurs
+        de la société civile, avec méthode et garde-fous.
+      </p>
+    </div>
+
+    <nav class="nav" aria-label="Navigation principale">
+      <p class="nav-section-label">Vue</p>
+      <button class="nav-btn active" data-view="dashboard">
+        <span class="icon">🏠</span> Tableau de bord
+      </button>
+      <button class="nav-btn" data-view="cartographie">
+        <span class="icon">🗺</span> Carte des acteurs
+      </button>
+      <button class="nav-btn" data-view="acteurs">
+        <span class="icon">📇</span> Fiches acteurs
+      </button>
+      <button class="nav-btn" data-view="veille">
+        <span class="icon">👁</span> Veille stratégique (éthique)
+      </button>
+      <button class="nav-btn" data-view="methode">
+        <span class="icon">📚</span> Méthode & démarche
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="pill-soft">
+        <span class="pill-soft-dot"></span>
+        <span>HTML · CSS · JS · hors-ligne</span>
+      </div>
+      <p>
+        Ce prototype tient dans un seul fichier. Il peut être copié sur une clé
+        USB, envoyé par mail ou déployé sur un hébergement statique.
+      </p>
+      <p class="small" style="margin-top:0.3rem;">
+        <strong>Limite volontaire :</strong> aucune donnée nominative sensible,
+        uniquement une structure de travail et une méthodologie de veille
+        non marchande et respectueuse des droits fondamentaux.
+      </p>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <header class="main-header">
+      <div class="mh-title">
+        <h1>Intranet – Cartographie de la société civile belge</h1>
+        <p>
+          Prototype statique montrant comment organiser la connaissance sur les
+          acteurs de la société civile à tous les niveaux, à partir de sources
+          publiques, avec une méthode explicite.
+        </p>
+      </div>
+      <div class="mh-meta">
+        <div class="mh-chip">
+          <div class="mh-chip-badge"></div>
+          <span>Prototype de test d’entrée</span>
+        </div>
+        <div class="mh-chip">
+          <span>⚖</span> Garde-fous juridiques & éthiques intégrés
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="content-inner">
+
+        <!-- DASHBOARD -->
+        <section class="view active" id="view-dashboard">
+          <h2 class="section-title">Tableau de bord</h2>
+          <p class="section-subtitle">
+            Vue synthétique : objectifs, périmètre et premiers indicateurs de
+            couverture de la société civile.
+          </p>
+
+          <div class="grid-2">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-label">Objectif général</div>
+                  <div class="card-title">
+                    Avoir une vue structurée de la société civile, pas une liste de suspects
+                  </div>
+                </div>
+                <span class="card-tag">Principe directeur</span>
+              </div>
+              <p>
+                Le but est de <strong>comprendre les espaces de médiation</strong> dans la
+                société belge : associations, ONG, syndicats, mouvements citoyens,
+                instances consultatives, etc. On ne stocke ici que des informations
+                <strong>publiques</strong> et non sensibles sur les organisations :
+                domaines d’action, niveau géographique, thématiques.
+              </p>
+              <div class="pill-row">
+                <span class="pill">Sources publiques</span>
+                <span class="pill">Pas de données personnelles sensibles</span>
+                <span class="pill">Transparence sur la méthode</span>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-label">Périmètre</div>
+                  <div class="card-title">Niveaux de la société civile belge</div>
+                </div>
+              </div>
+              <p class="small muted">
+                Exemple de découpage (à adapter) :
+              </p>
+              <ul class="list-tight small">
+                <li><strong>Local</strong> : associations de quartier, collectifs citoyens, maisons de jeunes…</li>
+                <li><strong>Régional</strong> : fédérations, ONG reconnues, plateformes thématiques.</li>
+                <li><strong>Fédéral</strong> : conseils consultatifs, grandes ONG, syndicats, organisations-faîtières.</li>
+                <li><strong>International en Belgique</strong> : bureaux d’ONG internationales, think tanks, réseaux européens.</li>
+              </ul>
+            </article>
+          </div>
+
+          <article class="card" style="margin-top:0.7rem;">
+            <div class="card-header">
+              <div>
+                <div class="card-label">Suivi</div>
+                <div class="card-title">Indicateurs de couverture (fictifs)</div>
+              </div>
+            </div>
+            <div class="kpi-row">
+              <div class="kpi">
+                <div class="kpi-label">Acteurs recensés</div>
+                <div class="kpi-value" id="kpi-acteurs">12</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Niveaux couverts</div>
+                <div class="kpi-value">Local · Régional · Fédéral</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Types d’acteurs</div>
+                <div class="kpi-value">ONG · Syndicats · Mouvements</div>
+              </div>
+            </div>
+            <p class="small muted" style="margin-top:0.45rem;">
+              Dans un vrai projet, ces chiffres seraient calculés automatiquement
+              à partir de la base de données. Ici, ils illustrent simplement la
+              logique de suivi.
+            </p>
+          </article>
+        </section>
+
+        <!-- CARTOGRAPHIE -->
+        <section class="view" id="view-cartographie">
+          <h2 class="section-title">Carte conceptuelle de la société civile</h2>
+          <p class="section-subtitle">
+            Découpage des acteurs par niveau, type et thématique. Cette section
+            sert de <strong>modèle mental</strong> pour la cartographie.
+          </p>
+
+          <div class="grid-2">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-label">Axes de cartographie</div>
+                  <div class="card-title">Niveau × Type × Thème</div>
+                </div>
+              </div>
+              <p class="small">
+                Chaque acteur de la société civile peut être positionné au croisement
+                de trois axes :
+              </p>
+              <ul class="list-tight small">
+                <li><strong>Niveau</strong> : local, régional, fédéral, international (présent en Belgique).</li>
+                <li><strong>Type</strong> : ONG, association, syndicat, mouvement citoyen, think tank, org. religieuse, etc.</li>
+                <li><strong>Thème</strong> : droits humains, environnement, migration, social, santé, numérique, etc.</li>
+              </ul>
+              <p class="small" style="margin-top:0.4rem;">
+                Cette structuration simple permet de garder une vision claire
+                sans entrer dans des données sensibles.
+              </p>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-label">Exemple de matrice</div>
+                  <div class="card-title">Hypothétique, pour le test</div>
+                </div>
+                <span class="card-tag">À adapter en pratique</span>
+              </div>
+              <p class="small muted">
+                Exemple de questions que l’intranet aide à se poser :
+              </p>
+              <ul class="list-tight small">
+                <li>Quels types d’acteurs sont <strong>sur-représentés</strong> dans l’espace public&nbsp;?</li>
+                <li>Quels thèmes disposent de peu de structures organisées&nbsp;?</li>
+                <li>Quels niveaux (local/régional) sont peu visibles dans les débats fédéraux&nbsp;?</li>
+              </ul>
+              <p class="small" style="margin-top:0.4rem;">
+                Le but n’est pas de “classer” des gens, mais de <strong>voir où la société civile
+                est forte ou fragile</strong> sur certains sujets.
+              </p>
+            </article>
+          </div>
+
+          <article class="card" style="margin-top:0.7rem;">
+            <div class="card-header">
+              <div>
+                <div class="card-label">Règle d’or</div>
+                <div class="card-title">Cartographier les structures, pas les individus</div>
+              </div>
+            </div>
+            <p class="small">
+              Dans ce type de travail, la tentation peut être grande de glisser vers
+              une logique de surveillance des personnes. Le prototype rappelle
+              délibérément que la cartographie porte sur des <strong>organisations</strong>
+              (personnes morales) et des <strong>dynamiques publiques</strong>, pas sur
+              des individus ni sur leurs opinions privées.
+            </p>
+          </article>
+        </section>
+
+        <!-- ACTEURS -->
+        <section class="view" id="view-acteurs">
+          <h2 class="section-title">Fiches acteurs (exemple)</h2>
+          <p class="section-subtitle">
+            Mini-“base de données” en mémoire pour illustrer comment on pourrait
+            gérer des fiches d’acteurs de la société civile.
+          </p>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-label">Filtrer</div>
+                <div class="card-title">Recherche rapide</div>
+              </div>
+            </div>
+            <div class="table-tools">
+              <input
+                type="text"
+                class="input"
+                id="searchInput"
+                placeholder="Rechercher (nom, type, thème, niveau)…"
+              />
+              <select id="filterNiveau">
+                <option value="">Niveau : tous</option>
+                <option value="Local">Local</option>
+                <option value="Régional">Régional</option>
+                <option value="Fédéral">Fédéral</option>
+                <option value="International">International</option>
+              </select>
+              <select id="filterType">
+                <option value="">Type : tous</option>
+                <option value="ONG">ONG</option>
+                <option value="Association">Association</option>
+                <option value="Syndicat">Syndicat</option>
+                <option value="Mouvement citoyen">Mouvement citoyen</option>
+                <option value="Think tank">Think tank</option>
+              </select>
+              <button class="btn" id="resetFiltersBtn">⟲ Réinitialiser</button>
+            </div>
+
+            <div class="table-wrapper">
+              <table aria-label="Liste d'acteurs de la société civile">
+                <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Niveau</th>
+                  <th>Type</th>
+                  <th>Thèmes principaux</th>
+                  <th>Remarque</th>
+                </tr>
+                </thead>
+                <tbody id="actorsTableBody">
+                <!-- Rempli dynamiquement par JS -->
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card" style="margin-top:0.6rem;">
+            <div class="card-header">
+              <div>
+                <div class="card-label">Démo</div>
+                <div class="card-title">Ajouter un acteur (en mémoire uniquement)</div>
+              </div>
+              <span class="card-tag">Pas de stockage permanent</span>
+            </div>
+            <p class="small muted">
+              Ce formulaire montre la logique de saisie. Dans un vrai intranet,
+              ces données seraient validées, historisées et stockées côté serveur.
+            </p>
+
+            <div class="form-grid" style="margin-top:0.4rem;">
+              <div class="field-group">
+                <label class="field-label" for="newName">Nom de l’acteur</label>
+                <input id="newName" class="input" type="text" placeholder="Ex. Plateforme XYZ" />
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="newNiveau">Niveau</label>
+                <select id="newNiveau">
+                  <option value="">Choisir…</option>
+                  <option value="Local">Local</option>
+                  <option value="Régional">Régional</option>
+                  <option value="Fédéral">Fédéral</option>
+                  <option value="International">International</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="newType">Type</label>
+                <select id="newType">
+                  <option value="">Choisir…</option>
+                  <option value="ONG">ONG</option>
+                  <option value="Association">Association</option>
+                  <option value="Syndicat">Syndicat</option>
+                  <option value="Mouvement citoyen">Mouvement citoyen</option>
+                  <option value="Think tank">Think tank</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="newThemes">Thèmes</label>
+                <input id="newThemes" class="input" type="text" placeholder="Ex. climat, logement" />
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="newRemarque">Remarque (publique)</label>
+                <input id="newRemarque" class="input" type="text" placeholder="Ex. réseau de terrain fort" />
+              </div>
+              <div class="field-group" style="align-self:flex-end;">
+                <button class="btn btn-primary" id="addActorBtn">＋ Ajouter</button>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- VEILLE -->
+        <section class="view" id="view-veille">
+          <h2 class="section-title">Veille stratégique non marchande (éthique)</h2>
+          <p class="section-subtitle">
+            Comment organiser une veille sur la société civile sans dériver vers
+            la surveillance : sources publiques, transparence et respect des droits.
+          </p>
+
+          <div class="grid-2">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-label">Principe</div>
+                  <div class="card-title">Veille ≠ espionnage</div>
+                </div>
+              </div>
+              <p class="small">
+                La veille stratégique non marchande consiste à suivre :
+              </p>
+              <ul class="list-tight small">
+                <li>Les <strong>positions publiques</strong> des organisations (communiqués, rapports, sites officiels).</li>
+                <li>Les <strong>débats de fond</strong> dans la presse, les colloques, les forums ouverts.</li>
+                <li>Les <strong>dynamiques structurantes</strong> : émergence de nouveaux réseaux, coalitions, thèmes.</li>
+              </ul>
+              <p class="small" style="margin-top:0.4rem;">
+                Elle <strong>exclut</strong> :
+              </p>
+              <ul class="list-tight small">
+                <li>La collecte de données personnelles sensibles (opinions, santé, etc.).</li>
+                <li>La constitution de fichiers d’opposants ou de “profils idéologiques”.</li>
+                <li>Les intrusions technique ou sociale dans des espaces privés.</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-label">Bloc-notes</div>
+                  <div class="card-title">Esquisser un plan de veille</div>
+                </div>
+                <span class="card-tag">Exercice pour le test</span>
+              </div>
+              <p class="small muted">
+                Utilise ce champ comme aide-mémoire lors de l’épreuve (le texte ne
+                sera pas sauvegardé, c’est un simple support hors-ligne).
+              </p>
+              <textarea
+                id="notesVeille"
+                placeholder="Ex : 
+- Objectif de la veille (expliquer)
+- Types de sources publiques à suivre
+- Fréquence de mise à jour
+- Critères éthiques (ce que je refuse de collecter)"></textarea>
+            </article>
+          </div>
+        </section>
+
+        <!-- METHODE -->
+        <section class="view" id="view-methode">
+          <h2 class="section-title">Méthode pour construire cet intranet & la cartographie</h2>
+          <p class="section-subtitle">
+            Démarche proposée pour passer de l’idée à un intranet fonctionnel,
+            portable et respectueux des règles de droit et de l’éthique.
+          </p>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-label">Étapes</div>
+                <div class="card-title">Démarche en 6 temps</div>
+              </div>
+              <span class="card-tag">Résumé intégré au prototype</span>
+            </div>
+            <ol class="step-list small">
+              <li>
+                <strong>Clarifier le mandat et les limites</strong><br />
+                Définir noir sur blanc :
+                <span class="highlight">ce que la cartographie doit faire</span>
+                (vision d’ensemble de la société civile) et
+                <span class="highlight">ce qu’elle ne fera pas</span> (pas de fichage d’individus,
+                pas de données sensibles). Cette étape doit être documentée et
+                partageable.
+              </li>
+              <li>
+                <strong>Modéliser la donnée minimale</strong><br />
+                Identifier les champs strictement nécessaires pour décrire une
+                organisation : nom, niveau (local/régional/fédéral/international),
+                type, thèmes, sources publiques de référence. Le prototype
+                reflète cette modélisation dans la table des acteurs.
+              </li>
+              <li>
+                <strong>Concevoir l’intranet statique</strong><br />
+                Choix volontaire :
+                <ul class="list-tight small">
+                  <li>Un seul fichier <code>index.html</code>, portable sur clé USB.</li>
+                  <li>Design sobre mais structuré (sidebar, vues, cartes, table).</li>
+                  <li>Aucune dépendance externe (pas de CDN, pas de tracking).</li>
+                </ul>
+                L’objectif est de montrer que
+                <span class="highlight">la complexité est dans la méthode, pas dans la technique</span>.
+              </li>
+              <li>
+                <strong>Prévoir les vues logiques</strong><br />
+                Le prototype propose :
+                <ul class="list-tight small">
+                  <li>Tableau de bord : vision globale.</li>
+                  <li>Carte conceptuelle : comment on pense la société civile.</li>
+                  <li>Fiches acteurs : exemple de données structurées.</li>
+                  <li>Veille : réflexion sur les sources et l’éthique.</li>
+                  <li>Méthode : documentation intégrée dans l’outil.</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Implémenter en HTML/CSS/JS pur</strong><br />
+                Quelques choix techniques illustrés :
+                <ul class="list-tight small">
+                  <li>Navigation par vues via <code>data-view</code> et classes <code>.active</code>.</li>
+                  <li>Données d’exemple en JavaScript dans un simple tableau.</li>
+                  <li>Filtrage côté client (recherche, niveau, type) sans backend.</li>
+                  <li>Composants visuels réutilisables (cartes, chips, KPI).</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Documenter la démarche et les garde-fous</strong><br />
+                D’où la présente section : elle permet au jury de voir non
+                seulement le résultat, mais aussi <span class="highlight">la façon de penser le
+                projet</span> : rigueur, sens des limites, attention aux dérives
+                dystopiques possibles.
+              </li>
+            </ol>
+          </article>
+
+          <article class="card" style="margin-top:0.6rem;">
+            <div class="card-header">
+              <div>
+                <div class="card-label">Pistes d’amélioration</div>
+                <div class="card-title">Ce que tu peux proposer à l’oral</div>
+              </div>
+            </div>
+            <p class="small">
+              Pour montrer ta capacité à aller plus loin tout en restant dans un
+              cadre sain, tu peux suggérer (sans les implémenter ici) :
+            </p>
+            <ul class="list-tight small">
+              <li>Un module d’export (CSV/JSON) pour partager les données avec d’autres services.</li>
+              <li>Un historique des modifications (<em>qui</em> a ajouté quoi, <em>quand</em>), pour la traçabilité.</li>
+              <li>Un “journal d’éthique” intégré, permettant de consigner les cas limites et les arbitrages.</li>
+              <li>Un tableau de bord de “zones d’ombre” : où la société civile est peu structurée, et donc vulnérable.</li>
+            </ul>
+          </article>
+        </section>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // Données d'exemple (structures, pas de personnes)
+  const actorsData = [
+    {
+      nom: "Plateforme climat jeunesse",
+      niveau: "National",
+      niveauAffiche: "Fédéral",
+      type: "Mouvement citoyen",
+      themes: "Climat, justice sociale",
+      remarque: "Mobilisation forte sur les marches et campagnes en ligne."
+    },
+    {
+      nom: "Collectif logement urbain",
+      niveau: "Local",
+      niveauAffiche: "Local",
+      type: "Association",
+      themes: "Logement, pauvreté",
+      remarque: "Présence dans plusieurs quartiers défavorisés."
+    },
+    {
+      nom: "Fédération des ONG santé",
+      niveau: "Régional",
+      niveauAffiche: "Régional",
+      type: "ONG",
+      themes: "Santé publique, prévention",
+      remarque: "Interlocuteur clé pour les politiques de prévention."
+    },
+    {
+      nom: "Syndicat A – secteur public",
+      niveau: "Fédéral",
+      niveauAffiche: "Fédéral",
+      type: "Syndicat",
+      themes: "Conditions de travail, services publics",
+      remarque: "Forte capacité de mobilisation nationale."
+    },
+    {
+      nom: "Réseau accueil migrants",
+      niveau: "National",
+      niveauAffiche: "Régional",
+      type: "Association",
+      themes: "Migration, droits humains",
+      remarque: "Présence dans plusieurs villes, soutien juridique et matériel."
+    },
+    {
+      nom: "Think tank numérique & démocratie",
+      niveau: "International",
+      niveauAffiche: "International",
+      type: "Think tank",
+      themes: "Numérique, démocratie, désinformation",
+      remarque: "Publie régulièrement des rapports sur les plateformes en ligne."
+    },
+    {
+      nom: "Plateforme citoyenne ruralité",
+      niveau: "Local",
+      niveauAffiche: "Local",
+      type: "Mouvement citoyen",
+      themes: "Mobilité, agriculture, services de proximité",
+      remarque: "Met en lumière les enjeux spécifiques des zones rurales."
+    },
+    {
+      nom: "Alliance environnementale régionale",
+      niveau: "Régional",
+      niveauAffiche: "Régional",
+      type: "ONG",
+      themes: "Environnement, biodiversité",
+      remarque: "Fédère plusieurs associations locales autour de campagnes communes."
+    },
+    {
+      nom: "Conseil consultatif jeunesse",
+      niveau: "Fédéral",
+      niveauAffiche: "Fédéral",
+      type: "Association",
+      themes: "Jeunesse, participation",
+      remarque: "Instance officielle de consultation sur les politiques jeunesse."
+    },
+    {
+      nom: "Réseau économie sociale",
+      niveau: "National",
+      niveauAffiche: "Fédéral",
+      type: "Association",
+      themes: "Économie sociale, emploi",
+      remarque: "Met en réseau coopératives et entreprises sociales."
+    },
+    {
+      nom: "Collectif droits numériques",
+      niveau: "National",
+      niveauAffiche: "Fédéral",
+      type: "Mouvement citoyen",
+      themes: "Vie privée, surveillance, IA",
+      remarque: "Veille sur les dérives potentielles des technologies."
+    },
+    {
+      nom: "Plateforme interreligieuse locale",
+      niveau: "Local",
+      niveauAffiche: "Local",
+      type: "Association",
+      themes: "Dialogue, cohésion sociale",
+      remarque: "Organise des rencontres et projets communs entre communautés."
+    }
+  ];
+
+  // Références DOM
+  const navButtons = document.querySelectorAll(".nav-btn");
+  const views = document.querySelectorAll(".view");
+  const kpiActeurs = document.getElementById("kpi-acteurs");
+
+  const actorsTableBody = document.getElementById("actorsTableBody");
+  const searchInput = document.getElementById("searchInput");
+  const filterNiveau = document.getElementById("filterNiveau");
+  const filterType = document.getElementById("filterType");
+  const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+
+  const newName = document.getElementById("newName");
+  const newNiveau = document.getElementById("newNiveau");
+  const newType = document.getElementById("newType");
+  const newThemes = document.getElementById("newThemes");
+  const newRemarque = document.getElementById("newRemarque");
+  const addActorBtn = document.getElementById("addActorBtn");
+
+  // Met à jour le KPI d'acteurs
+  function updateKpi() {
+    kpiActeurs.textContent = actorsData.length.toString();
+  }
+
+  // Rendu de la table
+  function renderActors() {
+    const q = (searchInput.value || "").toLowerCase();
+    const niv = filterNiveau.value;
+    const type = filterType.value;
+
+    actorsTableBody.innerHTML = "";
+
+    actorsData.forEach(actor => {
+      const matchText =
+        actor.nom.toLowerCase().includes(q) ||
+        actor.type.toLowerCase().includes(q) ||
+        actor.themes.toLowerCase().includes(q) ||
+        actor.niveauAffiche.toLowerCase().includes(q);
+
+      const matchNiv = !niv || actor.niveauAffiche === niv;
+      const matchType = !type || actor.type === type;
+
+      if (matchText && matchNiv && matchType) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${actor.nom}</td>
+          <td><span class="badge">${actor.niveauAffiche}</span></td>
+          <td>${actor.type}</td>
+          <td>${actor.themes}</td>
+          <td class="muted">${actor.remarque}</td>
+        `;
+        actorsTableBody.appendChild(tr);
+      }
+    });
+  }
+
+  // Navigation entre vues
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const viewId = btn.getAttribute("data-view");
+      navButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      views.forEach(v => {
+        v.classList.toggle("active", v.id === "view-" + viewId);
+      });
+    });
+  });
+
+  // Écouteurs de filtrage
+  [searchInput, filterNiveau, filterType].forEach(el => {
+    if (el) {
+      el.addEventListener("input", renderActors);
+      el.addEventListener("change", renderActors);
+    }
+  });
+
+  if (resetFiltersBtn) {
+    resetFiltersBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      filterNiveau.value = "";
+      filterType.value = "";
+      renderActors();
+    });
+  }
+
+  // Ajout en mémoire d'un acteur
+  if (addActorBtn) {
+    addActorBtn.addEventListener("click", () => {
+      const nom = (newName.value || "").trim();
+      const niv = newNiveau.value;
+      const type = newType.value;
+      const themes = (newThemes.value || "").trim();
+      const remarque = (newRemarque.value || "").trim();
+
+      if (!nom || !niv || !type) {
+        alert("Veuillez au minimum indiquer un nom, un niveau et un type.");
+        return;
+      }
+
+      actorsData.push({
+        nom,
+        niveau: niv,
+        niveauAffiche: niv,
+        type,
+        themes: themes || "(à préciser)",
+        remarque: remarque || ""
+      });
+
+      newName.value = "";
+      newNiveau.value = "";
+      newType.value = "";
+      newThemes.value = "";
+      newRemarque.value = "";
+
+      updateKpi();
+      renderActors();
+    });
+  }
+
+  // Initialisation
+  updateKpi();
+  renderActors();
+</script>
+</body>
+</html>
