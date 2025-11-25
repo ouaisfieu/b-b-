@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Branques – Niveau 2 : Le petit site complet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --radius: 14px;
+      --border: rgba(148,163,184,0.4);
+      --mono: "SFMono-Regular", Menlo, Monaco, monospace;
+      --font: system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 720px;
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    h2 {
+      margin-top: 1rem;
+      margin-bottom: 0.3rem;
+      border-left: 3px solid var(--accent);
+      padding-left: 0.5rem;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 0.6rem;
+    }
+
+    code {
+      font-family: var(--mono);
+      background: #0f172a;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    pre {
+      background: #0f172a;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+    }
+
+    .box {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      margin: 8px 0;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    .check {
+      font-size: 0.9rem;
+      margin-top: 6px;
+      color: var(--muted);
+    }
+
+    .check input {
+      margin-right: 6px;
+    }
+
+    .bubble {
+      display: inline-block;
+      padding: 3px 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      margin-top: 4px;
+      font-size: 0.85rem;
+      background: #0f172a;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <h1>Branques – Niveau 2</h1>
+  <p>
+    Tu as ton fichier <code>scratchy-index.html</code> qui fonctionne.  
+    Bravo. Maintenant, on construit un **petit site complet très simple** :
+  </p>
+
+  <div class="box">
+    1. Une page d’accueil  
+    2. Une page “Notes / Idées / Bordel organisé”  
+    3. Une page “Étagère à fichiers”  
+    4. Des liens pour aller et revenir  
+  </div>
+
+  <p>
+    Rien de plus. Rien de moins.  
+    Juste assez pour que tu saches :  
+    « ok, je peux naviguer dans mon site comme un humain normal ».
+  </p>
+
+  <h2>📁 Étape 1 — Vérifie ton dossier</h2>
+
+  <p>Dans ton dossier (par ex. <code>mon-premier-site</code>), tu dois avoir :</p>
+
+  <div class="box">
+    ✔️ scratchy-index.html  
+  </div>
+
+  <p>Si oui → parfait. Sinon → retourne à la page précédente, et reviens ici.</p>
+
+  <label class="check">
+    <input type="checkbox" />
+    Oui, j’ai mon dossier avec le fichier dedans.
+  </label>
+
+  <h2>📝 Étape 2 — Créer la “page 2”</h2>
+
+  <p>On copie ton fichier et on le transforme en carnet d’idées.</p>
+
+  <ol>
+    <li>Copie ton fichier <code>scratchy-index.html</code>.</li>
+    <li>Colle-le dans le même dossier.</li>
+    <li>Renomme la copie → <code>notes.html</code></li>
+  </ol>
+
+  <p>Maintenant ouvre <code>notes.html</code> dans ton éditeur et change le contenu du centre :</p>
+
+  <pre>
+&lt;h1&gt;Mes notes&lt;/h1&gt;
+&lt;p&gt;Ici je note tout ce qui me passe par la tête.&lt;/p&gt;
+&lt;p&gt;C’est le début d’un cerveau externe, version branque.&lt;/p&gt;
+  </pre>
+
+  <label class="check">
+    <input type="checkbox" />
+    Oui, j’ai un fichier notes.html qui m’appartient.
+  </label>
+
+  <h2>📚 Étape 3 — Créer une “étagère à fichiers”</h2>
+
+  <p>
+    Une étagère, c’est juste une page où tu listes ce que tu veux :  
+    PDF, images, liens, vidéos…
+  </p>
+
+  <ol>
+    <li>Crée un nouveau fichier → <code>etagere.html</code></li>
+  </ol>
+
+  <p>Mets-y ceci :</p>
+
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;Étagère&lt;/title&gt;
+  &lt;style&gt;
+    body { background:#0f172a; color:#e5e7eb; font-family:sans-serif; padding:20px; }
+    a { color:#38bdf8; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Mon étagère&lt;/h1&gt;
+  &lt;p&gt;Les fichiers, les images, les trucs importants.&lt;/p&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="docs.pdf"&gt;Mon PDF (exemple)&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="photo.jpg"&gt;Ma photo (exemple)&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;p&gt;&lt;a href="scratchy-index.html"&gt;Retour&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+  <p>
+    Tu peux ajouter des vrais fichiers dans ton dossier  
+    ou laisser les exemples, c’est OK.
+  </p>
+
+  <label class="check">
+    <input type="checkbox" />
+    Oui, j’ai mon fichier etagere.html.
+  </label>
+
+  <h2>🔗 Étape 4 — Ajouter les liens dans la page d’accueil</h2>
+
+  <p>Ouvre ton <code>scratchy-index.html</code>.  
+     Repère l’endroit où il y a ton titre et ton texte.</p>
+
+  <p>Ensuite ajoute ceci juste en dessous :</p>
+
+<pre>
+&lt;p&gt;&lt;a href="notes.html"&gt;Aller à mes notes&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="etagere.html"&gt;Aller à mon étagère&lt;/a&gt;&lt;/p&gt;
+</pre>
+
+  <label class="check">
+    <input type="checkbox" />
+    Oui, j’ai ajouté les liens depuis l’accueil.
+  </label>
+
+  <h2>🔁 Étape 5 — Ajouter les liens de retour</h2>
+
+  <p>
+    Ouvre <code>notes.html</code>  
+    et ajoute à la fin :
+  </p>
+
+<pre>&lt;p&gt;&lt;a href="scratchy-index.html"&gt;Retour à l’accueil&lt;/a&gt;&lt;/p&gt;</pre>
+
+  <p>
+    Même chose dans <code>etagere.html</code> (si ce n’est pas déjà fait).
+  </p>
+
+  <label class="check">
+    <input type="checkbox" />
+    Oui, je peux revenir en arrière sur chaque page.
+  </label>
+
+  <h2>🎉 Bravo — Tu as un véritable mini-site</h2>
+
+  <div class="box">
+    ✔️ 3 pages  
+    ✔️ Navigation  
+    ✔️ Un endroit pour écrire  
+    ✔️ Une étagère pour stocker  
+    ✔️ Une page d’accueil qui tient tout
+  </div>
+
+  <p>
+    C'est exactement la structure de base de  
+    <strong>n’importe quel site web au monde</strong>.
+  </p>
+
+  <p>Et tu l’as fait sans outils compliqués.</p>
+
+  <p class="bubble">
+    Tu veux le niveau 3 ?  
+    → un site complet avec un hub, un thème léger, et un mini “mode enquête” ?
+  </p>
+
+</div>
+</body>
+</html>
