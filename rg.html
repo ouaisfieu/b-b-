@@ -1,0 +1,1303 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouvement d’éducation permanente citoyenne – Portail & Intranet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --bg-alt: #ffffff;
+      --fg: #111827;
+      --muted: #6b7280;
+      --accent: #1d4ed8;
+      --accent-soft: #e0ebff;
+      --accent-2: #059669;
+      --border: #e5e7eb;
+      --danger: #b91c1c;
+      --radius: 10px;
+      --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; scroll-behavior: smooth; }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 200deg,
+          #000 0 33%,
+          #ffd700 33% 66%,
+          #e11d48 66% 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #f9fafb;
+      box-shadow:
+        0 0 0 2px #ffffff,
+        0 8px 18px rgba(15,23,42,0.35);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .brand span:first-child {
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .brand span:last-child {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .nav-right a {
+      font-size: 0.8rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: #4b5563;
+      background: transparent;
+      transition: background 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
+      cursor: pointer;
+    }
+
+    .nav-right a:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: #111827;
+    }
+
+    .nav-right a.primary-link {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #f9fafb;
+      font-weight: 500;
+      box-shadow: 0 8px 18px rgba(37,99,235,0.35);
+    }
+
+    .nav-right a.primary-link:hover {
+      background: #1e40af;
+      border-color: #1e40af;
+    }
+
+    @media (max-width: 720px) {
+      .nav { padding-inline: 0.8rem; }
+      .brand span:last-child { display: none; }
+    }
+
+    /* MAIN */
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 2.4rem;
+    }
+
+    section + section {
+      margin-top: 2rem;
+    }
+
+    .section-header {
+      margin-bottom: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .section-header h2 {
+      font-size: 0.96rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .section-header p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      max-width: 28rem;
+    }
+
+    /* HERO */
+
+    .hero {
+      display: grid;
+      gap: 1.3rem;
+    }
+
+    @media (min-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 3.1fr) minmax(0, 2.2fr);
+        align-items: center;
+      }
+    }
+
+    .hero-main {
+      background: var(--bg-alt);
+      border-radius: 18px;
+      padding: 1.2rem 1.2rem 1.1rem;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border);
+    }
+
+    .hero-kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-main h1 {
+      font-size: clamp(1.6rem, 3vw + 1rem, 2.3rem);
+      line-height: 1.15;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-main h1 span {
+      color: var(--accent-2);
+    }
+
+    .hero-main p {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .pill {
+      font-size: 0.78rem;
+      padding: 0.24rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      color: #374151;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-main {
+      background: var(--accent);
+      color: #f9fafb;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-main:hover {
+      background: #1e40af;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: #374151;
+    }
+
+    .btn-ghost:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    .hero-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.45rem;
+    }
+
+    .hero-side {
+      border-radius: 18px;
+      padding: 1rem 1rem 0.9rem;
+      background:
+        radial-gradient(circle at top left, #e0ebff, transparent 60%),
+        radial-gradient(circle at bottom right, #dcfce7, transparent 60%),
+        #111827;
+      color: #e5e7eb;
+      box-shadow: 0 14px 30px rgba(15,23,42,0.6);
+      font-size: 0.84rem;
+    }
+
+    .hero-side h2 {
+      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-side ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0 0 0.4rem;
+    }
+
+    .hero-side li {
+      display: flex;
+      gap: 0.35rem;
+      align-items: flex-start;
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-side li span.bullet {
+      font-size: 0.78rem;
+      margin-top: 0.1rem;
+    }
+
+    .hero-side small {
+      font-size: 0.74rem;
+      color: #cbd5f5;
+    }
+
+    /* GRID */
+
+    .grid-3 {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 900px) {
+      .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    .card {
+      background: var(--bg-alt);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 0.85rem 0.95rem;
+      font-size: 0.84rem;
+      box-shadow: 0 6px 18px rgba(15,23,42,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .card h3 {
+      font-size: 0.92rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    .mini-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0.25rem 0 0;
+    }
+
+    .mini-list li {
+      display: flex;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      color: #374151;
+      margin-bottom: 0.18rem;
+    }
+
+    .mini-list span.bullet {
+      font-size: 0.78rem;
+      margin-top: 0.05rem;
+      color: var(--accent);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.3rem;
+      font-size: 0.72rem;
+    }
+
+    .tag {
+      padding: 0.12rem 0.45rem;
+      border-radius: 999px;
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      background: #f9fafb;
+    }
+
+    /* INTRANET */
+
+    .intranet-wrapper {
+      background: var(--bg-alt);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 0.9rem 0.95rem 0.9rem;
+      font-size: 0.84rem;
+    }
+
+    .intranet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .intranet-header h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .intranet-header p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .intranet-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .tab-btn {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.8rem;
+      background: #f9fafb;
+      font-size: 0.8rem;
+      color: #4b5563;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      border-color: var(--accent);
+      color: #111827;
+      background: var(--accent-soft);
+    }
+
+    .intranet-sections {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      padding: 0.8rem 0.85rem;
+    }
+
+    .intranet-section {
+      display: none;
+    }
+
+    .intranet-section.active {
+      display: block;
+    }
+
+    .field-row {
+      display: grid;
+      gap: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
+    @media (min-width: 640px) {
+      .field-row-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 0.1rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.6rem;
+      font-size: 0.8rem;
+      font-family: inherit;
+      background: #ffffff;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(59,130,246,0.4);
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .hint {
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      margin-top: 0.4rem;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      border-bottom: 1px solid var(--border);
+      padding: 0.25rem 0.1rem;
+      text-align: left;
+    }
+
+    .mini-table th {
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: #4b5563;
+    }
+
+    .mini-table td {
+      color: #374151;
+    }
+
+    .status-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      background: #ecfdf5;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+
+    .status-tag span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .msg {
+      font-size: 0.78rem;
+      margin-top: 0.4rem;
+      display: none;
+    }
+
+    .msg.ok { color: #15803d; }
+    .msg.error { color: var(--danger); }
+
+    /* CONSOLE */
+
+    .console-wrapper {
+      margin-top: 1.2rem;
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 14px;
+      border: 1px solid #1e293b;
+      box-shadow: 0 12px 30px rgba(15,23,42,0.6);
+      padding: 0.8rem 0.9rem 0.8rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.78rem;
+    }
+
+    .console-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.45rem;
+    }
+
+    .console-title {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.72rem;
+      color: #a5b4fc;
+    }
+
+    .console-lights {
+      display: flex;
+      gap: 0.22rem;
+      align-items: center;
+    }
+
+    .console-light {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #4b5563;
+    }
+
+    .console-light.live {
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    .console-output {
+      height: 150px;
+      border-radius: 9px;
+      border: 1px solid #111827;
+      background: radial-gradient(circle at top, #020617, #020617);
+      padding: 0.4rem 0.55rem;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    .console-line {
+      margin-bottom: 0.12rem;
+    }
+
+    .console-input-row {
+      margin-top: 0.45rem;
+      display: flex;
+      gap: 0.35rem;
+    }
+
+    .console-input-row input {
+      flex: 1;
+      border-radius: 7px;
+      border: 1px solid #1e293b;
+      padding: 0.35rem 0.5rem;
+      font-size: 0.76rem;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    .console-input-row input:focus {
+      outline: none;
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.5);
+    }
+
+    .console-input-row button {
+      border-radius: 999px;
+      border: 1px solid #22c55e;
+      background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(15,23,42,1));
+      color: #bbf7d0;
+      font-size: 0.76rem;
+      padding: 0.32rem 0.8rem;
+      cursor: pointer;
+    }
+
+    .console-hint {
+      font-size: 0.72rem;
+      color: #9ca3af;
+      margin-top: 0.3rem;
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1rem 1rem 1.8rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+<header>
+  <nav class="nav">
+    <div class="nav-left">
+      <div class="logo">EP</div>
+      <div class="brand">
+        <span>Mouvement d’éducation permanente citoyenne</span>
+        <span>Portail public & intranet stratégique – FWB</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="#accueil">Accueil</a>
+      <a href="#mission">Mission</a>
+      <a href="#axes">Axes & programmes</a>
+      <a href="#transparence">Transparence</a>
+      <a href="#intranet" class="primary-link">Intranet</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section id="accueil" class="hero">
+    <div class="hero-main">
+      <div class="hero-kicker">Éducation permanente – FWB</div>
+      <h1>
+        Un mouvement d’éducation permanente qui assume
+        <span>l’ambition de faire mieux</span>.
+      </h1>
+      <p>
+        Mouvement d’éducation permanente citoyenne, ancré en Fédération Wallonie-Bruxelles,
+        qui prend au sérieux la pédagogie critique, la transparence, la co-construction
+        et le droit à une seconde chance pour les personnes mises à l’écart.
+      </p>
+
+      <div class="hero-meta">
+        <span class="pill">Recherche-action & dispositifs participatifs</span>
+        <span class="pill">Veille citoyenne & décryptage médiatique</span>
+        <span class="pill">Accompagnement des publics fragilisés</span>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn btn-main" type="button" onclick="document.getElementById('mission').scrollIntoView({behavior:'smooth'})">
+          Lire notre projet
+        </button>
+        <button class="btn btn-ghost" type="button" onclick="document.getElementById('intranet').scrollIntoView({behavior:'smooth'})">
+          Accéder à l’intranet (démo)
+        </button>
+      </div>
+
+      <p class="hero-note">
+        Site de travail : ce portail sert à la fois de vitrine publique et de maquette d’intranet
+        complet pour une reconnaissance officielle en éducation permanente FWB.
+      </p>
+    </div>
+
+    <aside class="hero-side">
+      <h2>Notre intention stratégique</h2>
+      <ul>
+        <li><span class="bullet">•</span><span>Assumer une ambition élevée, sans écraser les autres acteurs du secteur.</span></li>
+        <li><span class="bullet">•</span><span>Coopérer quand c’est possible, être exigeant quand c’est nécessaire.</span></li>
+        <li><span class="bullet">•</span><span>Mettre la pédagogie critique au centre, pas en annexe.</span></li>
+        <li><span class="bullet">•</span><span>Documenter chaque expérimentation : succès, limites, leçons.</span></li>
+      </ul>
+      <small>
+        Toute ressemblance avec des dispositifs existants n’est pas une attaque, mais une déclaration
+        d’intention : nous voulons pousser plus loin la logique d’éducation permanente.
+      </small>
+    </aside>
+  </section>
+
+  <!-- MISSION -->
+  <section id="mission">
+    <div class="section-header">
+      <h2>Mission & finalités</h2>
+      <p>
+        Répondre aux exigences du décret tout en restant lisible pour les personnes directement
+        concernées : travailleurs, bénévoles, publics, partenaires.
+      </p>
+    </div>
+
+    <div class="grid-3">
+      <article class="card">
+        <h3>Projet politique et pédagogique</h3>
+        <p>
+          Promouvoir une citoyenneté active, critique et solidaire, en travaillant sur les
+          rapports de pouvoir, les mécanismes d’exclusion et les leviers d’action collective.
+        </p>
+        <ul class="mini-list">
+          <li><span class="bullet">›</span><span>Décryptage des enjeux socio-économiques et démocratiques.</span></li>
+          <li><span class="bullet">›</span><span>Formation aux outils de veille, de plaidoyer et de médiation.</span></li>
+          <li><span class="bullet">›</span><span>Valorisation des savoirs d’expérience des publics.</span></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Publics et territoires</h3>
+        <p>
+          Le mouvement s’adresse en priorité aux personnes précarisées, aux chômeurs,
+          aux personnes en incapacité de travail, aux publics associatifs, et aux acteurs
+          de terrain de la FWB.
+        </p>
+        <ul class="mini-list">
+          <li><span class="bullet">›</span><span>Travail local (quartier/commune) articulé avec une analyse globale.</span></li>
+          <li><span class="bullet">›</span><span>Partenariats avec associations, CPAS, services publics, collectifs informels.</span></li>
+          <li><span class="bullet">›</span><span>Dispositifs accessibles en présentiel et en ligne.</span></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Méthodes & valeurs</h3>
+        <p>
+          L’éducation permanente n’est pas un slogan mais une méthode : analyse, débat, production
+          collective, expérimentation, évaluation.
+        </p>
+        <ul class="mini-list">
+          <li><span class="bullet">›</span><span>Pédagogie active, participative, horizontale autant que possible.</span></li>
+          <li><span class="bullet">›</span><span>Temps longs de maturation, pas seulement des “animations” ponctuelles.</span></li>
+          <li><span class="bullet">›</span><span>Éthique : transparence, droit à l’erreur, refus du cynisme.</span></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- AXES & PROGRAMMES -->
+  <section id="axes">
+    <div class="section-header">
+      <h2>Axes de travail & programmes</h2>
+      <p>
+        Une architecture claire pour rendre lisible ce que nous faisons : axes, programmes,
+        actions et productions concrètes.
+      </p>
+    </div>
+
+    <div class="grid-3">
+      <article class="card">
+        <h3>Axe 1 – Veille citoyenne & médias</h3>
+        <p>
+          Outiller les publics pour comprendre et décoder l’actualité, les discours politiques,
+          les stratégies de communication et les enjeux technologiques.
+        </p>
+        <ul class="mini-list">
+          <li><span class="bullet">›</span><span>Ateliers “décodage de l’info” & fake news.</span></li>
+          <li><span class="bullet">›</span><span>Production de fiches, dossiers et podcasts pédagogiques.</span></li>
+          <li><span class="bullet">›</span><span>Dispositifs de veille collective (RSS, outils libres, etc.).</span></li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag">Veille citoyenne</span>
+          <span class="tag">Éducation aux médias</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Axe 2 – Droits sociaux & parcours de vie</h3>
+        <p>
+          Travailler à partir des trajectoires concrètes : chômage, incapacité, CPAS, logement,
+          santé mentale, discriminations, etc.
+        </p>
+        <ul class="mini-list">
+          <li><span class="bullet">›</span><span>Groupes d’analyse de situations et d’auto-défense sociale.</span></li>
+          <li><span class="bullet">›</span><span>Cartographies des dispositifs existants & de leurs limites.</span></li>
+          <li><span class="bullet">›</span><span>Propositions de plaidoyer co-construites.</span></li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag">Droits sociaux</span>
+          <span class="tag">Auto-défense</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Axe 3 – Numérique, communs & participation</h3>
+        <p>
+          Utiliser le numérique comme vecteur d’émancipation : outils libres, sites statiques,
+          intranets citoyens, crypto associative sur papier, etc.
+        </p>
+        <ul class="mini-list">
+          <li><span class="bullet">›</span><span>Formations aux outils libres & à la souveraineté numérique.</span></li>
+          <li><span class="bullet">›</span><span>Co-construction de sites & dashboards citoyens.</span></li>
+          <li><span class="bullet">›</span><span>Expérimentations ludiques (jeux, tests, “Tsar Bomba” pédagogique).</span></li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag">Numérique critique</span>
+          <span class="tag">Communs</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- TRANSPARENCE -->
+  <section id="transparence">
+    <div class="section-header">
+      <h2>Transparence & conformité</h2>
+      <p>
+        Rendre visibles les informations essentielles pour la reconnaissance en éducation
+        permanente FWB et pour la confiance des publics.
+      </p>
+    </div>
+
+    <div class="grid-2">
+      <article class="card">
+        <h3>Identité & gouvernance</h3>
+        <p>
+          Association sans but lucratif (ou mouvement de fait) en cours de structuration :
+          gouvernance transparente, statuts accessibles, rapport aux pouvoirs publics clarifié.
+        </p>
+        <ul class="mini-list">
+          <li><span class="bullet">›</span><span>Statuts, organes, composition des instances.</span></li>
+          <li><span class="bullet">›</span><span>Charte éthique & code de conduite interne.</span></li>
+          <li><span class="bullet">›</span><span>Engagement en matière de protection des données.</span></li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Rapports d’activités & évaluation</h3>
+        <p>
+          Documentation systématique : activités, productions, effets attendus et observés,
+          limites identifiées, pistes d’amélioration.
+        </p>
+        <ul class="mini-list">
+          <li><span class="bullet">›</span><span>Rapports annuels détaillés & synthèses accessibles.</span></li>
+          <li><span class="bullet">›</span><span>Tableaux de bord : publics, thématiques, territoires.</span></li>
+          <li><span class="bullet">›</span><span>Évaluations qualitatives avec les publics et partenaires.</span></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- INTRANET + CONSOLE -->
+  <section id="intranet">
+    <div class="section-header">
+      <h2>Intranet du mouvement</h2>
+      <p>
+        Espace de travail interne pour le suivi des projets, des actions, des bénévoles
+        et de la vie associative. Tout est statique ici, mais la logique est complète.
+      </p>
+    </div>
+
+    <div class="intranet-wrapper">
+      <div class="intranet-header">
+        <div>
+          <h3>Tableau de bord interne (démo)</h3>
+          <p>
+            Maquette d’intranet : à terme, chaque membre, volontaire ou travailleur pourrait
+            disposer d’un accès personnalisé (via un vrai système d’authentification).
+          </p>
+        </div>
+        <div>
+          <span class="status-tag">
+            <span class="dot"></span> Prototype fonctionnel (front-end)
+          </span>
+        </div>
+      </div>
+
+      <div class="intranet-tabs">
+        <button class="tab-btn active" type="button" data-tab="dashboard">Tableau de bord</button>
+        <button class="tab-btn" type="button" data-tab="actions">Actions & animations</button>
+        <button class="tab-btn" type="button" data-tab="documents">Documents & dossiers</button>
+        <button class="tab-btn" type="button" data-tab="benevoles">Bénévoles & profils</button>
+      </div>
+
+      <div class="intranet-sections">
+        <!-- DASHBOARD -->
+        <div class="intranet-section active" id="tab-dashboard">
+          <p>
+            Vue synthétique (exemple) : quelques indicateurs suivis en interne – à adapter
+            en fonction de la réalité du mouvement et des exigences FWB.
+          </p>
+
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>Indicateur</th>
+                <th>Période en cours</th>
+                <th>Objectif annuel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Nombre d’animations collectives</td>
+                <td>24</td>
+                <td>60</td>
+              </tr>
+              <tr>
+                <td>Groupes de travail réguliers</td>
+                <td>5</td>
+                <td>8</td>
+              </tr>
+              <tr>
+                <td>Publics distincts accompagnés</td>
+                <td>130</td>
+                <td>250</td>
+              </tr>
+              <tr>
+                <td>Productions (fiches, podcasts, vidéos)</td>
+                <td>12</td>
+                <td>30</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="intranet-section" id="tab-actions">
+          <p>
+            Encodage simplifié d’une action/animation (fictif) – utile pour structurer les rapports
+            d’activités et l’évaluation.
+          </p>
+
+          <form id="formAction">
+            <div class="field-row field-row-2">
+              <div>
+                <label for="actionTitre">Titre de l’action</label>
+                <input id="actionTitre" type="text" placeholder="Ex : Atelier 'Comprendre l’actualité sociale'">
+              </div>
+              <div>
+                <label for="actionAxe">Axe</label>
+                <select id="actionAxe">
+                  <option value="Axe 1 – Veille citoyenne">Axe 1 – Veille citoyenne</option>
+                  <option value="Axe 2 – Droits sociaux">Axe 2 – Droits sociaux</option>
+                  <option value="Axe 3 – Numérique & communs">Axe 3 – Numérique & communs</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-row field-row-2">
+              <div>
+                <label for="actionLieu">Lieu</label>
+                <input id="actionLieu" type="text" placeholder="Commune / quartier / en ligne">
+              </div>
+              <div>
+                <label for="actionDate">Date</label>
+                <input id="actionDate" type="date">
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div>
+                <label for="actionPublic">Publics ciblés</label>
+                <textarea id="actionPublic" placeholder="Ex : allocataires sociaux, étudiants, travailleurs sans emploi, etc."></textarea>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div>
+                <label for="actionObjectifs">Objectifs & effets attendus</label>
+                <textarea id="actionObjectifs" placeholder="Quels apprentissages, prises de conscience, changements espérés ?"></textarea>
+              </div>
+            </div>
+
+            <button class="btn btn-main" type="submit">Enregistrer (simulation)</button>
+            <div id="actionMsg" class="msg"></div>
+          </form>
+        </div>
+
+        <!-- DOCUMENTS -->
+        <div class="intranet-section" id="tab-documents">
+          <p>
+            Liste fictive des documents internes : statuts, rapports, dossiers thématiques, outils
+            pédagogiques. Dans une vraie version, chaque ligne renverrait vers un fichier ou un dossier.
+          </p>
+
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>Document</th>
+                <th>Type</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Statuts mis à jour</td>
+                <td>Gouvernance</td>
+                <td>Validé</td>
+              </tr>
+              <tr>
+                <td>Projet de reconnaissance EP FWB</td>
+                <td>Dossier officiel</td>
+                <td>En cours de rédaction</td>
+              </tr>
+              <tr>
+                <td>Rapport d’activités – Année N-1</td>
+                <td>Rapport</td>
+                <td>Déposé</td>
+              </tr>
+              <tr>
+                <td>Dossier “propagande par le fait”</td>
+                <td>Dossier thématique</td>
+                <td>En relecture pédagogique</td>
+              </tr>
+              <tr>
+                <td>Kit “Créer son site d’éducation populaire”</td>
+                <td>Outil pédagogique</td>
+                <td>Diffusable</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- BENEVOLES -->
+        <div class="intranet-section" id="tab-benevoles">
+          <p>
+            Maquette de registre des bénévoles et collaborateurs : permet de suivre les engagements,
+            les compétences et les besoins d’accompagnement.
+          </p>
+
+          <table class="mini-table">
+            <thead>
+              <tr>
+                <th>Profil</th>
+                <th>Rôle</th>
+                <th>Disponibilité</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Personne A</td>
+                <td>Animation d’ateliers médias</td>
+                <td>2 j / mois</td>
+              </tr>
+              <tr>
+                <td>Personne B</td>
+                <td>Veille documentaire & rédaction</td>
+                <td>Souple – en ligne</td>
+              </tr>
+              <tr>
+                <td>Personne C</td>
+                <td>Support administratif & logistique</td>
+                <td>1 soir / semaine</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="hint">
+            Dans une vraie version, cette section serait reliée à un formulaire d’engagement
+            bénévole et à un suivi RGPD strict.
+          </p>
+        </div>
+      </div>
+
+      <!-- CONSOLE -->
+      <div class="console-wrapper" id="consoleBlock">
+        <div class="console-header">
+          <div class="console-title">/console – mouvement-ep-fwb</div>
+          <div class="console-lights">
+            <div class="console-light live"></div>
+            <div class="console-light"></div>
+            <div class="console-light"></div>
+          </div>
+        </div>
+
+        <div id="consoleOutput" class="console-output"></div>
+
+        <div class="console-input-row">
+          <input
+            id="consoleInput"
+            type="text"
+            placeholder='Commande (ex : "help", "statut", "axes", "agenda", "public", "intranet")'
+          >
+          <button type="button" id="consoleRun">Exécuter</button>
+        </div>
+
+        <div class="console-hint">
+          Commandes utiles : <code>help</code>, <code>vision</code>, <code>statut</code>,
+          <code>axes</code>, <code>agenda</code>, <code>public</code>, <code>intranet</code>,
+          <code>fwb</code>.<br>
+          Tout est purement côté navigateur : aucune donnée n’est réellement stockée.
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Mouvement d’éducation permanente citoyenne – Fédération Wallonie-Bruxelles (prototype).  
+  Ce site est une maquette <a href="belgimu.be.html" >statique HTML/CSS/JS</a> : il montre la logique d’un portail sérieux,
+  transparent et structuré, prêt à grandir.
+</footer>
+
+<script>
+  // INTRANET TABS
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  const tabSections = document.querySelectorAll(".intranet-section");
+
+  function setTab(id) {
+    tabButtons.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.tab === id);
+    });
+    tabSections.forEach(sec => {
+      sec.classList.toggle("active", sec.id === "tab-" + id);
+    });
+  }
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => setTab(btn.dataset.tab));
+  });
+
+  // FORM ACTION (SIMULATION)
+  const formAction = document.getElementById("formAction");
+  const actionMsg = document.getElementById("actionMsg");
+
+  if (formAction) {
+    formAction.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const titre = document.getElementById("actionTitre").value.trim();
+      if (!titre) {
+        actionMsg.className = "msg error";
+        actionMsg.textContent = "Merci d’indiquer au minimum un titre d’action.";
+        actionMsg.style.display = "block";
+        return;
+      }
+      actionMsg.className = "msg ok";
+      actionMsg.textContent = "Action enregistrée (simulation). Dans une vraie version, elle serait ajoutée au tableau de bord et au rapport d’activités.";
+      actionMsg.style.display = "block";
+    });
+  }
+
+  // CONSOLE
+  const consoleOutput = document.getElementById("consoleOutput");
+  const consoleInput = document.getElementById("consoleInput");
+  const consoleRun = document.getElementById("consoleRun");
+
+  function appendLine(text, type = "info") {
+    const line = document.createElement("div");
+    line.className = "console-line";
+    if (type === "system") line.style.color = "#a5b4fc";
+    if (type === "error") line.style.color = "#f97373";
+    if (type === "hint") line.style.color = "#bbf7d0";
+    line.textContent = text;
+    consoleOutput.appendChild(line);
+    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+  }
+
+  function handleCommand(raw) {
+    const input = raw.trim();
+    if (!input) return;
+
+    appendLine("$ " + input, "info");
+    const cmd = input.toLowerCase();
+
+    if (cmd === "help") {
+      appendLine("Commandes disponibles :", "system");
+      appendLine("- help      : liste des commandes de base", "hint");
+      appendLine("- vision    : rappel de la vision politique et pédagogique", "hint");
+      appendLine("- statut    : info sur le statut associatif et la FWB", "hint");
+      appendLine("- axes      : résumé des axes de travail", "hint");
+      appendLine("- agenda    : exemple d’agenda interne", "hint");
+      appendLine("- public    : faire défiler vers le portail public", "hint");
+      appendLine("- intranet  : faire défiler vers la zone intranet", "hint");
+      appendLine("- fwb       : rappel du cadre éducation permanente FWB", "hint");
+      return;
+    }
+
+    if (cmd === "vision") {
+      appendLine("Vision : un mouvement d’éducation permanente qui prend au sérieux les trajectoires de vie cabossées,", "system");
+      appendLine("les contradictions institutionnelles et la nécessité d’outils concrets pour reprendre du pouvoir d’agir.", "system");
+      return;
+    }
+
+    if (cmd === "statut") {
+      appendLine("Statut visé : association sans but lucratif (ou mouvement de fait en transition) reconnue en éducation permanente FWB.", "system");
+      appendLine("Principe : transparence, rapport d’activités solide, gouvernance claire, articulation locale/régionale.", "system");
+      return;
+    }
+
+    if (cmd === "axes") {
+      appendLine("Axes de travail :", "system");
+      appendLine("- Axe 1 : Veille citoyenne & médias", "hint");
+      appendLine("- Axe 2 : Droits sociaux & parcours de vie", "hint");
+      appendLine("- Axe 3 : Numérique, communs & participation", "hint");
+      return;
+    }
+
+    if (cmd === "agenda") {
+      appendLine("Agenda interne (exemple) :", "system");
+      appendLine("- Lundi : groupe droits sociaux – atelier CPAS / incapacité de travail.", "hint");
+      appendLine("- Mercredi : laboratoire médias & veille citoyenne.", "hint");
+      appendLine("- Vendredi : chantier numérique / sites & intranets citoyens.", "hint");
+      return;
+    }
+
+    if (cmd === "public") {
+      appendLine("Défilement vers la partie publique du portail…", "system");
+      const accueil = document.getElementById("accueil");
+      if (accueil) accueil.scrollIntoView({behavior: "smooth"});
+      return;
+    }
+
+    if (cmd === "intranet") {
+      appendLine("Défilement vers la zone intranet…", "system");
+      const intranet = document.getElementById("intranet");
+      if (intranet) intranet.scrollIntoView({behavior: "smooth"});
+      return;
+    }
+
+    if (cmd === "fwb") {
+      appendLine("Rappel : la reconnaissance en éducation permanente FWB repose sur un projet d’action politique et sociale,", "system");
+      appendLine("une méthodologie d’éducation permanente, des activités et productions, et un rapport d’activités argumenté.", "system");
+      return;
+    }
+
+    appendLine("Commande inconnue. Tapez `help` pour la liste des commandes.", "error");
+  }
+
+  consoleRun.addEventListener("click", () => {
+    handleCommand(consoleInput.value);
+    consoleInput.value = "";
+    consoleInput.focus();
+  });
+
+  consoleInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleCommand(consoleInput.value);
+      consoleInput.value = "";
+    }
+  });
+
+  // INIT CONSOLE
+  appendLine("Console interne du mouvement d’éducation permanente chargée.", "system");
+  appendLine("Tapez `help` pour afficher la liste des commandes disponibles.", "hint");
+</script>
+</body>
+</html>
