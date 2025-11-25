@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tout reprendre depuis zéro – Version “j’ai 5 ans et j’suis bourré”</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Police simple et ronde -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #020617;
+      --card-soft: #02081f;
+      --fg: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.12);
+      --accent-2: #22c55e;
+      --accent-2-soft: rgba(34,197,94,0.15);
+      --danger: #fb7185;
+      --border: rgba(148,163,184,0.4);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "Baloo 2", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, #1f2937 0, #020617 45%),
+        radial-gradient(circle at bottom, #020617 0, #000 65%);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    main {
+      max-width: 880px;
+      width: 100%;
+      margin: auto;
+    }
+
+    .card-main {
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,0.12), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(34,197,94,0.10), transparent 55%),
+        var(--card);
+      border-radius: 26px;
+      border: 1px solid rgba(15,23,42,0.9);
+      box-shadow:
+        0 24px 80px rgba(15,23,42,0.9),
+        0 0 0 1px rgba(148,163,184,0.32);
+      padding: 1.2rem 1.2rem 1.3rem;
+    }
+
+    .title-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .bubble {
+      width: 60px;
+      height: 60px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 30% 20%, #facc15, transparent 60%),
+        radial-gradient(circle at 70% 80%, #fb7185, transparent 65%),
+        #020617;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      box-shadow:
+        0 0 0 3px rgba(15,23,42,1),
+        0 0 28px rgba(56,189,248,0.7);
+    }
+
+    h1 {
+      font-size: clamp(1.5rem, 2.7vw + 1rem, 2.2rem);
+      line-height: 1.1;
+    }
+
+    h1 span {
+      color: #bef264;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    /* NIVEAU DE SOBRIÉTÉ 😅 */
+
+    .sobriety {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .sobriety button {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: rgba(15,23,42,0.9);
+      color: var(--fg);
+      font-size: 0.8rem;
+      padding: 0.25rem 0.7rem;
+      cursor: pointer;
+    }
+
+    .sobriety button.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: #e0f2fe;
+    }
+
+    .sobriety small {
+      opacity: 0.8;
+    }
+
+    /* ÉTAPES */
+
+    .steps {
+      display: grid;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 760px) {
+      .steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .step {
+      background: var(--card-soft);
+      border-radius: var(--radius);
+      padding: 0.8rem 0.9rem;
+      border: 1px solid rgba(51,65,85,0.9);
+      box-shadow: 0 12px 26px rgba(15,23,42,0.75);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,0.18), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(34,197,94,0.14), transparent 60%);
+      opacity: 0.7;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .step-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-title {
+      display: flex;
+      gap: 0.45rem;
+      align-items: center;
+      margin-bottom: 0.15rem;
+    }
+
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      color: #e0f2fe;
+      border: 1px solid rgba(56,189,248,0.6);
+    }
+
+    .step h2 {
+      font-size: 1rem;
+    }
+
+    .step p {
+      font-size: 0.9rem;
+      color: var(--fg);
+    }
+
+    .mini {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* BOUTONS GÉANTS */
+
+    .big-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.4rem 0 0.6rem;
+    }
+
+    .big-btn {
+      flex: 1;
+      min-width: 140px;
+      border-radius: 999px;
+      border: 2px solid rgba(56,189,248,0.8);
+      background: radial-gradient(circle at top, var(--accent-soft), #020617);
+      color: #e0f2fe;
+      font-size: 0.9rem;
+      padding: 0.55rem 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,0.9),
+        0 14px 32px rgba(37,99,235,0.6);
+    }
+
+    .big-btn span.emoji {
+      font-size: 1.1rem;
+    }
+
+    .big-btn.secondary {
+      border-color: rgba(148,163,184,0.8);
+      background: radial-gradient(circle at top, rgba(148,163,184,0.25), #020617);
+      color: #e5e7eb;
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,0.9),
+        0 10px 26px rgba(15,23,42,0.9);
+    }
+
+    /* EXPLICATION TRÈS SIMPLE */
+
+    .simple-block {
+      margin-top: 0.3rem;
+      background: rgba(15,23,42,0.9);
+      border-radius: 14px;
+      padding: 0.7rem 0.75rem;
+      border: 1px dashed rgba(148,163,184,0.7);
+      font-size: 0.9rem;
+    }
+
+    .simple-block div {
+      margin-bottom: 0.25rem;
+    }
+
+    /* DÉTAILS CACHÉS / SOBER */
+
+    .detail {
+      margin-top: 0.4rem;
+      padding: 0.6rem 0.7rem;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.6);
+      background: radial-gradient(circle at top, rgba(56,189,248,0.12), #020617);
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .detail h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+      color: #e0f2fe;
+    }
+
+    .detail ul {
+      padding-left: 1.1rem;
+      margin-top: 0.15rem;
+    }
+
+    .detail li {
+      margin-bottom: 0.15rem;
+      color: var(--muted);
+    }
+
+    /* CONSOLE D’URGENCE */
+
+    .panic {
+      margin-top: 0.8rem;
+      background: rgba(15,23,42,0.98);
+      border-radius: 16px;
+      border: 1px solid rgba(248,113,113,0.7);
+      padding: 0.7rem 0.8rem;
+      font-size: 0.82rem;
+      box-shadow: 0 14px 36px rgba(15,23,42,0.9);
+    }
+
+    .panic-title {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.35rem;
+      color: #fecaca;
+    }
+
+    .panic-log {
+      margin-top: 0.3rem;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(15,23,42,1);
+      padding: 0.5rem 0.6rem;
+      max-height: 120px;
+      overflow-y: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    .panic-line {
+      font-size: 0.76rem;
+      color: #fecaca;
+      margin-bottom: 0.15rem;
+    }
+
+    .panic-buttons {
+      margin-top: 0.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .panic-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(248,250,252,0.6);
+      background: transparent;
+      color: #fee2e2;
+      font-size: 0.78rem;
+      padding: 0.25rem 0.7rem;
+      cursor: pointer;
+    }
+
+    footer {
+      margin-top: 0.9rem;
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+  </style>
+</head>
+<body data-sober="nope">
+<main>
+  <div class="card-main">
+    <div class="title-row">
+      <div class="bubble">🧠</div>
+      <div>
+        <h1>
+          On respire,  
+          <span>on recommence tout doucement.</span>
+        </h1>
+        <p class="subtitle">
+          Version “j’ai cinq ans, j’ai trop bu de jus de pomme magique,  
+          et je veux juste savoir sur quoi je clique sans brûler mon cerveau”.
+        </p>
+      </div>
+    </div>
+
+    <div class="sobriety">
+      <small>Niveau de cerveau :</small>
+      <button type="button" class="sobriety-btn active" data-level="nope">💫 C’est le bordel complet</button>
+      <button type="button" class="sobriety-btn" data-level="ok">🙂 Ça va, un peu de détails</button>
+      <button type="button" class="sobriety-btn" data-level="nerd">🧪 J’accepte un chouïa de technique</button>
+    </div>
+
+    <div class="steps">
+      <!-- ÉTAPE 1 -->
+      <section class="step">
+        <div class="step-inner">
+          <div class="step-title">
+            <div class="step-num">1</div>
+            <h2>Il y a <strong>trois trucs</strong> à retenir. Pas plus.</h2>
+          </div>
+          <p>
+            Tout ton bazar numérique, là, c’est juste :
+          </p>
+          <div class="simple-block">
+            <div>🧱 1. Des <strong>fichiers</strong> (des feuilles avec du texte spécial).</div>
+            <div>📺 2. Un <strong>grand écran</strong> qui montre un fichier à la fois.</div>
+            <div>🚪 3. Des <strong>boutons / portes</strong> pour changer de fichier.</div>
+          </div>
+          <p class="mini">
+            Quand tu vois un site, le navigateur montre juste un fichier (ou plusieurs) bien rangés.
+          </p>
+
+          <div class="detail" data-detail="1">
+            <h3>Version un peu plus sobre</h3>
+            <ul>
+              <li>Les fichiers les plus importants finissent en <code>.html</code>.</li>
+              <li>Ton navigateur lit ces fichiers et les affiche comme des pages web.</li>
+              <li>Les liens / boutons, c’est juste des clés pour ouvrir tel ou tel fichier.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ÉTAPE 2 -->
+      <section class="step">
+        <div class="step-inner">
+          <div class="step-title">
+            <div class="step-num">2</div>
+            <h2>Ton truc <strong>rg-ashy.vercel.app</strong></h2>
+          </div>
+          <p>
+            Imagine une <strong>grande télé</strong> avec une liste d’émissions à gauche.
+            C’est ton <strong>dashboard BROL 2.0</strong>.
+          </p>
+          <div class="simple-block">
+            <div>📃 À gauche : la <strong>liste des pages</strong> (tes projets, tests, délires).</div>
+            <div>🖼️ Au centre : la <strong>fenêtre</strong> qui affiche la page choisie.</div>
+            <div>🎛️ À droite : des <strong>raccourcis</strong> (YouTube, PDF, etc.).</div>
+          </div>
+          <p class="mini">
+            Tu cliques → ça change juste ce qui est montré dans la grande fenêtre.
+          </p>
+
+          <div class="detail" data-detail="2">
+            <h3>Version un peu plus technique</h3>
+            <ul>
+              <li>Il y a un tableau JavaScript du style <code>const modules = [...]</code>.</li>
+              <li>Chaque “module” = un nom, une description, le nom d’un fichier (ex : <code>gr.html</code>).</li>
+              <li>Quand tu cliques, le script charge ce fichier dans le cadre central.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ÉTAPE 3 -->
+      <section class="step">
+        <div class="step-inner">
+          <div class="step-title">
+            <div class="step-num">3</div>
+            <h2>Le truc <strong>/gr</strong> (Mouvement EP)</h2>
+          </div>
+          <p>
+            Maintenant, imagine une <strong>seule grande affiche</strong> bien propre,
+            qui présente ton “Mouvement d’éducation permanente”.
+          </p>
+          <div class="simple-block">
+            <div>🏛️ C’est une <strong>vitrine</strong> : qui on est, ce qu’on fait.</div>
+            <div>📊 Et un <strong>mini intranet</strong> de démo : des tableaux, des formulaires.</div>
+            <div>📄 Tout ça tient dans <strong>un seul fichier</strong> : <code>gr.html</code>.</div>
+          </div>
+          <p class="mini">
+            Donc : le dashboard = télécommande.  
+            <code>/gr</code> = une chaîne précise sur cette télé.
+          </p>
+
+          <div class="detail" data-detail="3">
+            <h3>Ce qu’il y a dans gr.html</h3>
+            <ul>
+              <li>Un <code>&lt;header&gt;</code> avec un menu simple.</li>
+              <li>Des <code>&lt;section&gt;</code> pour mission, axes, transparence, intranet.</li>
+              <li>Du JS léger pour les onglets de l’intranet + la console interne.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ÉTAPE 4 -->
+      <section class="step">
+        <div class="step-inner">
+          <div class="step-title">
+            <div class="step-num">4</div>
+            <h2>Ce que tu fais <strong>concrètement</strong></h2>
+          </div>
+          <p>
+            Quand tu “codes” ou que tu bricoles, en vrai tu fais juste ça :
+          </p>
+
+          <div class="big-buttons">
+            <button type="button" class="big-btn" id="btnFichiers">
+              <span class="emoji">🧱</span>
+              <span>Je range mes fichiers</span>
+            </button>
+            <button type="button" class="big-btn secondary" id="btnRelier">
+              <span class="emoji">🪢</span>
+              <span>Je relie les trucs</span>
+            </button>
+          </div>
+
+          <div class="simple-block" id="simpleExplain">
+            <div>🧱 D’abord tu as : <code>dashboard.html</code> et <code>gr.html</code>.</div>
+            <div>🪢 Ensuite, dans <code>dashboard.html</code>, tu dis : “hey, j’ai un module qui pointe vers <code>gr.html</code>”.</div>
+            <div>📺 Et voilà : cliquer dans BROL affiche la page Mouvement EP.</div>
+          </div>
+
+          <div class="detail" data-detail="4">
+            <h3>Version “ok j’ai dormi”</h3>
+            <ul>
+              <li>Dans ton dossier, tu as plusieurs fichiers HTML côte à côte.</li>
+              <li>Ton point d’entrée = un fichier (ex : <code>index.html</code> ou <code>dashboard.html</code>).</li>
+              <li>Les autres pages (<code>gr.html</code>, etc.) sont juste appelées par des liens ou par JS.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- CONSOLE PANIC -->
+    <section class="panic">
+      <div class="panic-title">
+        <span>🚨</span>
+        <strong>Zone “je comprends toujours rien”</strong>
+      </div>
+      <p>
+        Clique sur un des boutons. Si tu es perdu, on reformule encore plus simple.
+      </p>
+
+      <div class="panic-buttons">
+        <button type="button" class="panic-btn" data-panic="reset">Je suis perdu·e 😵</button>
+        <button type="button" class="panic-btn" data-panic="tl;dr">Explique-moi en une phrase</button>
+        <button type="button" class="panic-btn" data-panic="metaphore">Explique comme si c’était des boîtes</button>
+        <button type="button" class="panic-btn" data-panic="prochain">C’est quoi la prochaine étape ?</button>
+      </div>
+
+      <div class="panic-log" id="panicLog"></div>
+    </section>
+
+    <footer>
+      Si ton cerveau hurle “STOP”, c’est normal.  
+      Tu as le droit d’y revenir demain, avec un café, pas obligé de tout piger d’un coup.
+    </footer>
+  </div>
+</main>
+
+<script>
+  // Gestion "niveau de sobriété"
+  const sobrietyButtons = document.querySelectorAll(".sobriety-btn");
+  const detailBlocks = document.querySelectorAll(".detail");
+
+  function updateDetails(level) {
+    // Par défaut on cache tout
+    detailBlocks.forEach(d => d.style.display = "none");
+
+    if (level === "ok") {
+      // On affiche les détails les plus légers (1 et 2)
+      detailBlocks.forEach(d => {
+        const id = d.getAttribute("data-detail");
+        if (id === "1" || id === "2") d.style.display = "block";
+      });
+    } else if (level === "nerd") {
+      // On affiche tout
+      detailBlocks.forEach(d => d.style.display = "block");
+    }
+  }
+
+  sobrietyButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      sobrietyButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const level = btn.getAttribute("data-level");
+      updateDetails(level);
+    });
+  });
+
+  // Boutons gros boutons
+  const btnFichiers = document.getElementById("btnFichiers");
+  const btnRelier = document.getElementById("btnRelier");
+  const simpleExplain = document.getElementById("simpleExplain");
+
+  btnFichiers.addEventListener("click", () => {
+    simpleExplain.innerHTML = `
+      <div>📁 Tu as un <strong>dossier</strong> sur ton ordi ou sur Vercel.</div>
+      <div>🧱 Dedans : <code>dashboard.html</code>, <code>gr.html</code>, et d’autres.</div>
+      <div>📺 Le navigateur ouvre juste un de ces fichiers et te le montre.</div>
+    `;
+  });
+
+  btnRelier.addEventListener("click", () => {
+    simpleExplain.innerHTML = `
+      <div>🪢 Dans le fichier <code>dashboard.html</code>, tu écris : “j’ai un module qui utilise <code>gr.html</code>”.</div>
+      <div>🖱️ Quand tu cliques sur ce module, la grande fenêtre affiche <code>gr.html</code>.</div>
+      <div>🎬 C’est tout : un bouton → un fichier → un écran.</div>
+    `;
+  });
+
+  // Console panic
+  const panicLog = document.getElementById("panicLog");
+  const panicButtons = document.querySelectorAll(".panic-btn");
+
+  function addPanicLine(text) {
+    const line = document.createElement("div");
+    line.className = "panic-line";
+    line.textContent = text;
+    panicLog.appendChild(line);
+    panicLog.scrollTop = panicLog.scrollHeight;
+  }
+
+  panicButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const action = btn.getAttribute("data-panic");
+      if (action === "reset") {
+        panicLog.innerHTML = "";
+        addPanicLine("OK. On efface le tableau mental. Juste retiens : un bouton = une page.");
+      } else if (action === "tl;dr") {
+        addPanicLine("Résumé : BROL est une télécommande, /gr est une chaîne. Tu cliques → tu changes de chaîne.");
+      } else if (action === "metaphore") {
+        addPanicLine("Métaphore boîtes : une grosse boîte (le projet), des petites boîtes dedans (fichiers), des étiquettes (liens) pour ouvrir la bonne boîte.");
+      } else if (action === "prochain") {
+        addPanicLine("Prochaine étape réaliste : ouvrir ton dossier de projet, repérer 2 fichiers (dashboard.html et gr.html) et juste les regarder, sans rien changer.");
+      }
+    });
+  });
+
+  // Lancer un premier message
+  addPanicLine("Si tu lis ceci, tu respires encore. C’est déjà une victoire.");
+</script>
+</body>
+</html>
