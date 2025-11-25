@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Étagère ULTRA – Tous mes fichiers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --accent3: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.6);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 18px 40px rgba(0,0,0,0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.26), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,0.22), transparent 55%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15,23,42,0.25) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.3), transparent 60%),
+        rgba(3,7,18,0.96);
+      border-bottom: 1px solid rgba(30,64,175,0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #f97316, #a855f7, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 26px rgba(59,130,246,0.95);
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo span {
+      position: relative;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #22c55e;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title-main {
+      font-size: 1.05rem;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .title-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .header-right {
+      max-width: 260px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .header-right strong { color: #e5e7eb; }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    .panel {
+      background: rgba(3,7,18,0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.3), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,0.2), transparent 60%);
+      mix-blend-mode: soft-light;
+      opacity: 0.6;
+    }
+
+    .panel-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    h2 {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      border-radius: 999px;
+      padding: 2px 7px;
+      border: 1px solid rgba(148,163,184,0.7);
+      font-family: var(--font-mono);
+      color: var(--muted);
+    }
+
+    .intro {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+
+    /* Filtres / recherche */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+      align-items: center;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 160px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 4px 9px;
+      font-size: 0.82rem;
+      outline: none;
+    }
+
+    .search-input::placeholder {
+      color: var(--muted);
+    }
+
+    .select {
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 3px 7px;
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 0.74rem;
+    }
+
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      border-radius: 999px;
+      padding: 2px 6px;
+      border: 1px solid rgba(55,65,81,0.98);
+      background: #020617;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.74rem;
+    }
+
+    .filter-pill input {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* Dropzone & liste */
+    .dropzone {
+      margin-top: 4px;
+      border-radius: 14px;
+      border: 1px dashed rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      padding: 10px 9px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .dropzone.dragover {
+      border-style: solid;
+      border-color: rgba(56,189,248,0.9);
+      color: #e0f2fe;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.95);
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .list {
+      margin-top: 6px;
+      max-height: 360px;
+      overflow: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(30,41,59,0.98);
+      background: #020617;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px;
+      padding: 6px 8px;
+      border-bottom: 1px solid rgba(30,41,59,0.9);
+      font-size: 0.8rem;
+      align-items: center;
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    .item-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 9px;
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .item-main {
+      min-width: 0;
+    }
+
+    .item-name {
+      font-size: 0.82rem;
+      margin-bottom: 2px;
+      word-break: break-all;
+    }
+
+    .item-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .item-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      align-items: flex-end;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.98);
+      background: #020617;
+      color: var(--text);
+      font-size: 0.74rem;
+      padding: 3px 7px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: background 0.15s, box-shadow 0.15s, transform 0.15s, border-color 0.15s;
+    }
+
+    .btn:hover {
+      background: #111827;
+      border-color: rgba(56,189,248,0.9);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.9);
+      transform: translateY(-1px);
+    }
+
+    .hint {
+      margin-top: 4px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* Bibliothèque persistante */
+    .side-panel::before {
+      background:
+        radial-gradient(circle at 0 100%, rgba(56,189,248,0.3), transparent 60%),
+        radial-gradient(circle at 100% 0, rgba(168,85,247,0.26), transparent 60%);
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 5px;
+      font-size: 0.8rem;
+    }
+
+    .field-group label {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .input {
+      border-radius: 8px;
+      border: 1px solid rgba(55,65,81,0.98);
+      background: #020617;
+      color: var(--text);
+      padding: 4px 6px;
+      font-size: 0.8rem;
+      font-family: var(--font-main);
+      outline: none;
+    }
+
+    textarea.input {
+      resize: vertical;
+      min-height: 40px;
+    }
+
+    .side-section {
+      margin-bottom: 6px;
+    }
+
+    .lib-list {
+      margin-top: 4px;
+      max-height: 200px;
+      overflow: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(30,41,59,0.98);
+      background: #020617;
+    }
+
+    .lib-item {
+      padding: 5px 7px;
+      border-bottom: 1px solid rgba(30,41,59,0.9);
+      font-size: 0.8rem;
+    }
+
+    .lib-item:last-child {
+      border-bottom: none;
+    }
+
+    .lib-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.82rem;
+    }
+
+    .lib-type {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .lib-meta {
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .tag-pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 1px 6px;
+      border: 1px solid rgba(75,85,99,0.9);
+      font-size: 0.7rem;
+      margin-right: 2px;
+      margin-top: 2px;
+    }
+
+    .lib-actions {
+      margin-top: 3px;
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .btn-small {
+      font-size: 0.72rem;
+      padding: 2px 6px;
+    }
+
+    .export-box {
+      margin-top: 6px;
+      border-radius: 10px;
+      border: 1px dotted rgba(148,163,184,0.7);
+      padding: 5px 7px;
+      font-size: 0.76rem;
+      background: rgba(15,23,42,0.95);
+    }
+
+    .export-textarea {
+      margin-top: 4px;
+      width: 100%;
+      min-height: 60px;
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.74rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30,64,175,0.7);
+      background: rgba(3,7,18,0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .header-right { text-align: left; max-width: none; }
+      footer { flex-direction: column; }
+    }
+
+    /* Modal preview */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal {
+      width: min(960px, 96vw);
+      height: min(560px, 92vh);
+      background: #020617;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,0.8);
+      box-shadow: 0 30px 80px rgba(0,0,0,1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(55,65,81,0.98);
+      font-size: 0.85rem;
+    }
+
+    .modal-header h3 {
+      font-size: 0.9rem;
+    }
+
+    .modal-header button {
+      border-radius: 999px;
+      border: 1px solid rgba(248,113,113,0.9);
+      background: rgba(127,29,29,0.95);
+      color: #fee2e2;
+      font-size: 0.76rem;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+    }
+
+    .modal-main {
+      flex: 1;
+      margin: 6px;
+      border-radius: 10px;
+      border: 1px solid rgba(55,65,81,0.98);
+      overflow: hidden;
+      background: #020617;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-main iframe,
+    .modal-main img,
+    .modal-main video,
+    .modal-main audio {
+      max-width: 100%;
+      max-height: 100%;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+      background: #020617;
+    }
+
+    .modal-footer {
+      padding: 0 10px 8px;
+      font-size: 0.74rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo"><span>ETG</span></div>
+    <div class="header-titles">
+      <div class="title-main">Étagère ULTRA</div>
+      <div class="title-sub">
+        Une seule page pour gérer tous tes fichiers : session locale (drag &amp; drop) + bibliothèque persistante.
+      </div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div>
+      ⚠️ Par sécurité, un site ne peut pas fouiller tout ton disque tout seul.  
+      Ici : tu glisses ce que tu veux, et tu crées ta bibliothèque longue durée à ta sauce.
+      <br /><strong>Tout reste chez toi.</strong>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Panel gauche : fichiers de la session -->
+  <section class="panel">
+    <div class="panel-inner">
+      <h2>
+        Fichiers de la session
+        <span class="badge">glisser-déposer · tous formats</span>
+      </h2>
+      <p class="intro">
+        Glisse ici tous les fichiers que tu veux manipuler maintenant (PDF, images, vidéos, audio, ZIP, etc.).
+        Tu peux filtrer, rechercher, prévisualiser.
+        <br />Cette liste est valable pour cette session (elle disparaîtra si tu fermes la page).
+      </p>
+
+      <div class="controls">
+        <input id="sessionSearch" class="search-input" type="search" placeholder="Rechercher par nom ou type…" />
+        <select id="sessionSort" class="select">
+          <option value="name">Tri : nom (A→Z)</option>
+          <option value="size">Tri : taille</option>
+          <option value="date">Tri : date</option>
+        </select>
+      </div>
+      <div class="filter-group" id="sessionFilters">
+        <label class="filter-pill">
+          <input type="checkbox" value="image" checked /> image
+        </label>
+        <label class="filter-pill">
+          <input type="checkbox" value="audio" checked /> audio
+        </label>
+        <label class="filter-pill">
+          <input type="checkbox" value="video" checked /> vidéo
+        </label>
+        <label class="filter-pill">
+          <input type="checkbox" value="pdf" checked /> pdf
+        </label>
+        <label class="filter-pill">
+          <input type="checkbox" value="text" checked /> texte
+        </label>
+        <label class="filter-pill">
+          <input type="checkbox" value="other" checked /> autres
+        </label>
+      </div>
+
+      <div id="dropzone" class="dropzone">
+        Glisse tes fichiers ici ou clique pour les sélectionner.
+        <input id="fileInput" class="file-input" type="file" multiple />
+      </div>
+
+      <div id="sessionList" class="list"></div>
+
+      <p class="hint">
+        Tip : pour garder une trace durable de certains fichiers (chemins, URLs, tags),
+        ajoute-les aussi dans la <strong>Bibliothèque persistante</strong> à droite.
+      </p>
+    </div>
+  </section>
+
+  <!-- Panel droit : bibliothèque persistante -->
+  <section class="panel side-panel">
+    <div class="panel-inner">
+      <div class="side-section">
+        <h2>Bibliothèque persistante</h2>
+        <p class="intro">
+          Ici, tu crées des fiches pour les documents importants (titre, type, URL ou chemin, tags).
+          <br />Tout est stocké en <code>localStorage</code> dans ton navigateur.
+        </p>
+      </div>
+
+      <div class="side-section">
+        <div class="field-group">
+          <label for="libTitle">Titre du document</label>
+          <input id="libTitle" class="input" type="text" placeholder="Ex : Plaidoyer logiciel libre" />
+        </div>
+        <div class="field-group">
+          <label for="libType">Type</label>
+          <select id="libType" class="input">
+            <option value="pdf">PDF</option>
+            <option value="image">Image</option>
+            <option value="audio">Audio</option>
+            <option value="video">Vidéo</option>
+            <option value="text">Texte / Note</option>
+            <option value="link">Lien externe</option>
+            <option value="other">Autre</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="libPath">Chemin ou URL</label>
+          <input id="libPath" class="input" type="text" placeholder="Ex : plaidoyer-jp.pdf ou https://…" />
+        </div>
+        <div class="field-group">
+          <label for="libTags">Tags (séparés par des virgules)</label>
+          <input id="libTags" class="input" type="text" placeholder="ex : libre, économie, annexe" />
+        </div>
+        <button id="addLibBtn" class="btn">+ Ajouter à la bibliothèque</button>
+        <p class="hint">
+          Pour un fichier local dans le même dossier : indique simplement son nom (ex : <code>dystopie.pdf</code>).
+        </p>
+      </div>
+
+      <div class="side-section">
+        <h2 style="font-size:0.9rem;">Mes fiches enregistrées</h2>
+        <div class="controls" style="margin-bottom:4px;">
+          <input id="libSearch" class="search-input" type="search" placeholder="Rechercher titre / tag / type…" />
+        </div>
+        <div class="filter-group" id="libFilters">
+          <label class="filter-pill">
+            <input type="checkbox" value="pdf" checked /> pdf
+          </label>
+          <label class="filter-pill">
+            <input type="checkbox" value="image" checked /> image
+          </label>
+          <label class="filter-pill">
+            <input type="checkbox" value="audio" checked /> audio
+          </label>
+          <label class="filter-pill">
+            <input type="checkbox" value="video" checked /> vidéo
+          </label>
+          <label class="filter-pill">
+            <input type="checkbox" value="text" checked /> texte
+          </label>
+          <label class="filter-pill">
+            <input type="checkbox" value="link" checked /> lien
+          </label>
+          <label class="filter-pill">
+            <input type="checkbox" value="other" checked /> autres
+          </label>
+        </div>
+
+        <div id="libList" class="lib-list"></div>
+      </div>
+
+      <div class="export-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
+          <span>Exporter / importer la bibliothèque (JSON)</span>
+          <div style="display:flex;gap:4px;">
+            <button id="exportLibBtn" class="btn btn-small">Exporter</button>
+            <button id="importLibBtn" class="btn btn-small">Importer</button>
+          </div>
+        </div>
+        <textarea id="libExport" class="input export-textarea" placeholder="Le JSON apparaîtra ici à l'export. Tu peux le coller ici pour importer."></textarea>
+        <p class="hint">
+          Utile pour sauvegarder, partager avec une personne de confiance, ou déplacer ta bibliothèque sur une autre machine.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>
+    Étagère ULTRA – Session locale (drag &amp; drop) + bibliothèque persistante (localStorage). Rien ne sort de ton navigateur.
+  </span>
+  <span>
+    Limite volontaire : le site ne scanne pas ton disque dur tout seul. C’est toi qui choisis ce que tu lui montres.
+  </span>
+</footer>
+
+<!-- Modal preview -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Prévisualisation</h3>
+      <button type="button" id="modalCloseBtn">Fermer (Esc)</button>
+    </div>
+    <div class="modal-main" id="modalMain"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<script>
+  // Utils pour typer les fichiers
+  function getFileCategoryFromType(mime, name) {
+    mime = mime || "";
+    const lower = name.toLowerCase();
+    if (mime.startsWith("image/")) return "image";
+    if (mime.startsWith("audio/")) return "audio";
+    if (mime.startsWith("video/")) return "video";
+    if (mime === "application/pdf" || lower.endsWith(".pdf")) return "pdf";
+    if (
+      mime.startsWith("text/") ||
+      lower.endsWith(".txt") ||
+      lower.endsWith(".md") ||
+      lower.endsWith(".json")
+    ) return "text";
+    return "other";
+  }
+
+  function formatBytes(bytes) {
+    if (bytes === 0) return "0 o";
+    const k = 1024;
+    const sizes = ["o", "Ko", "Mo", "Go", "To"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    const val = bytes / Math.pow(k, i);
+    return val.toFixed(1) + " " + sizes[i];
+  }
+
+  function formatDate(timestamp) {
+    if (!timestamp) return "";
+    const d = new Date(timestamp);
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleDateString("fr-FR") + " " + d.toLocaleTimeString("fr-FR", {hour: "2-digit", minute: "2-digit"});
+  }
+
+  // ---- Session files ----
+  const sessionFiles = []; // { id, file, url, category }
+
+  const dropzone = document.getElementById("dropzone");
+  const fileInput = document.getElementById("fileInput");
+  const sessionList = document.getElementById("sessionList");
+  const sessionSearch = document.getElementById("sessionSearch");
+  const sessionSort = document.getElementById("sessionSort");
+  const sessionFilters = document.querySelectorAll("#sessionFilters input[type='checkbox']");
+
+  function addSessionFiles(files) {
+    Array.from(files).forEach(file => {
+      const id = "f_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+      const url = URL.createObjectURL(file);
+      const category = getFileCategoryFromType(file.type, file.name);
+      sessionFiles.push({ id, file, url, category });
+    });
+    renderSessionList();
+  }
+
+  function renderSessionList() {
+    const query = sessionSearch.value.trim().toLowerCase();
+    const activeTypes = Array.from(sessionFilters)
+      .filter(f => f.checked)
+      .map(f => f.value);
+
+    let list = sessionFiles.filter(item => activeTypes.includes(item.category));
+
+    if (query) {
+      list = list.filter(item =>
+        item.file.name.toLowerCase().includes(query) ||
+        (item.file.type || "").toLowerCase().includes(query)
+      );
+    }
+
+    const sortBy = sessionSort.value;
+    list.sort((a, b) => {
+      if (sortBy === "name") {
+        return a.file.name.localeCompare(b.file.name, "fr");
+      } else if (sortBy === "size") {
+        return (a.file.size || 0) - (b.file.size || 0);
+      } else if (sortBy === "date") {
+        return (a.file.lastModified || 0) - (b.file.lastModified || 0);
+      }
+      return 0;
+    });
+
+    sessionList.innerHTML = "";
+    if (list.length === 0) {
+      sessionList.innerHTML = '<div class="item"><div class="item-main"><div class="item-name">Aucun fichier pour l’instant.</div><div class="item-meta">Glisse des fichiers ou clique sur la zone ci-dessus.</div></div></div>';
+      return;
+    }
+
+    list.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "item";
+
+      const icon = document.createElement("div");
+      icon.className = "item-icon";
+      icon.textContent = iconForCategory(item.category);
+
+      const main = document.createElement("div");
+      main.className = "item-main";
+      const name = document.createElement("div");
+      name.className = "item-name";
+      name.textContent = item.file.name;
+      const meta = document.createElement("div");
+      meta.className = "item-meta";
+      meta.textContent = [
+        item.file.type || "type inconnu",
+        formatBytes(item.file.size || 0),
+        formatDate(item.file.lastModified)
+      ].filter(Boolean).join(" · ");
+
+      main.appendChild(name);
+      main.appendChild(meta);
+
+      const actions = document.createElement("div");
+      actions.className = "item-actions";
+
+      const previewBtn = document.createElement("button");
+      previewBtn.className = "btn";
+      previewBtn.textContent = "Prévoir";
+      previewBtn.addEventListener("click", () => previewSessionFile(item));
+
+      const dlBtn = document.createElement("button");
+      dlBtn.className = "btn";
+      dlBtn.textContent = "Ouvrir/télécharger";
+      dlBtn.addEventListener("click", () => {
+        const a = document.createElement("a");
+        a.href = item.url;
+        a.download = item.file.name;
+        a.target = "_blank";
+        a.click();
+      });
+
+      actions.appendChild(previewBtn);
+      actions.appendChild(dlBtn);
+
+      div.appendChild(icon);
+      div.appendChild(main);
+      div.appendChild(actions);
+
+      sessionList.appendChild(div);
+    });
+  }
+
+  function iconForCategory(cat) {
+    switch (cat) {
+      case "image": return "🖼️";
+      case "audio": return "🎧";
+      case "video": return "🎬";
+      case "pdf":   return "📄";
+      case "text":  return "📜";
+      default:      return "📦";
+    }
+  }
+
+  // Drop / click
+  dropzone.addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", e => addSessionFiles(e.target.files));
+
+  dropzone.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropzone.classList.add("dragover");
+  });
+  dropzone.addEventListener("dragleave", () => {
+    dropzone.classList.remove("dragover");
+  });
+  dropzone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropzone.classList.remove("dragover");
+    if (e.dataTransfer && e.dataTransfer.files) {
+      addSessionFiles(e.dataTransfer.files);
+    }
+  });
+
+  sessionSearch.addEventListener("input", renderSessionList);
+  sessionSort.addEventListener("change", renderSessionList);
+  sessionFilters.forEach(cb => cb.addEventListener("change", renderSessionList));
+
+  // ---- Bibliothèque persistante ----
+  const LIB_KEY = "etagereUltraLibraryV1";
+
+  const libTitle = document.getElementById("libTitle");
+  const libType = document.getElementById("libType");
+  const libPath = document.getElementById("libPath");
+  const libTags = document.getElementById("libTags");
+  const addLibBtn = document.getElementById("addLibBtn");
+  const libSearch = document.getElementById("libSearch");
+  const libList = document.getElementById("libList");
+  const libFilterCheckboxes = document.querySelectorAll("#libFilters input[type='checkbox']");
+  const exportLibBtn = document.getElementById("exportLibBtn");
+  const importLibBtn = document.getElementById("importLibBtn");
+  const libExport = document.getElementById("libExport");
+
+  let library = [];
+
+  function loadLibrary() {
+    try {
+      const raw = localStorage.getItem(LIB_KEY);
+      if (!raw) {
+        library = [];
+      } else {
+        library = JSON.parse(raw);
+      }
+    } catch (e) {
+      console.error("Erreur load library", e);
+      library = [];
+    }
+  }
+
+  function saveLibrary() {
+    try {
+      localStorage.setItem(LIB_KEY, JSON.stringify(library));
+    } catch (e) {
+      console.error("Erreur save library", e);
+    }
+  }
+
+  function addLibraryItem() {
+    const title = libTitle.value.trim();
+    const type = libType.value;
+    const path = libPath.value.trim();
+    const tagsStr = libTags.value.trim();
+
+    if (!title || !path) {
+      alert("Titre et chemin/URL sont obligatoires.");
+      return;
+    }
+
+    const tags = tagsStr
+      ? tagsStr.split(",").map(t => t.trim()).filter(Boolean)
+      : [];
+
+    const item = {
+      id: "lib_" + Date.now() + "_" + Math.random().toString(16).slice(2),
+      title,
+      type,
+      path,
+      tags,
+      createdAt: Date.now()
+    };
+
+    library.push(item);
+    saveLibrary();
+    renderLibrary();
+
+    libTitle.value = "";
+    libPath.value = "";
+    libTags.value = "";
+  }
+
+  function openLibraryItem(item) {
+    // Si path ressemble à une URL http(s), on ouvre dans un nouvel onglet
+    if (/^https?:\/\//i.test(item.path)) {
+      window.open(item.path, "_blank");
+      return;
+    }
+    // Sinon on considère que c'est un chemin relatif dans le même dossier
+    window.open(item.path, "_blank");
+  }
+
+  function deleteLibraryItem(id) {
+    if (!confirm("Supprimer cette fiche de la bibliothèque ?")) return;
+    library = library.filter(i => i.id !== id);
+    saveLibrary();
+    renderLibrary();
+  }
+
+  function renderLibrary() {
+    const query = libSearch.value.trim().toLowerCase();
+    const activeTypes = Array.from(libFilterCheckboxes)
+      .filter(f => f.checked)
+      .map(f => f.value);
+
+    let list = library.filter(item => activeTypes.includes(item.type));
+
+    if (query) {
+      list = list.filter(item =>
+        item.title.toLowerCase().includes(query) ||
+        item.path.toLowerCase().includes(query) ||
+        (item.tags || []).some(tag => tag.toLowerCase().includes(query)) ||
+        item.type.toLowerCase().includes(query)
+      );
+    }
+
+    libList.innerHTML = "";
+    if (list.length === 0) {
+      libList.innerHTML = '<div class="lib-item"><div class="lib-meta">Aucune fiche pour l’instant.</div></div>';
+      return;
+    }
+
+    list
+      .slice()
+      .sort((a, b) => (a.title || "").localeCompare(b.title || "", "fr"))
+      .forEach(item => {
+        const div = document.createElement("div");
+        div.className = "lib-item";
+
+        const titleRow = document.createElement("div");
+        titleRow.className = "lib-title";
+        const t = document.createElement("span");
+        t.textContent = item.title;
+        const typeSpan = document.createElement("span");
+        typeSpan.className = "lib-type";
+        typeSpan.textContent = item.type;
+
+        titleRow.appendChild(t);
+        titleRow.appendChild(typeSpan);
+
+        const meta = document.createElement("div");
+        meta.className = "lib-meta";
+        meta.textContent = item.path;
+
+        const tagsRow = document.createElement("div");
+        (item.tags || []).forEach(tag => {
+          const tagEl = document.createElement("span");
+          tagEl.className = "tag-pill";
+          tagEl.textContent = tag;
+          tagsRow.appendChild(tagEl);
+        });
+
+        const actions = document.createElement("div");
+        actions.className = "lib-actions";
+        const openBtn = document.createElement("button");
+        openBtn.className = "btn btn-small";
+        openBtn.textContent = "Ouvrir";
+        openBtn.addEventListener("click", () => openLibraryItem(item));
+
+        const delBtn = document.createElement("button");
+        delBtn.className = "btn btn-small";
+        delBtn.textContent = "Supprimer";
+        delBtn.addEventListener("click", () => deleteLibraryItem(item.id));
+
+        actions.appendChild(openBtn);
+        actions.appendChild(delBtn);
+
+        div.appendChild(titleRow);
+        div.appendChild(meta);
+        if (item.tags && item.tags.length) {
+          div.appendChild(tagsRow);
+        }
+        div.appendChild(actions);
+
+        libList.appendChild(div);
+      });
+  }
+
+  addLibBtn.addEventListener("click", addLibraryItem);
+  libSearch.addEventListener("input", renderLibrary);
+  libFilterCheckboxes.forEach(cb => cb.addEventListener("change", renderLibrary));
+
+  exportLibBtn.addEventListener("click", () => {
+    libExport.value = JSON.stringify(library, null, 2);
+  });
+
+  importLibBtn.addEventListener("click", () => {
+    const raw = libExport.value.trim();
+    if (!raw) {
+      alert("Colle d’abord un JSON dans la zone de texte.");
+      return;
+    }
+    try {
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) throw new Error("format");
+      if (!confirm("Remplacer la bibliothèque actuelle par celle du JSON ?")) return;
+      library = parsed;
+      saveLibrary();
+      renderLibrary();
+      alert("Bibliothèque importée.");
+    } catch (e) {
+      alert("JSON invalide. Vérifie le contenu.");
+    }
+  });
+
+  // ---- Modal preview ----
+  const modalOverlay = document.getElementById("modalOverlay");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalMain = document.getElementById("modalMain");
+  const modalFooter = document.getElementById("modalFooter");
+  const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+  function openModalWithContent(title, infoText, element) {
+    modalTitle.textContent = title || "Prévisualisation";
+    modalFooter.textContent = infoText || "";
+    modalMain.innerHTML = "";
+    if (element) {
+      modalMain.appendChild(element);
+    }
+    modalOverlay.classList.add("visible");
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove("visible");
+    modalMain.innerHTML = "";
+  }
+
+  modalCloseBtn.addEventListener("click", closeModal);
+  modalOverlay.addEventListener("click", e => {
+    if (e.target === modalOverlay) closeModal();
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && modalOverlay.classList.contains("visible")) {
+      closeModal();
+    }
+  });
+
+  function previewSessionFile(item) {
+    const cat = item.category;
+    let el = null;
+    if (cat === "image") {
+      el = document.createElement("img");
+      el.src = item.url;
+      el.alt = item.file.name;
+      el.style.objectFit = "contain";
+    } else if (cat === "pdf") {
+      el = document.createElement("iframe");
+      el.src = item.url;
+    } else if (cat === "audio") {
+      el = document.createElement("audio");
+      el.controls = true;
+      el.src = item.url;
+    } else if (cat === "video") {
+      el = document.createElement("video");
+      el.controls = true;
+      el.src = item.url;
+    } else {
+      const msg = document.createElement("div");
+      msg.style.padding = "10px";
+      msg.style.fontSize = "0.85rem";
+      msg.textContent = "Pas de prévisualisation spéciale pour ce type. Utilise le bouton “Ouvrir/télécharger”.";
+      el = msg;
+    }
+
+    const info = [
+      "Nom : " + item.file.name,
+      "Type : " + (item.file.type || "inconnu"),
+      "Taille : " + formatBytes(item.file.size || 0),
+      "Modifié : " + formatDate(item.file.lastModified)
+    ].join(" · ");
+
+    openModalWithContent("Prévisualisation – " + item.file.name, info, el);
+  }
+
+  // Init
+  document.addEventListener("DOMContentLoaded", () => {
+    loadLibrary();
+    renderLibrary();
+    renderSessionList();
+  });
+</script>
+</body>
+</html>
