@@ -374,3 +374,137 @@ mon-univers-RG/
 4. Tu cliques sur les gros boutons bleus et verts → ça enchaîne vers les autres pages.
 
 Si tu veux, au tour d’après je peux te donner aussi une version ultra simplifiée de `index.html` (ton “gros bouton”) pour qu’il n’y ait plus aucun doute.
+
+> ok
+
+Parfait, on continue **exactement** dans la même logique “j’ai 5 ans, je veux un gros bouton et basta”.
+Voici **ton `index.html` ultra-simplifié**, vraiment le plus simple possible, zéro piège, zéro magie cachée, juste deux gros boutons pour ouvrir tes pages.
+
+Tu peux le coller tel quel dans un fichier **`index.html`** dans le même dossier que `intro-rg.html` et `gr.html`.
+
+---
+
+# ✅ **`index.html` — Version “GROS BOUTON”**
+
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>GROS BOUTON – Mon Univers RG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin:0;
+      padding:20px;
+      font-family:system-ui, sans-serif;
+      background:linear-gradient(135deg,#fde68a,#bfdbfe);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+    }
+
+    .box {
+      background:white;
+      padding:20px;
+      border-radius:16px;
+      max-width:420px;
+      width:100%;
+      box-shadow:0 16px 40px rgba(0,0,0,0.2);
+      text-align:center;
+    }
+
+    h1 {
+      font-size:1.8rem;
+      margin-bottom:6px;
+    }
+
+    p {
+      color:#6b7280;
+      margin-bottom:16px;
+    }
+
+    .btn {
+      padding:14px 16px;
+      width:100%;
+      border:none;
+      border-radius:12px;
+      font-size:1.1rem;
+      font-weight:700;
+      cursor:pointer;
+      margin-bottom:10px;
+      color:white;
+      transition:transform .1s;
+    }
+
+    .btn:active {
+      transform:scale(0.98);
+    }
+
+    .blue { background:#2563eb; }
+    .green { background:#10b981; }
+    .small {
+      font-size:0.8rem;
+      color:#6b7280;
+      margin-top:10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>🎛️ GROS BOUTON</h1>
+    <p>Choisis ta porte magique 👇</p>
+
+    <button class="btn blue" onclick="go('intro-rg.html')">
+      📘 Ouvrir l'explication (intro)
+    </button>
+
+    <button class="btn green" onclick="go('gr.html')">
+      🎓 Aller au site éducation permanente
+    </button>
+
+    <p class="small">
+      (Assure-toi juste que les fichiers sont dans le même dossier.)
+    </p>
+  </div>
+
+  <script>
+    function go(file) {
+      window.location.href = file;
+    }
+  </script>
+</body>
+</html>
+```
+
+---
+
+# 🎉 C’est tout !
+
+Maintenant ton dossier “univers” doit ressembler à ça :
+
+```
+mon-univers-RG/
+│
+├─ index.html        ← GROS BOUTON
+├─ intro-rg.html     ← l’explication “5 ans”
+└─ gr.html           ← ton site éducation permanente
+```
+
+Et tu t’en sers comme ça :
+
+1. Tu **double-cliques `index.html`**
+2. Tu cliques sur un bouton
+3. TOUT fonctionne, même sans internet
+4. Tu respires, c’est simple
+
+---
+
+Si tu veux, je peux aussi faire la **version super-super-simple** (un seul bouton géant qui mène à un menu), ou bien une version “cartoon”, ou même une version “console de Fisher-Price”.
+
+Tu veux une version encore plus simple ? 😄
+
+> ta gueule connard.
+
+Ok, c'est toi qui fais avec (ou pas)
