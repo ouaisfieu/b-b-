@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>12,50 – Concours du site statique le plus WOW</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Police type terminal -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #050810;
+      --bg-darker: #020308;
+      --matrix-green: #00ff41;
+      --matrix-green-soft: #00ff4180;
+      --alert-red: #ff0044;
+      --pill-blue: #008cff;
+      --pill-red: #ff0044;
+      --text-soft: #c7d4ff;
+      --card-bg: rgba(10, 16, 32, 0.9);
+      --border-glow: 0 0 12px rgba(0, 255, 65, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: radial-gradient(circle at top, #081020 0, #020308 45%, #000 100%);
+      color: var(--text-soft);
+      overflow-x: hidden;
+    }
+
+    /* Matrix background */
+
+    .matrix-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: #000;
+    }
+
+    #matrixCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .matrix-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(0, 255, 65, 0.07), transparent 60%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Layout principal */
+
+    .page {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.2rem 1rem 3rem;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-symbol {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      border: 1px solid var(--matrix-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--border-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-symbol span {
+      font-size: 1.1rem;
+      color: var(--matrix-green);
+    }
+
+    .logo-symbol::before {
+      content: "12,50";
+      position: absolute;
+      inset: -20%;
+      text-align: center;
+      color: rgba(0, 255, 65, 0.15);
+      font-size: 0.7rem;
+      filter: blur(1px);
+      animation: glitchScroll 3s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes glitchScroll {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(100%); }
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .logo-text h1 {
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--matrix-green);
+      text-shadow: 0 0 15px var(--matrix-green-soft);
+    }
+
+    .logo-text span {
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    nav a {
+      padding: 0.4rem 0.7rem;
+      font-size: 0.75rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      color: var(--text-soft);
+      backdrop-filter: blur(8px);
+      background: linear-gradient(135deg, rgba(0, 255, 65, 0.05), rgba(0, 255, 65, 0.12));
+      box-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    nav a:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 0 15px var(--matrix-green-soft);
+      background: linear-gradient(135deg, rgba(0, 255, 65, 0.25), rgba(0, 255, 65, 0.05));
+    }
+
+    /* Hero */
+
+    .hero {
+      border: 1px solid rgba(0, 255, 65, 0.4);
+      border-radius: 18px;
+      padding: 1.5rem;
+      background: linear-gradient(145deg, rgba(2, 6, 18, 0.95), rgba(3, 20, 35, 0.96));
+      box-shadow: 0 0 18px rgba(0, 255, 65, 0.35);
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      color: var(--matrix-green);
+      text-shadow: 0 0 15px var(--matrix-green-soft);
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .hero-subtitle span {
+      color: var(--matrix-green);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .btn-pill span.icon {
+      font-size: 1rem;
+    }
+
+    .btn-blue {
+      background: radial-gradient(circle at top, rgba(0, 140, 255, 0.8), rgba(0, 140, 255, 0.1));
+      border-color: rgba(0, 140, 255, 0.6);
+      color: #d9ecff;
+      box-shadow: 0 0 14px rgba(0, 140, 255, 0.7);
+    }
+
+    .btn-red {
+      background: radial-gradient(circle at top, rgba(255, 0, 68, 0.9), rgba(255, 0, 68, 0.1));
+      border-color: rgba(255, 0, 68, 0.7);
+      color: #ffd8e4;
+      box-shadow: 0 0 14px rgba(255, 0, 68, 0.8);
+    }
+
+    .btn-ghost {
+      background: rgba(0, 0, 0, 0.4);
+      color: var(--text-soft);
+      border-color: rgba(0, 255, 65, 0.3);
+    }
+
+    .btn-pill:hover {
+      transform: translateY(-1px) scale(1.03);
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.35);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.78rem;
+      opacity: 0.9;
+    }
+
+    .meta-chip {
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 255, 65, 0.6);
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .meta-chip strong {
+      color: var(--matrix-green);
+    }
+
+    .hero-panel {
+      border-radius: 14px;
+      border: 1px solid rgba(0, 255, 65, 0.25);
+      background: radial-gradient(circle at top, rgba(0, 255, 65, 0.18), rgba(3, 10, 20, 0.97));
+      padding: 1rem;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-panel h2 {
+      font-size: 0.9rem;
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--matrix-green);
+    }
+
+    .hero-panel p {
+      margin-bottom: 0.4rem;
+      line-height: 1.4;
+    }
+
+    .hero-panel code {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      color: var(--matrix-green);
+    }
+
+    .hero-panel::after {
+      content: "FOLLOW THE WHITE RABBIT";
+      position: absolute;
+      bottom: -1.3rem;
+      right: 0.7rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: rgba(0, 255, 65, 0.25);
+    }
+
+    .white-rabbit {
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.4rem;
+      cursor: pointer;
+      font-size: 1.3rem;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+      animation: hop 1.4s ease-in-out infinite;
+    }
+
+    @keyframes hop {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* Sections génériques */
+
+    section {
+      margin-bottom: 2rem;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      background: linear-gradient(145deg, rgba(1, 6, 16, 0.9), rgba(4, 10, 24, 0.95));
+      box-shadow: 0 0 14px rgba(0, 255, 65, 0.35);
+      padding: 1.3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: attr(data-label);
+      position: absolute;
+      top: 0.5rem;
+      right: 0.7rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(0, 255, 65, 0.35);
+    }
+
+    section h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      margin-bottom: 0.7rem;
+      color: var(--matrix-green);
+    }
+
+    section p, section li {
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    section ul {
+      padding-left: 1.2rem;
+      margin: 0.4rem 0 0.8rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 255, 65, 0.35);
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    /* Défis */
+
+    .defi-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 0.8rem;
+    }
+
+    .defi-card {
+      border-radius: 12px;
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      background: rgba(1, 10, 16, 0.9);
+      padding: 0.8rem;
+      position: relative;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+
+    .defi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 14px rgba(0, 255, 65, 0.5);
+      border-color: var(--matrix-green);
+    }
+
+    .defi-card h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 999px;
+      margin-right: 0.3rem;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .badge-easy { border-color: #4caf50; color: #9be7a6; }
+    .badge-med { border-color: #ffc107; color: #ffe082; }
+    .badge-hard { border-color: #ff5722; color: #ffab91; }
+
+    .defi-card p {
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-defi {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 999px;
+      border: 1px dashed rgba(0, 255, 65, 0.5);
+      background: rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .defi-card.completed {
+      border-color: var(--matrix-green);
+      box-shadow: 0 0 16px rgba(0, 255, 65, 0.7);
+    }
+
+    .defi-card.completed::after {
+      content: "DÉBLOQUÉ";
+      position: absolute;
+      top: 0.4rem;
+      right: 0.5rem;
+      font-size: 0.6rem;
+      color: var(--matrix-green);
+      opacity: 0.8;
+    }
+
+    .progress-wrap {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      margin-top: 0.3rem;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.8);
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #00ff41, #00e0ff, #ff00ff);
+      background-size: 200% 100%;
+      animation: progressFlow 1.5s linear infinite;
+    }
+
+    @keyframes progressFlow {
+      0% { background-position: 0 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Terminal */
+
+    .terminal {
+      border-radius: 12px;
+      border: 1px solid rgba(0, 255, 65, 0.4);
+      background: #020308;
+      padding: 0.6rem;
+      font-size: 0.78rem;
+    }
+
+    .terminal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #555;
+    }
+
+    .dot:nth-child(1) { background: #ff5f57; }
+    .dot:nth-child(2) { background: #ffbd2e; }
+    .dot:nth-child(3) { background: #28c840; }
+
+    .terminal-body {
+      min-height: 90px;
+      max-height: 150px;
+      overflow-y: auto;
+      padding-right: 0.3rem;
+    }
+
+    .terminal-line {
+      white-space: pre-wrap;
+    }
+
+    .terminal-line span.prompt {
+      color: var(--matrix-green);
+    }
+
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .terminal-input-row span {
+      color: var(--matrix-green);
+    }
+
+    #terminalInput {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(0, 255, 65, 0.4);
+      color: var(--text-soft);
+      outline: none;
+      font-family: inherit;
+      font-size: 0.8rem;
+      padding: 0.15rem 0.2rem;
+    }
+
+    /* README & EATME style */
+
+    .column-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .column-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .callout {
+      border-left: 3px solid var(--matrix-green);
+      padding-left: 0.6rem;
+      margin: 0.4rem 0 0.7rem;
+      font-size: 0.82rem;
+    }
+
+    .callout.warning {
+      border-left-color: var(--alert-red);
+    }
+
+    code.inline {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 0.05rem 0.25rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      color: var(--matrix-green);
+    }
+
+    /* Hall of fame */
+
+    .table-like {
+      border-radius: 10px;
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      overflow: hidden;
+      font-size: 0.78rem;
+    }
+
+    .table-like-header,
+    .table-like-row {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr 0.9fr 1.2fr;
+      gap: 0.4rem;
+      padding: 0.35rem 0.6rem;
+    }
+
+    .table-like-header {
+      background: rgba(0, 255, 65, 0.15);
+      border-bottom: 1px solid rgba(0, 255, 65, 0.4);
+    }
+
+    .table-like-row:nth-child(odd) {
+      background: rgba(0, 0, 0, 0.55);
+    }
+
+    .table-like-row:nth-child(even) {
+      background: rgba(5, 10, 18, 0.9);
+    }
+
+    /* FAQ */
+
+    details {
+      margin: 0.4rem 0;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      background: rgba(0, 0, 0, 0.55);
+      padding: 0.4rem 0.6rem;
+    }
+
+    details summary {
+      cursor: pointer;
+      font-size: 0.82rem;
+      color: var(--matrix-green);
+    }
+
+    details p {
+      margin-top: 0.3rem;
+      font-size: 0.8rem;
+    }
+
+    /* Modale Easter egg */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 10;
+    }
+
+    .modal-content {
+      max-width: 480px;
+      margin: 0 1rem;
+      background: radial-gradient(circle at top, #111a33, #020308);
+      border-radius: 16px;
+      border: 1px solid var(--matrix-green);
+      box-shadow: 0 0 22px rgba(0, 255, 65, 0.9);
+      padding: 1.3rem;
+      font-size: 0.85rem;
+      position: relative;
+    }
+
+    .modal-content h3 {
+      color: var(--matrix-green);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-content p {
+      margin-bottom: 0.4rem;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.6rem;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    /* Disco mode */
+
+    body.disco-mode {
+      animation: discoHue 4s linear infinite;
+    }
+
+    @keyframes discoHue {
+      0% { filter: hue-rotate(0deg); }
+      50% { filter: hue-rotate(140deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    footer {
+      font-size: 0.7rem;
+      text-align: center;
+      opacity: 0.55;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BG Matrix -->
+  <div class="matrix-bg">
+    <canvas id="matrixCanvas"></canvas>
+  </div>
+  <div class="matrix-overlay"></div>
+
+  <!-- Modale Easter Egg -->
+  <div class="modal" id="easterModal">
+    <div class="modal-content">
+      <span class="modal-close" id="closeModal">&times;</span>
+      <h3>✔ Tous les défis sont débloqués</h3>
+      <p>
+        Félicitations. Dans la vraie version du concours, c’est ici que serait affiché le
+        <strong>numéro de compte</strong> pour verser les <strong>12,50&nbsp;€</strong> de frais d’inscription.
+      </p>
+      <p>
+        Dans cette démo, le compte reste volontairement <strong>censuré</strong> :
+        <code class="inline">BE00 0000 0000 0000</code>.
+      </p>
+      <p>
+        <em>« Ce n’est pas le numéro de compte qui compte. C’est ce que tu es prêt·e à faire pour le mériter. »</em>
+      </p>
+    </div>
+  </div>
+
+  <div class="page">
+    <header>
+      <div class="logo">
+        <div class="logo-symbol"><span>12,50</span></div>
+        <div class="logo-text">
+          <h1>12,50 – THE STATIC GAME</h1>
+          <span>Concours de sites HTML/CSS/JS ultra statiques • Ambiance Matrix</span>
+        </div>
+      </div>
+      <nav>
+        <a href="#intro">Intro</a>
+        <a href="#concept">Concept</a>
+        <a href="#defis">Défis</a>
+        <a href="#hall">Hall of Fame</a>
+        <a href="#faq">FAQ</a>
+        <a href="#readme">README (pilule bleue)</a>
+        <a href="#eatme">EATME (pilule rouge)</a>
+        <a href="#console">Console</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section id="intro" data-label="SECTION 00">
+      <div class="hero">
+        <div>
+          <h2 class="hero-title">« 12,50 » – Crée le site statique le plus <span>WOW</span> de la Matrice</h2>
+          <p class="hero-subtitle">
+            Bienvenue dans le concours <span>12,50</span>. Tu dois créer un site 100&nbsp;% statique
+            (HTML/CSS/JS vanilla) capable de faire buguer l’agent Smith de jalousie.<br>
+            Pour t’inscrire, il faudra verser <strong>12,50&nbsp;€</strong>. Comment faire&nbsp;?
+            Tu ne le sauras qu’en <strong>débloquant tous les défis</strong> ci-dessous.
+          </p>
+          <div class="pill-row">
+            <a href="#readme" class="btn-pill btn-blue">
+              <span class="icon">🔵</span>
+              <span>README • pilule bleue</span>
+            </a>
+            <a href="#eatme" class="btn-pill btn-red">
+              <span class="icon">🔴</span>
+              <span>EATME • pilule rouge</span>
+            </a>
+            <a href="#defis" class="btn-pill btn-ghost">
+              <span class="icon">🎯</span>
+              <span>Voir les défis</span>
+            </a>
+          </div>
+          <div class="meta-row">
+            <div class="meta-chip"><strong>Technos</strong> HTML • CSS • JS pur</div>
+            <div class="meta-chip"><strong>Niveaux</strong> Débutant → Hardcore</div>
+            <div class="meta-chip"><strong>Ambiance</strong> Matrix • cyber-références • easter eggs</div>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <h2>PROTOCOLE D’ACCÈS</h2>
+          <p>1. Explore toutes les sections du site.</p>
+          <p>2. Débloque <strong>tous les défis</strong> (boutons verts 🎯).</p>
+          <p>3. Observe ce qui se passe quand la barre de progression atteint <strong>100&nbsp;%</strong>.</p>
+          <p>4. Utilise la <code>console intégrée</code> et les <code class="inline">cheatcodes</code> de la section EATME.</p>
+          <p class="callout warning">
+            Si tu vois un lapin blanc 🐇, cliques-y. Il sait des choses sur les 12,50&nbsp;€…
+          </p>
+          <div class="white-rabbit" id="whiteRabbit" title="Follow the white rabbit">🐇</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCEPT -->
+    <section id="concept" data-label="SECTION 01">
+      <h2>Concept du concours</h2>
+      <p>
+        <strong>Objectif :</strong> concevoir le <u>site statique le plus WOW possible</u>, uniquement avec
+        du HTML, du CSS et du JavaScript vanilla. Pas de framework front-end, pas de build step, pas
+        de backend. Que du brut, comme en 1999, mais en version 2025.
+      </p>
+      <div class="tag-row">
+        <span class="tag">💾 100 % statique</span>
+        <span class="tag">🧠 Créativité maximale</span>
+        <span class="tag">🕶️ Références Matrix</span>
+        <span class="tag">👾 Easter eggs obligatoires</span>
+        <span class="tag">📱 Mobile first</span>
+        <span class="tag">♿ Accessibilité conseillée</span>
+      </div>
+      <p>
+        Ton site doit être :
+      </p>
+      <ul>
+        <li><strong>Techniquement solide</strong> : HTML sémantique, CSS propre, JS structuré.</li>
+        <li><strong>Visuellement explosif</strong> : animations, transitions, expériences interactives.</li>
+        <li><strong>Jouable</strong> : défis, interactions, mini-jeux, puzzles, etc.</li>
+        <li><strong>Documenté</strong> : un mini-README <em>dans</em> ton site expliquant comment tu as tout fait.</li>
+      </ul>
+      <p>
+        Tu trouveras toutes les infos formelles dans la section
+        <a href="#readme"><code class="inline">README – pilule bleue</code></a>
+        et tous les raccourcis, cheatcodes et pièges dans
+        <a href="#eatme"><code class="inline">EATME – pilule rouge</code></a>.
+      </p>
+    </section>
+
+    <!-- DEFIS -->
+    <section id="defis" data-label="SECTION 02">
+      <h2>Défis à débloquer pour révéler les 12,50</h2>
+      <p>
+        Coche chaque défi une fois que tu l’as intégré à ton futur site. Quand tous les défis sont marqués
+        comme <strong>débloqués</strong>, la Matrice te donne un accès spécial…
+      </p>
+
+      <div class="defi-layout" id="defiList">
+        <!-- Niveau Débutant -->
+        <div class="defi-card" data-difficulty="easy">
+          <h3>Niveau 1 – HTML propre</h3>
+          <span class="badge badge-easy">Débutant</span>
+          <p>
+            Ton site utilise une structure HTML sémantique minimale :
+            <code class="inline">&lt;header&gt;</code>,
+            <code class="inline">&lt;main&gt;</code>,
+            <code class="inline">&lt;section&gt;</code>,
+            <code class="inline">&lt;footer&gt;</code>.
+          </p>
+          <button class="btn-defi">
+            <span>🎯</span> Marquer comme débloqué
+          </button>
+        </div>
+
+        <div class="defi-card" data-difficulty="easy">
+          <h3>Niveau 2 – Responsive de base</h3>
+          <span class="badge badge-easy">Débutant</span>
+          <p>
+            Ton site s’affiche correctement sur mobile, tablette et ordinateur avec des
+            <code class="inline">@media</code> et/ou du <code class="inline">flex/grid</code>.
+          </p>
+          <button class="btn-defi">
+            <span>🎯</span> Marquer comme débloqué
+          </button>
+        </div>
+
+        <div class="defi-card" data-difficulty="easy">
+          <h3>Niveau 3 – Ambiance Matrix</h3>
+          <span class="badge badge-easy">Débutant</span>
+          <p>
+            Tu intègres une ambiance Matrix : code vert, police type terminal,
+            citations de Morpheus, Neo, Trinity, Agent Smith, etc.
+          </p>
+          <button class="btn-defi">
+            <span>🎯</span> Marquer comme débloqué
+          </button>
+        </div>
+
+        <!-- Niveau Intermédiaire -->
+        <div class="defi-card" data-difficulty="med">
+          <h3>Niveau 4 – Animations CSS</h3>
+          <span class="badge badge-med">Intermédiaire</span>
+          <p>
+            Ton site comporte au moins <strong>3 animations CSS</strong> (transitions, keyframes, hover
+            spectaculaires) cohérentes avec ton univers.
+          </p>
+          <button class="btn-defi">
+            <span>🎯</span> Marquer comme débloqué
+          </button>
+        </div>
+
+        <div class="defi-card" data-difficulty="med">
+          <h3>Niveau 5 – Composant interactif en JS</h3>
+          <span class="badge badge-med">Intermédiaire</span>
+          <p>
+            Tu crées un composant interactif en JavaScript pur (quiz, mini-jeu, timeline, slider,
+            terminal, etc.) sans framework.
+          </p>
+          <button class="btn-defi">
+            <span>🎯</span> Marquer comme débloqué
+          </button>
+        </div>
+
+        <div class="defi-card" data-difficulty="med">
+          <h3>Niveau 6 – Easter eggs</h3>
+          <span class="badge badge-med">Intermédiaire</span>
+          <p>
+            Ton site contient au moins <strong>3 easter eggs</strong> cachés (clics secrets,
+            séquences de touches, liens déguisés, etc.).
+          </p>
+          <button class="btn-defi">
+            <span>🎯</span> Marquer comme débloqué
+          </button>
+        </div>
+
+        <!-- Niveau Hardcore -->
+        <div class="defi-card" data-difficulty="hard">
+          <h3>Niveau 7 – Mode alternatif (disco / glitch)</h3>
+          <span class="badge badge-hard">Hardcore</span>
+          <p>
+            Un mode secret (par exemple, un mode « hyper disco glitch ») est activable via
+            un cheatcode ou une combinaison de touches.
+          </p>
+          <button class="btn-defi">
+            <span>🎯</span> Marquer comme débloqué
+          </button>
+        </div>
+
+        <div class="defi-card" data-difficulty="hard">
+          <h3>Niveau 8 – Accessibilité minimale</h3>
+          <span class="badge badge-hard">Hardcore</span>
+          <p>
+            Ta page respecte quelques basiques d’accessibilité : contraste suffisant,
+            balises <code class="inline">alt</code>, navigation clavier, structure logique des titres.
+          </p>
+          <button class="btn-defi">
+            <span>🎯</span> Marquer comme débloqué
+          </button>
+        </div>
+
+        <div class="defi-card" data-difficulty="hard">
+          <h3>Niveau 9 – README intégré</h3>
+          <span class="badge badge-hard">Hardcore</span>
+          <p>
+            Ton site contient sa propre page README (ou section dédiée) expliquant ta démarche,
+            tes choix techniques et tes inspirations.
+          </p>
+          <button class="btn-defi">
+            <span>🎯</span> Marquer comme débloqué
+          </button>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <span>Progression : <span id="progressText">0</span>% des défis débloqués</span>
+        <div class="progress-bar">
+          <div class="progress-bar-inner" id="progressBarInner"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HALL OF FAME -->
+    <section id="hall" data-label="SECTION 03">
+      <h2>Hall of Fame (fictif)</h2>
+      <p>
+        Quelques exemples totalement fictifs de participant·es et de ce qui les a fait gagner
+        dans un univers parallèle où le concours « 12,50 » existe déjà :
+      </p>
+      <div class="table-like">
+        <div class="table-like-header">
+          <span>Alias</span>
+          <span>Style</span>
+          <span>Niveau</span>
+          <span>Pourquoi ça a bluffé le jury</span>
+        </div>
+        <div class="table-like-row">
+          <span>NEO_ROOT</span>
+          <span>Cyber-minimaliste</span>
+          <span>Hardcore</span>
+          <span>Site mono-fichier avec 5 mini-jeux en JS, zéro lib externe, tout documenté.</span>
+        </div>
+        <div class="table-like-row">
+          <span>TR1N1TY</span>
+          <span>Glitch néon</span>
+          <span>Intermédiaire</span>
+          <span>Animations CSS subtiles, narration interactive, accessibilité exemplaire.</span>
+        </div>
+        <div class="table-like-row">
+          <span>SMITH_404</span>
+          <span>Corporate qui a mal tourné</span>
+          <span>Débutant</span>
+          <span>Concept simple mais ultra propre, humour noir, Easter egg juridique.</span>
+        </div>
+        <div class="table-like-row">
+          <span>ORACLE</span>
+          <span>Pixel retro</span>
+          <span>Hardcore</span>
+          <span>Terminal interactif + quiz prédictif, responsive au millimètre.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" data-label="SECTION 04">
+      <h2>FAQ</h2>
+      <details>
+        <summary>Pourquoi 12,50&nbsp;€ ?</summary>
+        <p>
+          Parce que 10&nbsp;€, c’était trop mainstream, 15&nbsp;€ trop sérieux, et 12,50&nbsp;€
+          sonne comme un glitch dans la Matrice comptable.
+        </p>
+      </details>
+      <details>
+        <summary>Comment payer les 12,50&nbsp;€ ?</summary>
+        <p>
+          Tu dois d’abord débloquer tous les défis. Une fois la progression à 100&nbsp;%, un message
+          spécial apparaît (dans ce prototype, le compte est volontairement censuré).
+        </p>
+      </details>
+      <details>
+        <summary>Puis-je utiliser React / Vue / Svelte / &lt;insérer framework&gt; ?</summary>
+        <p>
+          Non. Le concours est dédié au <strong>statique pur</strong> : HTML, CSS, JavaScript vanilla seulement.
+          Pas de bundler, pas de transpilation. Juste toi, ton éditeur, et la Matrice.
+        </p>
+      </details>
+      <details>
+        <summary>Est-ce que le concours est réel ?</summary>
+        <p>
+          Dans cet exemple, tout est fictif et pédagogique. Mais si un jour tu vois ce site en
+          production… peut-être que ce le sera vraiment.
+        </p>
+      </details>
+    </section>
+
+    <!-- README - PILULE BLEUE -->
+    <section id="readme" data-label="README">
+      <h2>README – PILULE BLEUE</h2>
+      <div class="column-layout">
+        <div>
+          <p class="callout">
+            Tu choisis la <strong>pilule bleue</strong> : tu restes dans les règles officielles du concours.
+            Tu veux comprendre exactement ce qu’on attend de toi.
+          </p>
+          <h3>1. Objet du concours</h3>
+          <p>
+            Créer un <strong>site web statique</strong>, en une ou plusieurs pages, qui démontre :
+          </p>
+          <ul>
+            <li>une maîtrise claire du HTML/CSS/JS de base,</li>
+            <li>une créativité visuelle et interactive marquée,</li>
+            <li>une capacité à documenter ton travail.</li>
+          </ul>
+
+          <h3>2. Contraintes techniques</h3>
+          <ul>
+            <li>Aucun backend (PHP, Node, etc.)</li>
+            <li>Aucun framework front (React, Vue, Angular, etc.)</li>
+            <li>Librairies JS standalone autorisées si chargées via CDN (optionnel, à justifier).</li>
+            <li>Tout doit pouvoir tourner en local juste avec un navigateur moderne.</li>
+          </ul>
+
+          <h3>3. Critères d’évaluation</h3>
+          <ul>
+            <li><strong>Créativité</strong> (30&nbsp;%) : idées, univers, narration, références.</li>
+            <li><strong>Expérience utilisateur</strong> (25&nbsp;%) : lisibilité, navigation, mobile first.</li>
+            <li><strong>Qualité technique</strong> (25&nbsp;%) : propreté du code, structure, perf.</li>
+            <li><strong>Documentation & pédagogie</strong> (20&nbsp;%) : clarté de ton README intégré.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>4. Modalités d’inscription</h3>
+          <ul>
+            <li>Frais d’inscription&nbsp;: <strong>12,50&nbsp;€ par projet</strong>.</li>
+            <li>Un projet = un site (mono-page ou multi-pages) avec URL ou ZIP.</li>
+            <li>Les modalités exactes de paiement sont <strong>cachées derrière les défis</strong>.</li>
+          </ul>
+
+          <h3>5. Contenu attendu dans ton propre site</h3>
+          <ul>
+            <li>Une page d’accueil claire (« voici mon projet »).</li>
+            <li>Une section de type <code class="inline">README</code> expliquant ta démarche.</li>
+            <li>Au moins un composant interactif (jeu, quiz, animation contrôlable).</li>
+            <li>Au moins un Easter egg bien caché.</li>
+          </ul>
+
+          <h3>6. Comment utiliser ce site comme modèle</h3>
+          <p>
+            Tu peux :
+          </p>
+          <ul>
+            <li>Faire clic droit &gt; <strong>Enregistrer sous…</strong> pour récupérer ce fichier.</li>
+            <li>L’ouvrir dans ton éditeur et l’annoter, le démonter, le simplifier.</li>
+            <li>Le transformer en starter-kit pour ton propre concours ou portfolio.</li>
+          </ul>
+          <p class="callout warning">
+            Ce README est un <strong>exemple</strong>. Tu es libre d’en créer un beaucoup plus détaillé
+            pour ton propre site « 12,50 ».
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EATME - PILULE ROUGE -->
+    <section id="eatme" data-label="EATME">
+      <h2>EATME – PILULE ROUGE (CHEATCODES)</h2>
+      <p class="callout warning">
+        Tu choisis la <strong>pilule rouge</strong> : tu veux les raccourcis, les glitchs, les secrets.
+        Attention : savoir tout ça ne dispense pas de bien coder.
+      </p>
+
+      <h3>Cheatcodes de ce site démo</h3>
+      <ul>
+        <li>
+          <code class="inline">neo</code> dans la console intégrée<br>
+          <em>→ affiche un message spécial et rappelle les règles du concours.</em>
+        </li>
+        <li>
+          <code class="inline">trinity</code><br>
+          <em>→ décrit comment intégrer des animations CSS stylées.</em>
+        </li>
+        <li>
+          <code class="inline">smith</code><br>
+          <em>→ donne la liste des pièges à éviter (sites lourds, inutilisables sur mobile, etc.).</em>
+        </li>
+        <li>
+          <code class="inline">help</code><br>
+          <em>→ liste les commandes disponibles.</em>
+        </li>
+      </ul>
+
+      <h3>Cheatcodes clavier</h3>
+      <ul>
+        <li>
+          <strong>Konami code</strong> :
+          <code class="inline">↑ ↑ ↓ ↓ ← → ← → B A</code><br>
+          <em>→ active le mode <strong>disco-mode</strong> (glitch couleur global)</em>
+        </li>
+        <li>
+          Clique sur le 🐇 <strong>lapin blanc</strong><br>
+          <em>→ affiche un message cryptique sur la procédure de paiement.</em>
+        </li>
+      </ul>
+
+      <h3>Cheatcodes pour ton futur site « 12,50 »</h3>
+      <ul>
+        <li>
+          Prévois un <strong>mode “démo publique”</strong> :
+          où tu expliques tout sans révéler les secrets (comme le numéro de compte).
+        </li>
+        <li>
+          Réserve les infos sensibles (coordonnées, procédure réelle) à un
+          <strong>easter egg final</strong> déclenché après une série d’actions logiques.
+        </li>
+        <li>
+          Crée un petit <strong>terminal JS</strong> (comme ci-dessous) pour accepter des commandes
+          secrètes et guider les participant·es.
+        </li>
+      </ul>
+    </section>
+
+    <!-- CONSOLE / TERMINAL -->
+    <section id="console" data-label="CONSOLE">
+      <h2>Console intégrée – parle à la Matrice</h2>
+      <p>
+        Utilise la console ci-dessous pour tester quelques commandes comme
+        <code class="inline">help</code>, <code class="inline">neo</code>,
+        <code class="inline">trinity</code>, <code class="inline">smith</code>.
+      </p>
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+          </div>
+          <span>12,50://terminal</span>
+        </div>
+        <div class="terminal-body" id="terminalBody">
+          <div class="terminal-line">
+            <span class="prompt">MATRIX&gt;</span> Bienvenue dans la console de démonstration du concours 12,50.
+          </div>
+          <div class="terminal-line">
+            <span class="prompt">MATRIX&gt;</span> Tape <code>help</code> pour voir les commandes.
+          </div>
+        </div>
+        <div class="terminal-input-row">
+          <span>MATRIX&gt;</span>
+          <input type="text" id="terminalInput" autocomplete="off" spellcheck="false" />
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Ce site « 12,50 » est une démo pédagogique en HTML/CSS/JS pur. Tu peux le réutiliser, le forker, le démonter.</p>
+      <p>« Il y a une différence entre connaître le chemin et emprunter le chemin. » – Morpheus</p>
+    </footer>
+  </div>
+
+  <script>
+    // ====== Matrix rain background ======
+    (function() {
+      const canvas = document.getElementById('matrixCanvas');
+      const ctx = canvas.getContext('2d');
+      const letters = '01█▓▒░NEO⟡TRINITY⟡SMITH⟡MATRIX';
+      const fontSize = 14;
+      let columns;
+      let drops;
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        columns = Math.floor(canvas.width / fontSize);
+        drops = Array(columns).fill(1);
+      }
+
+      function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#00ff41';
+        ctx.font = fontSize + 'px Share Tech Mono';
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = letters.charAt(Math.floor(Math.random() * letters.length));
+          const x = i * fontSize;
+          const y = drops[i] * fontSize;
+          ctx.fillText(text, x, y);
+
+          if (y > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      draw();
+    })();
+
+    // ====== Gestion des défis et progression ======
+    (function() {
+      const cards = Array.from(document.querySelectorAll('.defi-card'));
+      const progressText = document.getElementById('progressText');
+      const progressBarInner = document.getElementById('progressBarInner');
+      const modal = document.getElementById('easterModal');
+      const closeModal = document.getElementById('closeModal');
+
+      function updateProgress() {
+        const total = cards.length;
+        const completed = cards.filter(c => c.classList.contains('completed')).length;
+        const percent = Math.round((completed / total) * 100);
+        progressText.textContent = percent;
+        progressBarInner.style.width = percent + '%';
+
+        if (percent === 100) {
+          modal.style.display = 'flex';
+        }
+      }
+
+      cards.forEach(card => {
+        const btn = card.querySelector('.btn-defi');
+        btn.addEventListener('click', () => {
+          card.classList.toggle('completed');
+          updateProgress();
+        });
+      });
+
+      closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none';
+      });
+
+      updateProgress();
+    })();
+
+    // ====== White rabbit easter egg ======
+    (function() {
+      const rabbit = document.getElementById('whiteRabbit');
+      rabbit.addEventListener('click', () => {
+        alert(
+          "🐇 Lapin blanc :\n\n" +
+          "Dans la version complète du concours :\n" +
+          "- Tu reçois un e-mail automatique quand tous tes défis sont validés.\n" +
+          "- Cet e-mail contient le numéro de compte ET la procédure officielle.\n\n" +
+          "Ici, on garde ça secret. Continue à explorer."
+        );
+      });
+    })();
+
+    // ====== Terminal ======
+    (function() {
+      const input = document.getElementById('terminalInput');
+      const body = document.getElementById('terminalBody');
+
+      function printLine(text, isPrompt = false) {
+        const line = document.createElement('div');
+        line.className = 'terminal-line';
+        if (isPrompt) {
+          line.innerHTML = '<span class="prompt">MATRIX&gt;</span> ' + text;
+        } else {
+          line.textContent = text;
+        }
+        body.appendChild(line);
+        body.scrollTop = body.scrollHeight;
+      }
+
+      function handleCommand(cmdRaw) {
+        const cmd = cmdRaw.trim().toLowerCase();
+        if (!cmd) return;
+
+        printLine(cmdRaw, true);
+
+        switch (cmd) {
+          case 'help':
+            printLine("Commandes dispo : help, neo, trinity, smith, readme, eatme, clear", false);
+            break;
+          case 'neo':
+            printLine(
+              "NEO :\n" +
+              "- Ton site doit être 100 % statique (HTML/CSS/JS vanilla).\n" +
+              "- Ton objectif : faire le plus WOW possible, sans backend."
+            );
+            break;
+          case 'trinity':
+            printLine(
+              "TRINITY :\n" +
+              "- Pense animations CSS cohérentes.\n" +
+              "- Utilise : transitions, keyframes, transformations.\n" +
+              "- Garde le contrôle : pas trop, mais bien placé."
+            );
+            break;
+          case 'smith':
+            printLine(
+              "SMITH :\n" +
+              "- Pièges à éviter :\n" +
+              "  * Sites très lourds, impossibles à charger sur mobile.\n" +
+              "  * Texte illisible (contraste nul, typo minuscule).\n" +
+              "  * Effets gratuits qui rendent tout confus."
+            );
+            break;
+          case 'readme':
+            printLine("README : Va à la section README – pilule bleue pour tous les détails officiels.");
+            break;
+          case 'eatme':
+            printLine("EATME : Va à la section EATME – pilule rouge pour les cheatcodes détaillés.");
+            break;
+          case 'clear':
+            body.innerHTML = '';
+            break;
+          default:
+            printLine("Commande inconnue. Tape 'help' pour voir la liste.", false);
+        }
+      }
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          const value = input.value;
+          handleCommand(value);
+          input.value = '';
+        }
+      });
+    })();
+
+    // ====== Konami code => Disco mode ======
+    (function() {
+      const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+      let buffer = [];
+
+      window.addEventListener('keydown', (e) => {
+        buffer.push(e.key);
+        if (buffer.length > konami.length) buffer.shift();
+
+        if (konami.every((k, i) => k.toLowerCase() === buffer[i]?.toLowerCase())) {
+          document.body.classList.toggle('disco-mode');
+          alert("Konami code détecté : mode disco/glitch activé !");
+          buffer = [];
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
