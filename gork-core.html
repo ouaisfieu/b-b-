@@ -1,0 +1,883 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Guide simple – Comprendre et utiliser mes pages</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.5);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.9);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.26), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.2), transparent 55%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.25) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.3), transparent 60%),
+        rgba(3, 7, 18, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #f97316, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #22c55e;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 24px rgba(56, 189, 248, 0.9);
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo span {
+      position: relative;
+      letter-spacing: 0.08em;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .title-main {
+      font-size: 1.05rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .title-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--muted);
+      max-width: 260px;
+    }
+
+    .tagline {
+      font-family: var(--font-mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+      margin-bottom: 2px;
+    }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 880px) {
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+    }
+
+    /* Main guide */
+    .guide {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 12px 11px 12px;
+    }
+
+    h1 {
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .intro-text {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .highlight {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 0.76rem;
+      font-family: var(--font-mono);
+      color: #bfdbfe;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .step-card {
+      border-radius: 14px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 9px 9px;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.9);
+    }
+
+    .step-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .step-title h2 {
+      font-size: 0.95rem;
+    }
+
+    .step-num {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .step-body {
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .step-body p {
+      margin-bottom: 4px;
+    }
+
+    .bullet-list {
+      margin-left: 18px;
+      margin-bottom: 4px;
+    }
+
+    .bullet-list li {
+      margin-bottom: 3px;
+    }
+
+    .tip {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: #a5b4fc;
+    }
+
+    .bubble {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      font-size: 0.78rem;
+      margin-right: 4px;
+    }
+
+    .small-checklist {
+      margin-top: 4px;
+      list-style: none;
+    }
+
+    .small-check-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      margin-bottom: 3px;
+    }
+
+    .small-check-item input {
+      width: 15px;
+      height: 15px;
+    }
+
+    .note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Right panel */
+    .side {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .side h2 {
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+    }
+
+    .side-text {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .feel-card {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 7px 7px;
+      font-size: 0.82rem;
+    }
+
+    .feel-options {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .feel-option {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+
+    .feel-option input {
+      width: 15px;
+      height: 15px;
+    }
+
+    .feel-result {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: #a5b4fc;
+    }
+
+    .launcher {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 7px 7px;
+      font-size: 0.82rem;
+    }
+
+    .launcher-grid {
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 5px;
+    }
+
+    .launch-btn {
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      color: var(--text);
+      font-size: 0.8rem;
+      padding: 6px 7px;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s, background 0.16s;
+    }
+
+    .launch-btn span.label {
+      font-weight: 500;
+      font-size: 0.84rem;
+    }
+
+    .launch-btn span.meta {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .launch-btn:hover {
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.95);
+      transform: translateY(-1px);
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .simple-list {
+      margin-top: 4px;
+      list-style: none;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .simple-list li {
+      margin-bottom: 2px;
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.76rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(3, 7, 18, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .header-right { text-align: left; max-width: none; }
+      footer { flex-direction: column; }
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal {
+      width: min(960px, 96vw);
+      height: min(560px, 92vh);
+      background: #020617;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(55, 65, 81, 0.98);
+      font-size: 0.85rem;
+    }
+
+    .modal-header h3 {
+      font-size: 0.9rem;
+    }
+
+    .modal-header button {
+      border-radius: 999px;
+      border: 1px solid rgba(248, 113, 113, 0.9);
+      background: rgba(127, 29, 29, 0.95);
+      color: #fee2e2;
+      font-size: 0.76rem;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+    }
+
+    .modal-main {
+      flex: 1;
+      margin: 6px;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      overflow: hidden;
+      background: #020617;
+    }
+
+    .modal-main iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+      background: #020617;
+    }
+
+    .modal-footer {
+      padding: 0 10px 8px;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo"><span>GP</span></div>
+    <div class="header-titles">
+      <div class="title-main">Guide simple</div>
+      <div class="title-sub">Comprendre et utiliser mon “espace perso” sur l’ordinateur, pas à pas.</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="tagline">“On fait simple. Une étape après l’autre.”</div>
+    <div>
+      Ce guide est fait pour des personnes qui ne se sentent pas à l’aise avec l’informatique.  
+      Rien à installer, juste quelques pages à ouvrir.
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- GUIDE TEXTE SIMPLE -->
+  <section class="guide">
+    <p class="intro-text">
+      Tu as dans un même dossier plusieurs pages : une étagère numérique (<span class="highlight">BROL</span>),
+      un carnet de bord (<span class="highlight">Intranet</span>), un site de détective, une carte générale, un centre de contrôle…
+      <br /><br />
+      Ce guide explique, en mots simples, à quoi sert chaque page et comment les utiliser ensemble,
+      sans jargon technique.
+    </p>
+
+    <div class="steps-list">
+      <!-- Étape 1 -->
+      <article class="step-card">
+        <div class="step-title">
+          <h2>1. Retrouver le dossier sur l’ordinateur</h2>
+          <span class="step-num">Étape 1 / 6</span>
+        </div>
+        <div class="step-body">
+          <p>
+            Tout ce système est simplement un **dossier** sur ton ordinateur (ou une clé USB) avec plusieurs fichiers dedans.
+          </p>
+          <ul class="bullet-list">
+            <li>1. Ouvre ton gestionnaire de fichiers (Explorateur sur Windows, Finder sur Mac…).</li>
+            <li>2. Va dans l’endroit où tu as mis le dossier (par exemple : <em>BROL-ECOSYSTEM</em>).</li>
+            <li>3. Tu dois voir dedans des fichiers comme <code>index.html</code>, <code>intranet-brol.html</code>, etc.</li>
+          </ul>
+          <p class="tip">
+            <span class="bubble">Astuce</span>
+            Tu peux créer un raccourci de ce dossier sur ton bureau pour le retrouver plus facilement.
+          </p>
+          <ul class="small-checklist">
+            <li class="small-check-item">
+              <input type="checkbox" />
+              <span>J’ai retrouvé le dossier et je vois les fichiers à l’intérieur.</span>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Étape 2 -->
+      <article class="step-card">
+        <div class="step-title">
+          <h2>2. Ouvrir la page “BROL” (mon étagère numérique)</h2>
+          <span class="step-num">Étape 2 / 6</span>
+        </div>
+        <div class="step-body">
+          <p>
+            La page <span class="highlight">BROL</span> (souvent le fichier <code>index.html</code>) est comme une étagère numérique :
+            elle liste tes documents importants (PDF, images, liens…).
+          </p>
+          <ul class="bullet-list">
+            <li>1. Dans le dossier, double-clique sur <code>index.html</code>.</li>
+            <li>2. La page s’ouvre dans ton navigateur (Chrome, Firefox, Edge…).</li>
+            <li>3. Tu peux cliquer sur les cartes pour ouvrir les documents (par exemple les PDF).</li>
+          </ul>
+          <p class="tip">
+            <span class="bubble">À retenir</span>
+            Quand tu ne sais plus où est un document, ouvre BROL : c’est ton **étagère**.
+          </p>
+          <ul class="small-checklist">
+            <li class="small-check-item">
+              <input type="checkbox" />
+              <span>J’ai réussi à ouvrir BROL et à cliquer au moins sur un élément.</span>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Étape 3 -->
+      <article class="step-card">
+        <div class="step-title">
+          <h2>3. Utiliser la page “Intranet” (mon carnet de bord)</h2>
+          <span class="step-num">Étape 3 / 6</span>
+        </div>
+        <div class="step-body">
+          <p>
+            La page <span class="highlight">Intranet BROL</span> (fichier <code>intranet-brol.html</code>) est ton **carnet de bord** :
+            elle te permet de noter tes tâches, des rendez-vous, et quelques lignes de journal.
+          </p>
+          <ul class="bullet-list">
+            <li>1. Double-clique sur <code>intranet-brol.html</code>.</li>
+            <li>2. Ajoute une tâche (par exemple “Ranger mes papiers”).</li>
+            <li>3. Note une petite ligne de journal (comment tu te sens, ce que tu as fait…).</li>
+            <li>4. Ferme la page puis rouvre-la : tes notes doivent être encore là.</li>
+          </ul>
+          <p class="tip">
+            <span class="bubble">Important</span>
+            Tout est enregistré **dans ton navigateur**, chez toi.  
+            Rien n’est envoyé sur Internet.
+          </p>
+          <ul class="small-checklist">
+            <li class="small-check-item">
+              <input type="checkbox" />
+              <span>J’ai ajouté une tâche.</span>
+            </li>
+            <li class="small-check-item">
+              <input type="checkbox" />
+              <span>J’ai écrit au moins une phrase dans le journal.</span>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Étape 4 -->
+      <article class="step-card">
+        <div class="step-title">
+          <h2>4. La page “Détective” (exemple de site sérieux)</h2>
+          <span class="step-num">Étape 4 / 6</span>
+        </div>
+        <div class="step-body">
+          <p>
+            La page <span class="highlight">Agence MILOU</span> (souvent <code>index-detective.html</code>)
+            est un **exemple de vrai site** : une page de présentation de métier (détective), avec des boutons, une console, etc.
+          </p>
+          <ul class="bullet-list">
+            <li>1. Double-clique sur <code>index-detective.html</code>.</li>
+            <li>2. Lis tranquillement la page, comme si tu étais un visiteur.</li>
+            <li>3. Tu peux imaginer la même chose pour un autre métier ou projet.</li>
+          </ul>
+          <p class="tip">
+            <span class="bubble">Pourquoi c’est utile ?</span>
+            Cela te montre à quoi peut ressembler un **site “pro”** construit avec les mêmes briques
+            que ton espace perso.
+          </p>
+          <ul class="small-checklist">
+            <li class="small-check-item">
+              <input type="checkbox" />
+              <span>J’ai ouvert la page Détective et je vois comment elle pourrait être adaptée à un autre métier.</span>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Étape 5 -->
+      <article class="step-card">
+        <div class="step-title">
+          <h2>5. La “Carte générale” et le “Centre de contrôle”</h2>
+          <span class="step-num">Étape 5 / 6</span>
+        </div>
+        <div class="step-body">
+          <p>
+            Deux pages t’aident à voir l’ensemble :
+          </p>
+          <ul class="bullet-list">
+            <li><span class="highlight">GORK</span> (<code>gork.html</code>) : une **carte** avec des petits ronds (les thèmes, les projets).</li>
+            <li><span class="highlight">GROK-CORE</span> (<code>grok-core.html</code>) : un **centre de contrôle** avec une liste de pages et une petite console.</li>
+          </ul>
+          <p>
+            Tu peux t’en servir pour :
+          </p>
+          <ul class="bullet-list">
+            <li>ouvrir les autres pages sans chercher les fichiers,</li>
+            <li>voir comment tout est relié (projets, annexes, documents),</li>
+            <li>te repérer si tu te sens perdu.</li>
+          </ul>
+          <p class="tip">
+            <span class="bubble">Si tu es perdu</span>
+            Ouvre simplement <span class="highlight">GROK-CORE</span> :
+            tu verras la liste des pages, et tu pourras les ouvrir en un clic.
+          </p>
+          <ul class="small-checklist">
+            <li class="small-check-item">
+              <input type="checkbox" />
+              <span>J’ai ouvert la “Carte générale” (GORK) ou le “Centre de contrôle” (GROK-CORE) au moins une fois.</span>
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Étape 6 -->
+      <article class="step-card">
+        <div class="step-title">
+          <h2>6. Ce que je peux faire ensuite</h2>
+          <span class="step-num">Étape 6 / 6</span>
+        </div>
+        <div class="step-body">
+          <p>
+            Une fois que tu es un peu plus à l’aise, tu peux :
+          </p>
+          <ul class="bullet-list">
+            <li>créer une nouvelle page pour un projet personnel,</li>
+            <li>demander de l’aide à quelqu’un pour adapter la page Détective à ton cas,</li>
+            <li>ajouter de nouveaux documents dans BROL,</li>
+            <li>utiliser GORK et GROK-CORE pour garder une vue d’ensemble.</li>
+          </ul>
+          <p>
+            Et surtout : tu peux **aller à ton rythme**.  
+            Même si tu ne te sers que de BROL (l’étagère) et de l’Intranet (le carnet),
+            c’est déjà très bien.
+          </p>
+          <p class="note">
+            Cette page (guide simple) est là pour te rassurer : tu peux toujours y revenir
+            si tu oublies à quoi sert chaque partie.
+          </p>
+          <ul class="small-checklist">
+            <li class="small-check-item">
+              <input type="checkbox" />
+              <span>Je sais à quoi servent au moins 3 pages (BROL, Intranet, une autre).</span>
+            </li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- PANNEAU PRATIQUE -->
+  <aside class="side">
+    <section>
+      <h2>Comment je me sens avec ce système ?</h2>
+      <p class="side-text">
+        Ça n’est pas un test. C’est juste pour que tu puisses sentir comment ça évolue pour toi.
+      </p>
+      <div class="feel-card">
+        <div>Je me sens :</div>
+        <div class="feel-options">
+          <label class="feel-option">
+            <input type="radio" name="feel" value="0" />
+            <span>Perdu / perdue (c’est normal au début)</span>
+          </label>
+          <label class="feel-option">
+            <input type="radio" name="feel" value="1" />
+            <span>Un peu curieux / curieuse, mais encore hésitant·e</span>
+          </label>
+          <label class="feel-option">
+            <input type="radio" name="feel" value="2" />
+            <span>Plutôt à l’aise pour ouvrir les pages</span>
+          </label>
+          <label class="feel-option">
+            <input type="radio" name="feel" value="3" />
+            <span>Assez à l’aise, je peux montrer à quelqu’un</span>
+          </label>
+        </div>
+        <div id="feelResult" class="feel-result">
+          Coche une phrase qui te parle, pour toi.
+        </div>
+      </div>
+    </section>
+
+    <section class="launcher">
+      <h2>Ouvrir les pages sans se tromper</h2>
+      <p class="side-text">
+        Tu peux cliquer sur les boutons ci-dessous pour ouvrir les pages dans une fenêtre à l’intérieur du guide,
+        sans quitter cette page.
+      </p>
+      <div class="launcher-grid" id="launcherGrid"></div>
+      <ul class="simple-list">
+        <li>• Si rien ne s’affiche : vérifie que le fichier existe bien dans le même dossier que ce guide.</li>
+        <li>• Si c’est trop petit : tu peux aussi ouvrir le fichier en double-cliquant dessus dans le dossier.</li>
+      </ul>
+    </section>
+
+    <section class="feel-card">
+      <h2 style="font-size:0.9rem;margin-bottom:3px;">Rappel des pages principales</h2>
+      <ul class="simple-list">
+        <li><strong>BROL</strong> → ton étagère numérique (documents).</li>
+        <li><strong>Intranet BROL</strong> → ton carnet de bord (tâches, journal).</li>
+        <li><strong>Agence MILOU</strong> → exemple de site sérieux (détective).</li>
+        <li><strong>GORK</strong> → carte générale (les ronds reliés).</li>
+        <li><strong>GROK-CORE</strong> → centre de contrôle (liste de pages + console).</li>
+        <li><strong>LEARN</strong> → page pour apprendre en faisant (plus détaillée).</li>
+        <li><strong>RELEARN</strong> → page pour organiser et garder la cohérence.</li>
+      </ul>
+    </section>
+  </aside>
+</main>
+
+<footer>
+  <span>
+    Guide simple – pensé pour des personnes qui ne se sentent pas “techniques”. Tu as le droit de prendre ton temps et de ne garder que ce qui t’aide.
+  </span>
+  <span>
+    Tu peux toujours demander à quelqu’un de plus à l’aise de t’accompagner, en lui montrant ce dossier et ce guide.
+  </span>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Prévisualisation</h3>
+      <button type="button" id="modalCloseBtn">Fermer</button>
+    </div>
+    <div class="modal-main">
+      <iframe id="modalIframe" src=""></iframe>
+    </div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<script>
+  // Ressenti
+  const feelRadios = document.querySelectorAll("input[name='feel']");
+  const feelResult = document.getElementById("feelResult");
+
+  const messages = {
+    "0": "Merci d’être là malgré le côté difficile. Tu peux te contenter d’ouvrir BROL de temps en temps, c’est déjà très bien.",
+    "1": "C’est parfait : un peu de curiosité suffit. Tu peux revenir à ce guide dès que tu en as besoin.",
+    "2": "Super, tu sais déjà ouvrir les pages importantes. Tu peux rester comme ça, ou aller voir LEARN pour aller plus loin.",
+    "3": "Tu pourrais presque servir de guide à quelqu’un d’autre. N’hésite pas à noter ce qui te semble compliqué."
+  };
+
+  feelRadios.forEach(radio => {
+    radio.addEventListener("change", () => {
+      const val = radio.value;
+      feelResult.textContent = messages[val] || "Coche une phrase qui te parle, pour toi.";
+    });
+  });
+
+  // Lanceur de pages
+  const launcherGrid = document.getElementById("launcherGrid");
+  const launcherPages = [
+    { id: "index.html", label: "BROL (étagère)", meta: "index.html" },
+    { id: "intranet-brol.html", label: "Intranet (carnet)", meta: "intranet-brol.html" },
+    { id: "index-detective.html", label: "Agence MILOU", meta: "index-detective.html" },
+    { id: "gork.html", label: "Carte générale (GORK)", meta: "gork.html" },
+    { id: "grok-core.html", label: "Centre de contrôle", meta: "grok-core.html" },
+    { id: "learn.html", label: "LEARN (détail)", meta: "learn.html" },
+    { id: "relearn.html", label: "RELEARN (avancé)", meta: "relearn.html" }
+  ];
+
+  function renderLauncher() {
+    launcherGrid.innerHTML = "";
+    launcherPages.forEach(p => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "launch-btn";
+      const label = document.createElement("span");
+      label.className = "label";
+      label.textContent = p.label;
+      const meta = document.createElement("span");
+      meta.className = "meta";
+      meta.textContent = p.meta;
+      btn.appendChild(label);
+      btn.appendChild(meta);
+      btn.addEventListener("click", () => openModal(p.id, p.label));
+      launcherGrid.appendChild(btn);
+    });
+  }
+
+  // Modal
+  const modalOverlay = document.getElementById("modalOverlay");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalIframe = document.getElementById("modalIframe");
+  const modalFooter = document.getElementById("modalFooter");
+  const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+  function openModal(file, label) {
+    modalTitle.textContent = label || file;
+    modalIframe.src = file;
+    modalFooter.textContent = "Fichier : " + file + " (il doit se trouver dans le même dossier que ce guide).";
+    modalOverlay.classList.add("visible");
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove("visible");
+    modalIframe.src = "";
+  }
+
+  modalCloseBtn.addEventListener("click", closeModal);
+  modalOverlay.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalOverlay.classList.contains("visible")) {
+      closeModal();
+    }
+  });
+
+  // Init
+  document.addEventListener("DOMContentLoaded", () => {
+    renderLauncher();
+  });
+</script>
+</body>
+</html>
