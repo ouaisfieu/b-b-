@@ -1,0 +1,1204 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>LE SITE ULTIME – Partir de rien (vraiment rien)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent2: #38bdf8;
+      --accent3: #f97316;
+      --accent4: #a855f7;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.6);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --radius-xl: 18px;
+      --shadow-soft: 0 22px 48px rgba(0, 0, 0, 0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-main);
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.26), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,0.22), transparent 55%),
+        #020617;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        rgba(15, 23, 42, 0.25) 1px,
+        transparent 1px
+      );
+      background-size: 100% 2px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      z-index: 1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.3), transparent 60%),
+        rgba(3, 7, 18, 0.96);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.8);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 180deg, #22c55e, #0ea5e9, #f97316, #a855f7, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow:
+        0 0 0 2px #020617,
+        0 0 28px rgba(56, 189, 248, 0.9);
+    }
+
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #020617, #020617);
+    }
+
+    .logo span {
+      position: relative;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #22c55e;
+    }
+
+    .header-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .title-main {
+      font-size: 1.1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .title-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--muted);
+      max-width: 260px;
+    }
+
+    .header-right strong {
+      color: #e5e7eb;
+    }
+
+    main {
+      flex: 1;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 260px) minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 980px) {
+      main {
+        grid-template-columns: 260px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+    }
+
+    /* NAV STEPS */
+    .sidebar {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-title {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-family: var(--font-mono);
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      border-radius: 999px;
+      border: 1px solid rgba(51, 65, 85, 0.95);
+      background: rgba(15, 23, 42, 0.98);
+      color: var(--muted);
+      padding: 5px 9px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.8rem;
+      transition: background 0.16s, color 0.16s, border-color 0.16s,
+                  transform 0.16s, box-shadow 0.16s;
+    }
+
+    .nav-btn span.key {
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      font-family: var(--font-mono);
+    }
+
+    .nav-btn:hover {
+      background: rgba(15, 23, 42, 1);
+      color: var(--text);
+      border-color: rgba(56, 189, 248, 0.9);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.95);
+    }
+
+    .nav-btn.active {
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.26), transparent 65%);
+      border-color: rgba(34, 197, 94, 0.9);
+      color: var(--text);
+    }
+
+    .sidebar-footer {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(55, 65, 81, 0.98);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .sidebar-footer code {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    /* MAIN STEP CONTENT */
+    .main-panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .main-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.35), transparent 60%);
+      opacity: 0.6;
+      mix-blend-mode: soft-light;
+    }
+
+    .main-inner {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    h1 {
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+
+    .lead {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+      line-height: 1.5;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.95);
+      padding: 2px 7px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+
+    .pill.accent {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+    }
+
+    .section-root {
+      display: none;
+    }
+
+    .section-root.active {
+      display: block;
+    }
+
+    .step-list {
+      list-style: none;
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .step-item {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 7px 8px;
+      font-size: 0.8rem;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.9);
+    }
+
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .step-title {
+      font-size: 0.86rem;
+      font-weight: 500;
+    }
+
+    .step-xp {
+      font-size: 0.72rem;
+      color: #eab308;
+      font-family: var(--font-mono);
+    }
+
+    .step-body p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .checklist {
+      list-style: none;
+      margin-top: 3px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      margin-bottom: 2px;
+    }
+
+    .checklist-item input {
+      width: 14px;
+      height: 14px;
+    }
+
+    .code-block {
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      padding: 5px 7px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .step-footer {
+      margin-top: 3px;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* RIGHT PANEL – COMPAS & PARTAGE */
+    .side-panel {
+      background: rgba(3, 7, 18, 0.98);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 10px 9px 11px;
+      font-size: 0.8rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .side-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(
+        120deg,
+        rgba(56, 189, 248, 0.22),
+        transparent 45%,
+        rgba(34, 197, 94, 0.18),
+        transparent 70%
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.55;
+    }
+
+    .side-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      height: 100%;
+    }
+
+    .side-inner h2 {
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .badge-soft {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 2px 7px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-soft span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.95);
+    }
+
+    .progress-card {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.78rem;
+    }
+
+    .progress-bar {
+      margin-top: 4px;
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.98);
+      overflow: hidden;
+      border: 1px solid rgba(31, 41, 55, 0.98);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, #22c55e, #38bdf8, #a855f7);
+      width: 0%;
+      transition: width 0.2s ease-out;
+    }
+
+    .progress-meta {
+      margin-top: 3px;
+      font-size: 0.74rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .prompt-card {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      background: #020617;
+      padding: 6px 7px;
+      font-size: 0.78rem;
+    }
+
+    .prompt-card h3 {
+      font-size: 0.84rem;
+      margin-bottom: 3px;
+    }
+
+    .small {
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .prompt-snippet {
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 8px;
+      border: 1px solid rgba(55, 65, 81, 0.98);
+      padding: 5px 7px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .share-card {
+      border-radius: 12px;
+      border: 1px dashed rgba(148, 163, 184, 0.9);
+      background: rgba(15, 23, 42, 0.98);
+      padding: 6px 7px;
+      font-size: 0.78rem;
+    }
+
+    footer {
+      padding: 6px 12px 8px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(3, 7, 18, 0.98);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 760px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .header-right { text-align: left; max-width: none; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo"><span>ULT</span></div>
+    <div class="header-titles">
+      <div class="title-main">LE SITE ULTIME</div>
+      <div class="title-sub">
+        Partir de zéro (vraiment zéro) pour construire ton propre petit écosystème web, pas à pas.
+      </div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div>
+      Tu n’as rien, pas de projet clair, pas de site ?  
+      <strong>C’est parfait.</strong> Ce fichier te prend par la main, jusqu’à ton premier vrai site.
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- NAVIGATION NIVEAUX -->
+  <aside class="sidebar">
+    <div>
+      <div class="nav-title">Niveaux</div>
+      <ul class="nav-list">
+        <li><button class="nav-btn active" data-section="start">Niveau -1 – Rien du tout <span class="key">1</span></button></li>
+        <li><button class="nav-btn" data-section="n0">Niveau 0 – Un seul fichier <span class="key">2</span></button></li>
+        <li><button class="nav-btn" data-section="n1">Niveau 1 – Petit site perso <span class="key">3</span></button></li>
+        <li><button class="nav-btn" data-section="n2">Niveau 2 – Organiser ton brol <span class="key">4</span></button></li>
+        <li><button class="nav-btn" data-section="n3">Niveau 3 – Le mini hub <span class="key">5</span></button></li>
+      </ul>
+    </div>
+    <div class="sidebar-footer">
+      🧩 Règle du jeu :
+      <br />• tu coches ce que tu fais,
+      <br />• tu n’as pas besoin d’aller plus loin que le niveau où tu es à l’aise,
+      <br />• tout peut tenir dans <code>un seul dossier</code> (clé USB ou GitHub Pages plus tard).
+    </div>
+  </aside>
+
+  <!-- CONTENU PRINCIPAL -->
+  <section class="main-panel">
+    <div class="main-inner">
+      <header>
+        <div>
+          <h1>Partir de zéro, construire pas à pas</h1>
+          <p class="lead">
+            Cette page est ton **mode d’emploi universel**.
+            Même si tu ne connais rien au web, tu peux :
+            créer un dossier, un fichier, une mini page, puis (si tu veux) un mini système complet.
+          </p>
+          <div class="pill-row">
+            <span class="pill accent">Niveau -1 : rien</span>
+            <span class="pill">Niveau 0 : un fichier</span>
+            <span class="pill">Niveau 1 : petit site</span>
+            <span class="pill">Niveau 2 : organiser ton brol</span>
+            <span class="pill">Niveau 3 : mini hub</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- NIVEAU -1 -->
+      <section id="section-start" class="section-root active">
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Niveau -1 – Tu n’as vraiment rien (et c’est très bien)</div>
+              <div class="step-xp">Confiance : +3</div>
+            </div>
+            <div class="step-body">
+              <p>
+                On commence par ce qui est **vraiment** nécessaire :
+              </p>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="1" />
+                  <span>Un ordinateur (ou équivalent) qui peut ouvrir un navigateur (Chrome, Firefox, Edge, Safari…).</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="1" />
+                  <span>Un navigateur installé (si tu lis ça, c’est déjà bon).</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="1" />
+                  <span>Un éditeur de texte simple : Bloc-notes (Windows), TextEdit (Mac en mode texte), ou autre.</span>
+                </li>
+              </ul>
+              <p>
+                C’est tout. Pas besoin de compte, pas besoin d’installation compliquée.
+              </p>
+              <div class="step-footer">
+                Quand tu es ok avec ça, tu peux passer à <strong>Niveau 0</strong> :
+                un seul fichier qui deviendra ton premier site.
+              </div>
+            </div>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Préparer un dossier pour ton futur univers</div>
+              <div class="step-xp">Confiance : +2</div>
+            </div>
+            <div class="step-body">
+              <p>
+                On va créer un endroit où tout va vivre, même si pour l’instant il est vide.
+              </p>
+              <div class="code-block">
+1. Ouvre ton explorateur de fichiers (Windows) / Finder (Mac).
+2. Crée un nouveau dossier, par exemple :
+
+   - site-ultime
+   - mon-univers
+   - brol-2-0
+   - ou ce que tu veux
+
+3. Tu peux déjà glisser ce fichier (LE SITE ULTIME) dans ce dossier.
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="2" />
+                  <span>J’ai un dossier avec un nom à moi, même si le contenu n’est pas prêt.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Ton futur écosystème commence là.  
+                À partir de maintenant, <strong>tout ce que tu crées va dans ce dossier</strong>.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- NIVEAU 0 -->
+      <section id="section-n0" class="section-root">
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Niveau 0 – Un seul fichier HTML (le vrai premier pas)</div>
+              <div class="step-xp">XP : 5</div>
+            </div>
+            <div class="step-body">
+              <p>
+                Objectif : avoir **un fichier** dans ton dossier qui s’ouvre dans le navigateur
+                et qui affiche un texte à toi.
+              </p>
+              <div class="code-block">
+1. Ouvre ton éditeur de texte.
+2. Copie-colle exactement ceci :
+--------------------------------
+&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;Mon premier petit site&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Bonjour, c'est mon premier site.&lt;/h1&gt;
+  &lt;p&gt;Je pars de zéro, mais maintenant il y a cette page.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+--------------------------------
+3. Enregistre le fichier dans ton dossier sous le nom : index.html
+4. Dans ton explorateur de fichiers, double-clique sur index.html
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="3" />
+                  <span>Je vois ma page dans le navigateur quand je double-clique sur <code>index.html</code>.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Tu as maintenant un site. Il est minuscule, mais c’est un vrai site.
+                Tout ce qu’on fera plus tard sera juste : <em>plus de fichiers comme celui-là</em>.
+              </div>
+            </div>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Personnaliser ton message</div>
+              <div class="step-xp">XP : 3</div>
+            </div>
+            <div class="step-body">
+              <p>
+                On va changer le texte pour que ce site parle de toi, pas d’un exemple générique.
+              </p>
+              <div class="code-block">
+Dans index.html, repère ces lignes :
+
+  &lt;h1&gt;Bonjour, c'est mon premier site.&lt;/h1&gt;
+  &lt;p&gt;Je pars de zéro, mais maintenant il y a cette page.&lt;/p&gt;
+
+Remplace-les par quelque chose qui te ressemble, par exemple :
+
+  &lt;h1&gt;Bienvenue dans mon brol 2.0&lt;/h1&gt;
+  &lt;p&gt;Ici, je vais expérimenter des idées, même si je ne sais pas encore où ça mène.&lt;/p&gt;
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="3" />
+                  <span>Le texte de ma page parle maintenant de moi / de mon projet / de mon brol.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Tu peux rester à ce niveau autant que tu veux.  
+                Si tu veux un petit site un peu plus structuré, passe au <strong>Niveau 1</strong>.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- NIVEAU 1 -->
+      <section id="section-n1" class="section-root">
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Niveau 1 – Petit site perso à 2 pages</div>
+              <div class="step-xp">XP : 6</div>
+            </div>
+            <div class="step-body">
+              <p>
+                On va ajouter une deuxième page et un lien entre les deux.
+                Ça suffit pour appeler ça un “site”.
+              </p>
+              <div class="code-block">
+1. Duplique ton fichier index.html (copier/coller dans ton dossier).
+2. Renomme la copie en : page2.html
+3. Ouvre page2.html dans ton éditeur de texte et change le contenu, par ex. :
+
+  &lt;h1&gt;Page 2 – Idées en vrac&lt;/h1&gt;
+  &lt;p&gt;Ici je note des idées, sans pression.&lt;/p&gt;
+
+4. Dans index.html, ajoute un lien :
+
+  &lt;p&gt;&lt;a href="page2.html"&gt;Aller à la page 2&lt;/a&gt;&lt;/p&gt;
+
+5. Dans page2.html, ajoute un lien de retour :
+
+  &lt;p&gt;&lt;a href="index.html"&gt;Retour à l'accueil&lt;/a&gt;&lt;/p&gt;
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="3" />
+                  <span>Le lien “Aller à la page 2” fonctionne et affiche bien page2.html.</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="3" />
+                  <span>Depuis page2.html, je peux revenir à index.html.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Tu as maintenant un mini site “classique” : une page d’accueil + une deuxième page.
+              </div>
+            </div>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Ajouter un peu de style sans se prendre la tête</div>
+              <div class="step-xp">XP : 4</div>
+            </div>
+            <div class="step-body">
+              <p>
+                On va juste ajouter une couleur de fond et centrer un peu le contenu.
+              </p>
+              <div class="code-block">
+Dans index.html, entre &lt;head&gt; et &lt;/head&gt;, ajoute :
+
+  &lt;style&gt;
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .contenu {
+      max-width: 600px;
+      padding: 16px;
+    }
+    a { color: #38bdf8; }
+  &lt;/style&gt;
+
+Puis entoure le contenu de &lt;body&gt; par une div :
+
+  &lt;body&gt;
+    &lt;div class="contenu"&gt;
+      ... ton texte et tes liens ...
+    &lt;/div&gt;
+  &lt;/body&gt;
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="4" />
+                  <span>Ma page a maintenant un fond sombre et le texte est centré, avec une largeur lisible.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Tu peux recopier ce style dans page2.html aussi, ou le simplifier.  
+                L’idée : un style sobre, lisible, suffisant pour continuer.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- NIVEAU 2 -->
+      <section id="section-n2" class="section-root">
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Niveau 2 – Organiser ton brol (sans BROL complet, pour l’instant)</div>
+              <div class="step-xp">XP : 6</div>
+            </div>
+            <div class="step-body">
+              <p>
+                Tu as sûrement des PDF, images, notes, liens…  
+                On va faire une page “étagère” très simple qui liste tes éléments.
+              </p>
+              <div class="code-block">
+1. Dans ton dossier, crée un fichier : etagere.html
+2. Copie-colle cette base :
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;Mon étagère numérique&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      font-family: system-ui, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 16px;
+    }
+    h1 { font-size: 1.3rem; margin-bottom: 8px; }
+    ul { list-style: none; padding: 0; }
+    li {
+      margin-bottom: 4px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      background: #0f172a;
+    }
+    a { color: #38bdf8; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Mon étagère numérique&lt;/h1&gt;
+  &lt;p&gt;Ici je liste mes fichiers importants.&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Un PDF : &lt;a href="mon-fichier.pdf"&gt;mon-fichier.pdf&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;Une image : &lt;a href="image.png"&gt;image.png&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;Un lien externe : &lt;a href="https://example.com"&gt;Example&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+              </div>
+              <p>
+                Ensuite, remplace les entrées par des fichiers qui existent vraiment chez toi (ou ajoute-les dans ton dossier).
+              </p>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="3" />
+                  <span>J’ai au moins 2 ou 3 vrais fichiers (PDF / images) listés dans etagere.html.</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="3" />
+                  <span>Depuis index.html, j’ajoute un lien vers &lt;a href="etagere.html"&gt;Mon étagère&lt;/a&gt;.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Tu viens de créer une version ultra simple de BROL 2.0.  
+                Plus tard, tu pourras passer à des versions plus “riches” avec filtres, tags, etc.
+              </div>
+            </div>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Niveau 2 bis – Ajouter un petit “journal de bord”</div>
+              <div class="step-xp">XP : 4</div>
+            </div>
+            <div class="step-body">
+              <p>
+                On ne va pas encore jouer avec le stockage local et JS complexe.
+                On fait juste une page “journal” à remplir à la main.
+              </p>
+              <div class="code-block">
+1. Crée un fichier : journal.html
+2. Copie-colle :
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;Journal de bord&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Journal de bord&lt;/h1&gt;
+  &lt;p&gt;Tu peux juste écrire des dates et des lignes à la main.&lt;/p&gt;
+  &lt;h2&gt;2025-01-01&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;J'ai créé mon premier site à partir de rien.&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+3. Ajoute un lien vers journal.html depuis index.html ou etagere.html
+              </div>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="2" />
+                  <span>Je sais ouvrir journal.html et y ajouter à la main une date et quelques phrases.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Même sans base de données, un simple fichier texte structuré en HTML peut déjà être un journal de bord.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- NIVEAU 3 -->
+      <section id="section-n3" class="section-root">
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Niveau 3 – Le mini hub (une page pour tout relier)</div>
+              <div class="step-xp">XP : 7</div>
+            </div>
+            <div class="step-body">
+              <p>
+                On va créer une page qui sert de **centre de contrôle** pour ton mini écosystème :
+                accueil, étagère, journal, univers narratif, etc.
+              </p>
+              <div class="code-block">
+1. Crée un fichier : hub.html
+2. Copie-colle :
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;Mon mini hub&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      font-family: system-ui, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 16px;
+    }
+    h1 { font-size: 1.3rem; margin-bottom: 8px; }
+    .carte {
+      border-radius: 10px;
+      border: 1px solid #334155;
+      padding: 8px;
+      margin-bottom: 6px;
+      background: #020617;
+    }
+    .carte h2 { font-size: 1rem; margin-bottom: 4px; }
+    a { color: #38bdf8; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Mon mini hub&lt;/h1&gt;
+  &lt;p&gt;Une page pour accéder à toutes les autres.&lt;/p&gt;
+
+  &lt;div class="carte"&gt;
+    &lt;h2&gt;Accueil&lt;/h2&gt;
+    &lt;p&gt;&lt;a href="index.html"&gt;index.html&lt;/a&gt; – La première page que j'ai créée.&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class="carte"&gt;
+    &lt;h2&gt;Étagère&lt;/h2&gt;
+    &lt;p&gt;&lt;a href="etagere.html"&gt;etagere.html&lt;/a&gt; – Mes fichiers importants.&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class="carte"&gt;
+    &lt;h2&gt;Journal&lt;/h2&gt;
+    &lt;p&gt;&lt;a href="journal.html"&gt;journal.html&lt;/a&gt; – Quelques notes sur ce que je fais.&lt;/p&gt;
+  &lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+              </div>
+              <p>
+                Tu peux ensuite ajouter d’autres “cartes” quand tu crées de nouvelles pages (univers narratif, site métier, etc.).
+              </p>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="4" />
+                  <span>Depuis hub.html, je peux accéder à au moins index.html et etagere.html.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Tu as maintenant un début d’écosystème : plusieurs pages spécialisées + un hub qui les relie.
+              </div>
+            </div>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <div class="step-title">Et après ? Univers, BROL complet, intranet, GROK…</div>
+              <div class="step-xp">XP : bonus</div>
+            </div>
+            <div class="step-body">
+              <p>
+                À partir de là, tu peux :
+              </p>
+              <ul class="checklist">
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="2" />
+                  <span>Dupliquer ce hub pour un projet précis (ex. <code>hub-these.html</code>, <code>hub-agence.html</code>).</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="2" />
+                  <span>Ajouter une page d’univers narratif (façon Vallée Pixelisée / Tintin + Dardenne + LOTR + Matrix cartoon).</span>
+                </li>
+                <li class="checklist-item">
+                  <input type="checkbox" data-xp="2" />
+                  <span>Revenir me voir (E.A.R.L.) avec ce que tu as déjà, pour que je t’aide à brancher BROL complet, intranet, GORK, GROK, etc.</span>
+                </li>
+              </ul>
+              <div class="step-footer">
+                Le plus important : tu as **un socle minimal** qui fonctionne.
+                Tout le reste (quiz, intranet, consoles, pingouins, IA fictives…) sont juste des briques en plus.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </section>
+
+  <!-- PANNEAU DROIT : COMPAS / PARTAGE / PROMPTS -->
+  <aside class="side-panel">
+    <div class="side-inner">
+      <section class="progress-card">
+        <h2>Compteur symbolique</h2>
+        <span class="badge-soft">
+          <span class="dot"></span>
+          Chaque case cochée = tu avances (pas de jugement).
+        </span>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-meta">
+          <span id="progressLabel">0 points sur ce run.</span>
+          <span style="font-family:var(--font-mono);">Barre pleine ≈ 40 points.</span>
+        </div>
+      </section>
+
+      <section class="prompt-card">
+        <h3>Si tu veux que E.A.R.L. t’aide à aller plus loin</h3>
+        <p class="small">
+          Tu peux copier-coller ces phrases (ou les adapter) quand tu me parles.
+        </p>
+        <div class="prompt-snippet">
+Je suis au niveau 0 / 1 / 2 / 3 de mon site-ultime.
+J'ai actuellement :
+- index.html
+- page2.html
+- etagere.html
+- journal.html
+- hub.html
+
+Propose-moi la suite logique pour :
+- en faire un site de [thèse / agence / enquête / univers narratif]
+- sans perdre la simplicité de départ.
+        </div>
+      </section>
+
+      <section class="share-card">
+        <h2 style="font-size:0.86rem;margin-bottom:3px;">Partager dans un cercle de confiance</h2>
+        <p>
+          Tu n’es pas obligé de rendre tout ça public.
+          Tu peux déjà :
+        </p>
+        <ul style="margin-left:16px;font-size:0.78rem;margin-top:3px;">
+          <li>mettre tout le dossier sur une clé USB,</li>
+          <li>l’envoyer en zip à une personne de confiance,</li>
+          <li>montrer ton hub.html à un ami pour en discuter.</li>
+        </ul>
+        <p class="small" style="margin-top:4px;">
+          Plus tard, si tu veux, on pourra le publier sur GitHub Pages ou autre.  
+          Mais le **premier vrai déploiement**, c’est déjà : toi qui l’ouvres, et une personne qui le voit.
+        </p>
+      </section>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <span>
+    LE SITE ULTIME – Un seul fichier pour passer de “rien” à “j’ai un vrai début de site et un mini écosystème”.
+  </span>
+  <span>
+    Tu peux t’arrêter à n’importe quel niveau, du -1 au 3. Le but n’est pas de tout faire, c’est d’avoir un socle à toi.
+  </span>
+</footer>
+
+<script>
+  // Navigation
+  const navBtns = document.querySelectorAll(".nav-btn");
+  const sections = document.querySelectorAll(".section-root");
+
+  function showSection(key) {
+    sections.forEach(sec => {
+      sec.classList.toggle("active", sec.id === "section-" + key);
+    });
+    navBtns.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.section === key);
+    });
+  }
+
+  navBtns.forEach(btn => {
+    btn.addEventListener("click", () => showSection(btn.dataset.section));
+  });
+
+  // XP / progression symbolique
+  const checkboxes = document.querySelectorAll(".checklist-item input[type='checkbox']");
+  const progressFill = document.getElementById("progressFill");
+  const progressLabel = document.getElementById("progressLabel");
+
+  function updateXP() {
+    let xp = 0;
+    checkboxes.forEach(cb => {
+      if (cb.checked) {
+        const val = parseInt(cb.dataset.xp || "1", 10);
+        xp += isNaN(val) ? 1 : val;
+      }
+    });
+    const pct = Math.min(100, (xp / 40) * 100);
+    progressFill.style.width = pct + "%";
+    progressLabel.textContent = xp + " points sur ce run (barre pleine ≈ 40).";
+  }
+
+  checkboxes.forEach(cb => cb.addEventListener("change", updateXP));
+
+  document.addEventListener("DOMContentLoaded", updateXP);
+</script>
+</body>
+</html>
